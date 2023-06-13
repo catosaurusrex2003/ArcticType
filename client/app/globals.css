@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes blink {
+  0% {
+    border-left-color: transparent;
+  }
+  50% {
+    border-left-color: yellow;
+  }
+  100% {
+    border-left-color: transparent;
+  }
+}
+
+.blinking-cursor {
+  border-left: 3px solid transparent;
+  animation: blink 1s infinite;
+}
+
+.each-selection-item {
+  opacity:25%
+} 
+.each-selection-item:hover{
+  opacity: 100%;
+}
