@@ -51,87 +51,129 @@ export const CustomTooltip = ({
 };
 
 export type propsType = {
-  data: scoreType[];
+  finalData: {
+    time: number;
+    Accuraccy: number;
+    Error: number;
+    Net: number;
+  }[];
 };
-
-function MyLineChart({ data }: propsType) {
+function MyLineChart({ finalData }: propsType) {
   const [displayState, setDisplayState] = useState({
     net: true,
     accuracy: true,
     error: false,
   });
+  console.log(finalData);
 
-  const finalData = data.map((each, index) => {
-    // https://www.speedtypingonline.com/typing-equations
-    // const netWPM = (((each.correct+each.wrong)/5)  - each.wrong )  * 60
-    const total = each.wrong + each.correct;
-    const netWPM = (total / 5) * 60;
-    console.log(each.correct / total);
-    return {
-      time: index,
-      Accuraccy: each.correct / total,
-      Error: each.wrong / total,
-      Net: netWPM,
-    };
-  });
+  // const finalfinalData = finalData.map((each, index) => {
+  //   // https://www.speedtypingonline.com/typing-equations
+  //   // const netWPM = (((each.correct+each.wrong)/5)  - each.wrong )  * 60
+  //   const total = each.wrong + each.correct;
+  //   const netWPM = (total / 5) * 60;
+  //   console.log(each.correct / total);
+  //   return {
+  //     time: index,
+  //     Accuraccy: each.correct / total,
+  //     Error: each.wrong / total,
+  //     Net: netWPM,
+  //   };
+  // });
 
   return (
-    <div>
-      <ResponsiveContainer width="100%" aspect={2.8} className=" max-w-2xl">
-        <LineChart data={finalData}>
-          <CartesianGrid strokeDasharray="10 0 0" stroke="#545557" />
-          <XAxis
-            dataKey="time"
-            width={23}
-            axisLine={false}
-            tick={{ fontSize: 15, fill: "#cbd5e1" }}
-          />
-          <YAxis
-            yAxisId="left"
-            width={27}
-            axisLine={false}
-            tick={{ fontSize: 15, fill: "#cbd5e1" }}
-            tickLine={false}
-          />
-          <YAxis
-            yAxisId="right"
-            orientation="right"
-            width={23}
-            axisLine={false}
-            tick={{ fontSize: 10, fill: "#cbd5e1" }}
-            tickLine={false}
-          />
-          <Tooltip content={<CustomTooltip />} />
-          {displayState.accuracy && (
-            <Line
-              yAxisId="right"
-              label="Accuracy"
-              type="monotone"
-              dataKey="Accuraccy"
-              stroke="#84cc16"
-              strokeWidth={1.5}
+    <div  className="flex justify-center">
+      <div className="max-w-2xl flex flex-col w-full">
+        <ResponsiveContainer width="100%" aspect={2.8} >
+          <LineChart data={finalData}>
+            <CartesianGrid strokeDasharray="10 0 0" stroke="#545557" />
+            <XAxis
+              dataKey="time"
+              width={23}
+              axisLine={false}
+              tick={{ fontSize: 15, fill: "#cbd5e1" }}
             />
-          )}
-          {displayState.error && (
-            <Line
-              yAxisId="right"
-              type="monotone"
-              dataKey="Error"
-              stroke="#b91c1c"
-              strokeWidth={1.5}
-            />
-          )}
-          {displayState.net && (
-            <Line
+            <YAxis
               yAxisId="left"
-              type="monotone"
-              dataKey="Net"
-              stroke="#ffffff"
-              strokeWidth={3}
+              width={27}
+              axisLine={false}
+              tick={{ fontSize: 15, fill: "#cbd5e1" }}
+              tickLine={false}
             />
-          )}
-        </LineChart>
-      </ResponsiveContainer>
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              width={23}
+              axisLine={false}
+              tick={{ fontSize: 10, fill: "#cbd5e1" }}
+              tickLine={false}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            {displayState.accuracy && (
+              <Line
+                yAxisId="right"
+                label="Accuracy"
+                type="monotone"
+                dataKey="Accuraccy"
+                stroke="#84cc16"
+                strokeWidth={1.5}
+                dot={false}
+              />
+            )}
+            {displayState.error && (
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="Error"
+                stroke="#b91c1c"
+                strokeWidth={1.5}
+                dot={false}
+              />
+            )}
+            {displayState.net && (
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="Net"
+                stroke="#ffffff"
+                strokeWidth={3}
+                dot={false}
+              />
+            )}
+          </LineChart>
+        </ResponsiveContainer>
+        <div className=" w-full text-gray-500 flex justify-evenly">
+          <span
+            className={` font-bold hover:bg-gray-500 rounded-lg p-1 ${
+              displayState.accuracy ? "text-green-400" : null
+            } `}
+            onClick={() =>
+              setDisplayState((prev) => ({ ...prev, accuracy: !prev.accuracy }))
+            }
+          >
+            Accuracy
+          </span>
+          <span
+            className={` font-bold hover:bg-gray-500 rounded-lg p-1 ${
+              displayState.net ? "text-white" : null
+            } `}
+            onClick={() =>
+              setDisplayState((prev) => ({ ...prev, net: !prev.net }))
+            }
+          >
+            Net Wpm
+          </span>
+          <span
+            className={` font-bold hover:bg-gray-500 rounded-lg p-1 ${
+              displayState.error ? "text-red-400" : null
+            } `}
+            onClick={() =>
+              setDisplayState((prev) => ({ ...prev, error: !prev.error }))
+            }
+          >
+            Error
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
