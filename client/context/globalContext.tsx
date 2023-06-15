@@ -1,5 +1,6 @@
 "use client";
 import { scoreType } from "@/types/score";
+import { timeModeType } from "@/types/misc";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type GlobalContextType = {
@@ -11,8 +12,10 @@ type GlobalContextType = {
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   timeOffset: number;
   setTimeOffset: React.Dispatch<React.SetStateAction<number>>;
-  mode:"time"|"zen",
-  setMode:React.Dispatch<React.SetStateAction<"time"|"zen">>
+  mode: "time" | "zen";
+  setMode: React.Dispatch<React.SetStateAction<"time" | "zen">>;
+  timeMode :timeModeType,
+  setTimeMode:React.Dispatch<React.SetStateAction<timeModeType>>
 };
 
 const GlobalContext = createContext<GlobalContextType>({
@@ -27,8 +30,13 @@ const GlobalContext = createContext<GlobalContextType>({
   setCurrentIndex: () => {},
   timeOffset: 30,
   setTimeOffset: () => {},
-  mode:"time",
-  setMode:()=>{}
+  mode: "time",
+  setMode: () => {},
+  timeMode:{
+    punctuation: false,
+    numbers: false
+  },
+  setTimeMode:()=>{}
 });
 
 type GLobalProviderProp = {
@@ -37,8 +45,7 @@ type GLobalProviderProp = {
 
 export const GlobalContextProvider = ({ children }: GLobalProviderProp) => {
   // array of stats per second
-  const [perSecondStatsArray, setPerSecondStatsArray] = useState<scoreType[]>(
-  [
+  const [perSecondStatsArray, setPerSecondStatsArray] = useState<scoreType[]>([
     // { correct: 1, wrong: 2 },
     // { correct: 2, wrong: 2 },
     // { correct: 1, wrong: 3 },
@@ -161,8 +168,7 @@ export const GlobalContextProvider = ({ children }: GLobalProviderProp) => {
     // { correct: 1, wrong: 3 },
     // { correct: 3, wrong: 0 },
     // { correct: 4, wrong: 0 },
-  ]
-  );
+  ]);
   // per second
   const [perSecondState, setPerSecondState] = useState<scoreType>({
     correct: 0,
@@ -173,7 +179,12 @@ export const GlobalContextProvider = ({ children }: GLobalProviderProp) => {
   // default time of the test
   const [timeOffset, setTimeOffset] = useState<number>(15);
   // mode of the test
-  const [mode, setMode] = useState<"time"|"zen">("time")
+  const [mode, setMode] = useState<"time" | "zen">("time");
+  // submode of the time category
+  const [timeMode, setTimeMode] = useState<timeModeType>({
+    punctuation: false,
+    numbers: false
+  });
 
   return (
     <GlobalContext.Provider
@@ -187,7 +198,9 @@ export const GlobalContextProvider = ({ children }: GLobalProviderProp) => {
         timeOffset,
         setTimeOffset,
         mode,
-        setMode
+        setMode,
+        timeMode,
+        setTimeMode
       }}
     >
       {children}

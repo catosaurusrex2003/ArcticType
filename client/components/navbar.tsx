@@ -50,7 +50,7 @@ function Navbar() {
 
         {/* right side */}
         <div className="flex sm:me-8 items-center">
-          <div className="flex items-center">
+          <Link href="/login" className="flex items-center">
             <Image
               className="mx-2 opacity-40 h-5 md:h-6"
               src="/profile.svg"
@@ -61,7 +61,7 @@ function Navbar() {
             <span className="text-white text-xs hidden sm:block font-semibold opacity-70">
               catousaurusrex
             </span>
-          </div>
+          </Link>
           <Image
             className="mx-2 opacity-40 h-5 md:h-7"
             src="/logout.svg"

@@ -1,0 +1,7 @@
+put a default.ts in this dir with 
+MODE
+PORT
+PRIVATE_KEY
+PRIVATE_REFRESH_KEY
+SALTROUNDS
+DBURI

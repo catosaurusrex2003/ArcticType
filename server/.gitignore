@@ -1,0 +1,22 @@
+# dependencies
+node_modules
+
+# env
+
+
+# default.ts file works as env and is in folder config
+# the keys inside this file is 
+
+# MODE
+# PORT
+# PRIVATE_KEY
+# PRIVATE_REFRESH_KEY
+# SALTROUNDS
+# DBURI
+default.ts
+
+# build
+build
+
+# apple
+.DS_Store
