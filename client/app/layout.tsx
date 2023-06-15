@@ -6,7 +6,7 @@ import { GlobalContextProvider } from "@/context/globalContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "DonkeyType",
+  title: "FuschiaRacer",
   description: "Made by Mohammed Mehdi",
   icons: {
     icon: "/icon.png",
