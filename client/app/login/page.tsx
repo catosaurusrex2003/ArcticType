@@ -1,11 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 
 function page() {
-  const [buttonsState, setButtonsState] = useState({
-    signup: false,
-    login: false,
-  });
 
   return (
     <div className="flex justify-center">

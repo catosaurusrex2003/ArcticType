@@ -115,6 +115,7 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
         {textArray.map((character) => (
           <span
             id={character.id}
+            key={character.id}
             className={` text-lg sm:text-2xl select-none border-none
                     ${
                       charIdArr[currentIndex] == character.id
