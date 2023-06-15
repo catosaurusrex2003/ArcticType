@@ -73,7 +73,7 @@ function MyTimer({}: propsType) {
   }, [timer]);
 
   return (
-    <div className=" text-yellow-300 flex flex-col items-center text-2xl font-semibold  ">
+    <div className=" text-cyan-400 flex flex-col items-center text-2xl font-semibold  ">
       <span>{timer}</span>
     </div>
   );

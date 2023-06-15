@@ -108,14 +108,14 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
         </div>
       )}
       <div
-        className="w-4/5 sm:w-3/4  text-justify "
+        className="w-4/5 sm:w-3/4  text-justify select-none border-none"
         tabIndex={0}
         onKeyDown={handleKeyboardEvent}
       >
         {textArray.map((character) => (
           <span
             id={character.id}
-            className={` text-lg sm:text-2xl select-none
+            className={` text-lg sm:text-2xl select-none border-none
                     ${
                       charIdArr[currentIndex] == character.id
                         ? "blinking-cursor"
@@ -123,10 +123,11 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
                     }
                     ${
                       character.state == "correct"
-                        ? "text-slate-100"
+                        ? "text-donkey-veronica "
+                        // ? "text-cyan-300 "
                         : character.state == "wrong"
-                        ? "text-red-500 underline decoration-solid decoration-red-600"
-                        : "text-text-color"
+                        ? "text-red-600 underline decoration-solid decoration-donkey-rose"
+                        : "text-donkey-tropicalIndigo"
                     } 
                     ${character.hidden ? "hidden" : null}
                   `}

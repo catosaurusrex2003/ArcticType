@@ -3,9 +3,16 @@ import { useGlobalContext } from "@/context/globalContext";
 import React, { useEffect, useRef, useState } from "react";
 import MyLineChart from "./LineChart";
 import html2canvas from "html2canvas";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 function Page() {
   const { perSecondStatsArray, mode, timeOffset } = useGlobalContext();
+
+  const router = useRouter();
+  useEffect(() => {
+    if (perSecondStatsArray.length == 0) router.push("/");
+  }, []);
 
   const screenShotRef = useRef<null | HTMLDivElement>(null);
 
@@ -41,15 +48,24 @@ function Page() {
     var totalAcc: number = 0;
     setFinalData(() => {
       return perSecondStatsArray.map((each, index) => {
-        const total = each.wrong + each.correct;
+        const total = each.wrong
+          ? each.wrong
+          : 0 + each.correct
+          ? each.correct
+          : 0;
         const netWPM = (total / 5) * 60;
-        const acc = each.correct / total;
         if (netWPM) totalWpm += netWPM;
-        if (acc) totalAcc += acc;
+        var acc;
+        if (each.correct) {
+          acc = each.correct / total;
+          if (acc) totalAcc += acc;
+        } else {
+          acc = 0;
+        }
         return {
           time: index,
           Accuraccy: acc,
-          Error: each.wrong / total,
+          Error: each.wrong ? each.wrong / total : 0,
           Net: netWPM,
         };
       });
@@ -63,30 +79,33 @@ function Page() {
   }, []);
 
   return (
-    <div className="flex justify-center screenshotDiv" ref={screenShotRef}>
-      <div className="flex flex-col md:flex-row w-full md:w-3/5  justify-evenly ">
+    <div
+      className="flex flex-col items-center justify-center screenshotDiv"
+      ref={screenShotRef}
+    >
+      <div className="flex flex-col md:flex-row  w-full md:w-3/5  justify-evenly ">
         {/* stats display */}
         <div className="flex flex-col text-white mb-4 items-center">
           <div className="text-center">
-            <p className="text-text-color text-center text-2xl sm:text-3xl">
+            <p className="  text-donkey-grape text-center text-2xl sm:text-3xl">
               wpm
             </p>
             {/* <p className="text-yellow-400 text-4xl sm:text-7xl">{Math.round(stats.wpm)}</p> */}
-            <p className="text-yellow-400 text-center font-bold text-4xl sm:text-6xl">
+            <p className="text-cyan-400 text-center font-bold text-4xl sm:text-6xl">
               {Math.round(stats.wpm)}
             </p>
           </div>
           <div className="text-center">
-            <p className="text-text-color text-center text-2xl sm:text-3xl">
+            <p className="text-donkey-grape text-center text-2xl sm:text-3xl">
               acc
             </p>
-            <p className="text-yellow-400 text-center font-bold text-4xl sm:text-6xl">
+            <p className="text-cyan-400 text-center font-bold text-4xl sm:text-6xl">
               {Math.round(stats.acc * 100)}%
             </p>
           </div>
           <div className="text-center">
-            <p className="text-text-color text-center text-lg">test type</p>
-            <p className="text-yellow-400 text-center font-medium text-xl sm:text-2xl">
+            <p className="text-donkey-grape text-center text-lg">test type</p>
+            <p className="text-cyan-400 text-center font-medium text-xl sm:text-2xl">
               {mode == "zen" ? "zen" : `time ${timeOffset}`}
             </p>
           </div>
@@ -97,10 +116,32 @@ function Page() {
             <MyLineChart finalData={finalData} />
           </div>
         )}
-        {/* utils display */}
-        <div className="flex ">
-          {/* <Image  /> */}
-        </div>
+      </div>
+      {/* utils display */}
+      <div className="flex justify-evenly w-full md:w-3/5 ">
+        <Image
+          className="opacity-70 hover:opacity-100"
+          src="play.svg"
+          height="40"
+          width="40"
+          alt=""
+          onClick={()=>router.push("/")}
+        />
+        <Image
+          className="opacity-70 hover:opacity-100"
+          src="cycle.svg"
+          height="40"
+          width="40"
+          alt=""
+          onClick={()=>router.push("/")}
+        />
+        <Image
+          className="opacity-70 hover:opacity-100"
+          src="screenshot.svg"
+          height="40"
+          width="40"
+          alt=""
+        />
       </div>
     </div>
   );

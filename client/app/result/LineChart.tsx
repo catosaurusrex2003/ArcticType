@@ -90,13 +90,13 @@ function MyLineChart({ finalData }: propsType) {
               dataKey="time"
               width={23}
               axisLine={false}
-              tick={{ fontSize: 15, fill: "#cbd5e1" }}
+              tick={{ fontSize: 15, fill: "#ffffff" }}
             />
             <YAxis
               yAxisId="left"
               width={27}
               axisLine={false}
-              tick={{ fontSize: 15, fill: "#cbd5e1" }}
+              tick={{ fontSize: 15, fill: "#ffffff" }}
               tickLine={false}
             />
             <YAxis
@@ -104,7 +104,7 @@ function MyLineChart({ finalData }: propsType) {
               orientation="right"
               width={23}
               axisLine={false}
-              tick={{ fontSize: 10, fill: "#cbd5e1" }}
+              tick={{ fontSize: 10, fill: "#ffffff" }}
               tickLine={false}
             />
             <Tooltip content={<CustomTooltip />} />
@@ -143,7 +143,7 @@ function MyLineChart({ finalData }: propsType) {
         </ResponsiveContainer>
         <div className=" w-full text-gray-500 flex justify-evenly">
           <span
-            className={` font-bold hover:bg-gray-500 rounded-lg p-1 ${
+            className={` font-bold hover:bg-donkey-navyBlue   rounded-lg p-2 ${
               displayState.accuracy ? "text-green-400" : null
             } `}
             onClick={() =>
@@ -153,7 +153,7 @@ function MyLineChart({ finalData }: propsType) {
             Accuracy
           </span>
           <span
-            className={` font-bold hover:bg-gray-500 rounded-lg p-1 ${
+            className={` font-bold hover:bg-donkey-navyBlue   rounded-lg p-2 ${
               displayState.net ? "text-white" : null
             } `}
             onClick={() =>
@@ -163,7 +163,7 @@ function MyLineChart({ finalData }: propsType) {
             Net Wpm
           </span>
           <span
-            className={` font-bold hover:bg-gray-500 rounded-lg p-1 ${
+            className={` font-bold hover:bg-donkey-navyBlue   rounded-lg p-2 ${
               displayState.error ? "text-red-400" : null
             } `}
             onClick={() =>
