@@ -100,17 +100,19 @@ function Navbar() {
               height={30}
               width={30}
               alt="profile"
-              onClick={()=>setIsLoggedIn(true)}
+              onClick={() => setIsLoggedIn(true)}
             />
           )}
-          <Image
-            className="mx-2 opacity-60 hover:opacity-100  cursor-pointer h-5 md:h-7"
-            src="/logout.svg"
-            height={30}
-            width={30}
-            alt="logout"
-            onClick={() => setIsLoggedIn(false)}
-          />
+          <Link href="/login">
+            <Image
+              className="mx-2 opacity-60 hover:opacity-100  cursor-pointer h-5 md:h-7"
+              src="/logout.svg"
+              height={30}
+              width={30}
+              alt="logout"
+              onClick={() => setIsLoggedIn(false)}
+            />
+          </Link>
         </div>
       </div>
     </div>

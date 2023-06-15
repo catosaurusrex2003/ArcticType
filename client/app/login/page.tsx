@@ -3,9 +3,11 @@ import React from "react";
 
 function page() {
 
+  
+
   return (
     <div className="flex justify-center">
-      <div className="w-full flex flex-col md:flex-row justify-evenly">
+      <div className="w-full flex flex-col md:flex-row mt-10 items-center justify-evenly ">
         {/* register */}
         <div className="w-64 text-slate-300 flex flex-col ">
           <p className=" text-donkey-rose font-medium text-2xl text-center">
@@ -32,7 +34,7 @@ function page() {
           </button>
         </div>
         {/* login */}
-        <div className="w-64 text-slate-300 flex flex-col ">
+        <div className="w-64 text-slate-300 flex flex-col mt-10 md:mt-0 ">
           <p className=" text-donkey-rose font-medium text-2xl text-center">
             Login
           </p>
