@@ -46,12 +46,16 @@ function validateRequest(schema) {
     });
 }
 exports.validateRequest = validateRequest;
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
-const PRIVATE_REFRESH_KEY = process.env.PRIVATE_REFRESH_KEY;
+// const PRIVATE_KEY = String(process.env.PRIVATE_KEY)
+const PRIVATE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+// const PRIVATE_REFRESH_KEY = String(process.env.PRIVATE_REFRESH_KEY)
+const PRIVATE_REFRESH_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 function validateCookie(req, res, next) {
     try {
         const { accessToken, refreshToken } = req.cookies;
         //Verify Access Token
+        console.log("access token", accessToken, "refresh token", refreshToken);
+        console.log("verifying cookie");
         jsonwebtoken_1.default.verify(accessToken, PRIVATE_KEY, (error, decoded) => {
             if (!error) {
                 const { id } = decoded;
@@ -71,6 +75,7 @@ function validateCookie(req, res, next) {
                 return next();
             }
             else {
+                console.log(error);
                 throw error;
             }
         });

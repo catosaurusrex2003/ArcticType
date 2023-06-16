@@ -56,6 +56,7 @@ function loginUserHandler(req, res) {
 exports.loginUserHandler = loginUserHandler;
 function getUserHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("in get user");
         try {
             //@ts-ignore
             const email = req.userEmail;

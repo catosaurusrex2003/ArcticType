@@ -11,12 +11,12 @@ function signAccessToken(res, id) {
     const token = jsonwebtoken_1.default.sign({ id }, PRIVATE_KEY, { expiresIn: "1800s" });
     res.cookie("accessToken", token, {
         httpOnly: true,
-        // maxAge: 20000, //20 sec
         maxAge: 3600000, // 1 hr
-        // maxAge: 172800000, // 2days
     });
 }
 exports.signAccessToken = signAccessToken;
+// maxAge: 20000, //20 sec
+// maxAge: 172800000, // 2days
 //signRefreshToken fnc
 function signRefreshToken(res, id) {
     const PRIVATE_REFRESH_KEY = process.env.PRIVATE_REFRESH_KEY;

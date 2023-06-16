@@ -91,7 +91,7 @@ userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
         if (user.isModified("password")) {
-            const SALTROUNDS = process.env.SALTROUNDS;
+            const SALTROUNDS = 9;
             user.password = yield bcrypt_1.default.hash(user.password, SALTROUNDS);
             return next();
         }
