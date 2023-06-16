@@ -10,7 +10,7 @@ import {
   logoutUserHandler,
 } from "./controller/user.controller";
 import { validateRequest, validateCookie } from "./middleware/validator";
-import { AddNotesZodSchema, RemoveNotesZodSchema } from "./schema/notes.schema";
+// import { AddNotesZodSchema, RemoveNotesZodSchema } from "./schema/notes.schema";
 import { CreateUserZodSchema, LoginUserZodSchema } from "./schema/user.schema";
 
 export default function routes(app: Express) {
