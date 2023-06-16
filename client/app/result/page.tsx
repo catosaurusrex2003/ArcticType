@@ -57,6 +57,7 @@ function Page() {
           netWPM = (total / 5) * 60;
           if (netWPM) totalWpm += netWPM;
           acc = each.correct ? each.correct / total : 0;
+          err = each.wrong? each.wrong :  0
         } else {
           acc = 0;
           err = 0;
