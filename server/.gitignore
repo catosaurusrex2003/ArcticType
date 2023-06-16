@@ -18,7 +18,7 @@ default.ts
 .env
 
 # build
-build
+# build
 
 # apple
 .DS_Store
