@@ -21,6 +21,8 @@ export const CreateUserZodSchema = z.object({
     .strict(),
 });
 
+
+
 export const LoginUserZodSchema = z.object({
   body: z
     .object({

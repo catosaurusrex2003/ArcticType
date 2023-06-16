@@ -11,9 +11,12 @@ export async function createUserHandler(req: Request, res: Response) {
   try {
     const userInstance = await createUser(req.body);
 
+    console.log("user created",userInstance)
+
     //Signing Jwts
     signAccessToken(res, userInstance.email);
     signRefreshToken(res, userInstance.email);
+
 
     res.status(200).json(userInstance);
   } catch (error: any) {
@@ -26,12 +29,16 @@ export async function loginUserHandler(req: Request, res: Response) {
   try {
     const userInstance = await authenticateUser(req.body);
 
+    console.log("loggedin ",userInstance)
+
     //Signing Jwts
     signAccessToken(res, userInstance.email);
     const refreshToken = signRefreshToken(res, userInstance.email);
 
     //Creating a new session
     // await createSession(req,req.body.email,refreshToken)
+
+    
 
     res.status(200).json(userInstance);
   } catch (error: any) {

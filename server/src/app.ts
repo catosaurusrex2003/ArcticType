@@ -5,11 +5,16 @@ import cookieParser from "cookie-parser";
 import logger from "./utils/logger";
 import connectToDB from "./utils/connect";
 import routes from "./routes";
+const cors = require('cors');
 
 const app = express();
 
+
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin:["http://localhost:3000","https://fuschia-racer.vercel.app/"]
+}))
 // app.use(errorHandler);
 
 routes(app);

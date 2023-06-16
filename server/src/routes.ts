@@ -1,8 +1,8 @@
-import { Express, Request, Response } from "express";
-import {
-  addNoteHandler,
-  removeNoteHandler,
-} from "./controller/notes.controller";
+import { Express, NextFunction, Request, Response } from "express";
+// import {
+//   addNoteHandler,
+//   removeNoteHandler,
+// } from "./controller/notes.controller";
 import {
   createUserHandler,
   getUserHandler,
@@ -23,36 +23,42 @@ export default function routes(app: Express) {
 
   //Create a new user
   app.post("/createUser", [
+    (req: Request, res: Response, next: NextFunction) => { console.log("createUser"); return next() },
     validateRequest(CreateUserZodSchema),
     createUserHandler,
   ]);
 
   //Login a user
   app.post("/loginUser", [
+    (req: Request, res: Response, next: NextFunction) => { console.log("loginUser"); return next() },
     validateRequest(LoginUserZodSchema),
     loginUserHandler,
   ]);
 
   //Get user data
   app.get("/getUser", [
+    (req: Request, res: Response, next: NextFunction) => { console.log("getUser"); return next() },
     validateCookie,
     getUserHandler
   ]);
 
   //Add a new note
-  app.post("/addNote", [
-    validateCookie,
-    validateRequest(AddNotesZodSchema),
-    addNoteHandler,
-  ]);
+  // app.post("/addNote", [
+  //   validateCookie,
+  //   validateRequest(AddNotesZodSchema),
+  //   addNoteHandler,
+  // ]);
 
   //Remove a new note
-  app.delete("/removeNote/:id", [
-    validateCookie,
-    validateRequest(RemoveNotesZodSchema),
-    removeNoteHandler,
-  ]);
+  // app.delete("/removeNote/:id", [
+  //   validateCookie,
+  //   validateRequest(RemoveNotesZodSchema),
+  //   removeNoteHandler,
+  // ]);
 
   //Logout a user
-  app.get("/logoutUser", [logoutUserHandler]);
+  app.get("/logoutUser", [
+    (req: Request, res: Response, next: NextFunction) => { console.log("logoutUser"); return next() },
+    logoutUserHandler
+  ]);
 }

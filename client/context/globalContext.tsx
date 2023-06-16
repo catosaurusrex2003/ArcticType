@@ -4,6 +4,8 @@ import { timeModeType } from "@/types/misc";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 type GlobalContextType = {
+  auth:boolean;
+  setAuth:React.Dispatch<React.SetStateAction<boolean>>;
   perSecondStatsArray: scoreType[];
   setPerSecondStatsArray: React.Dispatch<React.SetStateAction<scoreType[]>>;
   perSecondState: scoreType;
@@ -14,11 +16,13 @@ type GlobalContextType = {
   setTimeOffset: React.Dispatch<React.SetStateAction<number>>;
   mode: "time" | "zen";
   setMode: React.Dispatch<React.SetStateAction<"time" | "zen">>;
-  timeMode :timeModeType,
-  setTimeMode:React.Dispatch<React.SetStateAction<timeModeType>>
+  timeMode: timeModeType;
+  setTimeMode: React.Dispatch<React.SetStateAction<timeModeType>>;
 };
 
 const GlobalContext = createContext<GlobalContextType>({
+  auth: false,
+  setAuth: () => {},
   perSecondStatsArray: [],
   setPerSecondStatsArray: () => {},
   perSecondState: {
@@ -32,11 +36,11 @@ const GlobalContext = createContext<GlobalContextType>({
   setTimeOffset: () => {},
   mode: "time",
   setMode: () => {},
-  timeMode:{
+  timeMode: {
     punctuation: false,
-    numbers: false
+    numbers: false,
   },
-  setTimeMode:()=>{}
+  setTimeMode: () => {},
 });
 
 type GLobalProviderProp = {
@@ -44,6 +48,13 @@ type GLobalProviderProp = {
 };
 
 export const GlobalContextProvider = ({ children }: GLobalProviderProp) => {
+  // auth state
+  const [auth, setAuth] = useState<boolean>(false);
+  // userINFO
+  const [userinfo , setUserinfo] = useState({
+    username:"",
+    
+  })
   // array of stats per second
   const [perSecondStatsArray, setPerSecondStatsArray] = useState<scoreType[]>([
     // { correct: 1, wrong: 2 },
@@ -183,12 +194,14 @@ export const GlobalContextProvider = ({ children }: GLobalProviderProp) => {
   // submode of the time category
   const [timeMode, setTimeMode] = useState<timeModeType>({
     punctuation: false,
-    numbers: false
+    numbers: false,
   });
 
   return (
     <GlobalContext.Provider
       value={{
+        auth,
+        setAuth,
         perSecondState,
         setPerSecondState,
         perSecondStatsArray,
@@ -200,7 +213,7 @@ export const GlobalContextProvider = ({ children }: GLobalProviderProp) => {
         mode,
         setMode,
         timeMode,
-        setTimeMode
+        setTimeMode,
       }}
     >
       {children}

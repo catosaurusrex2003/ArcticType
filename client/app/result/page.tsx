@@ -56,15 +56,15 @@ function Page() {
         if (total != 0) {
           netWPM = (total / 5) * 60;
           if (netWPM) totalWpm += netWPM;
-          acc = each.correct ? each.correct / total : 0;
-          err = each.wrong? each.wrong :  0
+          err = each.wrong? each.wrong : 0
+          acc = each.correct ? each.correct / total : 0; 0
+          totalAcc += acc;
         } else {
           acc = 0;
           err = 0;
           netWPM = 0;
         }
         console.log("accuracy: ",acc);
-        totalAcc += acc;
         return {
           time: index,
           Accuraccy: acc,

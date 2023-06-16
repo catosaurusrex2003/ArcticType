@@ -1,14 +1,37 @@
 "use client";
+import { useGlobalContext } from "@/context/globalContext";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import keyboardBlack from "../components/keyboard-black.svg";
 
 function Navbar() {
   const pathname = usePathname();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const { auth, setAuth } = useGlobalContext();
+
+  useEffect(() => {
+    
+    
+  
+    return () => {
+      
+    }
+  }, [])
+  
+
+
+  const handleLogOut = async () => {
+    console.log("running");
+    const result = await axios.get("http://localhost:3001/logoutUser");
+    console.log(result);
+    setAuth(false);
+    console.log("set false")
+  };
+
+
 
   return (
     <div className="flex justify-center">
@@ -77,7 +100,7 @@ function Navbar() {
 
         {/* right side */}
         <div className="flex sm:me-8 items-center">
-          {isLoggedIn ? (
+          {auth ? (
             <Link
               href="/profile"
               className="flex items-center opacity-60 hover:opacity-100"
@@ -94,23 +117,23 @@ function Navbar() {
               </span>
             </Link>
           ) : (
-            <Image
-              className="mx-2  h-5 md:h-6 opacity-60 hover:opacity-100"
-              src="/profile.svg"
-              height={30}
-              width={30}
-              alt="profile"
-              onClick={() => setIsLoggedIn(true)}
-            />
+            <Link href="/login">
+              <Image
+                className="mx-2  h-5 md:h-6 opacity-60 hover:opacity-100"
+                src="/profile.svg"
+                height={30}
+                width={30}
+                alt="profile"
+              />
+            </Link>
           )}
-          <Link href="/login">
+          <Link href="/login" onClick={handleLogOut}>
             <Image
               className="mx-2 opacity-60 hover:opacity-100  cursor-pointer h-5 md:h-7"
               src="/logout.svg"
               height={30}
               width={30}
               alt="logout"
-              onClick={() => setIsLoggedIn(false)}
             />
           </Link>
         </div>

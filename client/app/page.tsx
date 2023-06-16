@@ -37,6 +37,9 @@ export default function Home() {
       wrong: 0,
     });
 
+    // ////////////////////////////////
+    // check  for jwt here and set auth
+    // ////////////////////////////////
     
   }, []);
 
