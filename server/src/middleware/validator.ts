@@ -49,8 +49,9 @@ type TokenPayloadType = {
   exp: number;
 };
 
-const PRIVATE_KEY = config.get<string>("PRIVATE_KEY");
-const PRIVATE_REFRESH_KEY = config.get<string>("PRIVATE_REFRESH_KEY");
+const PRIVATE_KEY = process.env.PRIVATE_KEY as string
+const PRIVATE_REFRESH_KEY = process.env.PRIVATE_REFRESH_KEY as string
+
 
 export function validateCookie(
   req: Request,
@@ -60,6 +61,7 @@ export function validateCookie(
   try {
     const { accessToken, refreshToken }: CookieType = req.cookies;
     //Verify Access Token
+    
     jwt.verify( accessToken, PRIVATE_KEY, (error: jwt.VerifyErrors | null, decoded) => {
         if (!error) {
           const { id } = decoded as TokenPayloadType;
@@ -69,6 +71,7 @@ export function validateCookie(
 
         } else if (error?.name === "TokenExpiredError") {
           //Verify Refresh Token
+          
           const { id } = jwt.verify( refreshToken, PRIVATE_REFRESH_KEY ) as TokenPayloadType;
 
           //Sign new cookies

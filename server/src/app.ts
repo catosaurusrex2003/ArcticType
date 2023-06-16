@@ -6,6 +6,7 @@ import logger from "./utils/logger";
 import connectToDB from "./utils/connect";
 import routes from "./routes";
 const cors = require('cors');
+require('dotenv').config()
 
 const app = express();
 
@@ -18,9 +19,8 @@ app.use(cors({
 // app.use(errorHandler);
 
 routes(app);
-
-const PORT = config.get<number>("PORT");
-const MODE = config.get<string>("MODE");
+const PORT = process.env.PORT
+const MODE = process.env.MODE
 
 connectToDB();
 

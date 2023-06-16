@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 //signAccessToken fnc
 export function signAccessToken(res: Response, id: string) {
-  const PRIVATE_KEY = config.get<string>("PRIVATE_KEY");
+  const PRIVATE_KEY = process.env.PRIVATE_KEY as string;
   const token = jwt.sign({ id }, PRIVATE_KEY, { expiresIn: "1800s" });
   res.cookie("accessToken", token, {
     httpOnly: true,
@@ -16,7 +16,7 @@ export function signAccessToken(res: Response, id: string) {
 
 //signRefreshToken fnc
 export function signRefreshToken(res: Response, id: string): string {
-  const PRIVATE_REFRESH_KEY = config.get<string>("PRIVATE_REFRESH_KEY");
+  const PRIVATE_REFRESH_KEY = process.env.PRIVATE_REFRESH_KEY as string;
   const token = jwt.sign({ id }, PRIVATE_REFRESH_KEY, { expiresIn: "1y",});
   res.cookie("refreshToken", token, {
     httpOnly: true,

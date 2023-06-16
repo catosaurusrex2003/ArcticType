@@ -126,9 +126,10 @@ const userSchema = new mongoose.Schema<userType>(
 userSchema.pre("save", async function (next) {
   const user = this as userType;
   if (user.isModified("password")) {
+    const SALTROUNDS = process.env.SALTROUNDS as string
     user.password = await bcrypt.hash(
       user.password,
-      config.get<string>("SALTROUNDS")
+      SALTROUNDS
     );
     return next();
   }
