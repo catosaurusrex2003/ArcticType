@@ -22,6 +22,7 @@ function Page() {
   const router = useRouter()
 
   const signUpHandler = async () => {
+    
     if (signUpData.username && signUpData.email && signUpData.password) {
       const registerData = _.omit(signUpData, "verifyPassword");
       const response = await axios.post(
