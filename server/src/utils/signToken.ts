@@ -8,11 +8,13 @@ export function signAccessToken(res: Response, id: string) {
   const token = jwt.sign({ id }, PRIVATE_KEY, { expiresIn: "1800s" });
   res.cookie("accessToken", token, {
     httpOnly: true,
-    // maxAge: 20000, //20 sec
+    
     maxAge: 3600000, // 1 hr
-    // maxAge: 172800000, // 2days
+    
   });
 }
+// maxAge: 20000, //20 sec
+// maxAge: 172800000, // 2days
 
 //signRefreshToken fnc
 export function signRefreshToken(res: Response, id: string): string {

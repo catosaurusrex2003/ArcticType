@@ -49,8 +49,10 @@ type TokenPayloadType = {
   exp: number;
 };
 
-const PRIVATE_KEY = process.env.PRIVATE_KEY as string
-const PRIVATE_REFRESH_KEY = process.env.PRIVATE_REFRESH_KEY as string
+// const PRIVATE_KEY = String(process.env.PRIVATE_KEY)
+const PRIVATE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+// const PRIVATE_REFRESH_KEY = String(process.env.PRIVATE_REFRESH_KEY)
+const PRIVATE_REFRESH_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 
 
 export function validateCookie(
@@ -61,6 +63,9 @@ export function validateCookie(
   try {
     const { accessToken, refreshToken }: CookieType = req.cookies;
     //Verify Access Token
+    console.log("access token",accessToken,"refresh token", refreshToken)
+
+    console.log("verifying cookie")
     
     jwt.verify( accessToken, PRIVATE_KEY, (error: jwt.VerifyErrors | null, decoded) => {
         if (!error) {
@@ -83,6 +88,7 @@ export function validateCookie(
           req.userEmail = id;
           return next();
         } else {
+          console.log(error)
           throw error;
         }
       }

@@ -1,5 +1,6 @@
 "use client";
 import { useGlobalContext } from "@/context/globalContext";
+import { userType } from "@/types/user";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,26 +13,48 @@ function Navbar() {
 
   const { auth, setAuth } = useGlobalContext();
 
-  useEffect(() => {
-    
-    
-  
-    return () => {
-      
-    }
-  }, [])
-  
+  const [userData, setUserData] = useState<userType>();
 
+  const getUserData = async () => {
+    console.log("ruinning");
+
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/getUser`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        const data = response.data;
+        setUserData(data);
+        console.log(data);
+        return data;
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    // const result = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/getUser`)
+    // console.log("result is ",result)
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, [auth]);
 
   const handleLogOut = async () => {
     console.log("running");
-    const result = await axios.get("http://localhost:3001/logoutUser");
+    const result = await axios.get(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/logoutUser`
+    );
     console.log(result);
     setAuth(false);
-    console.log("set false")
+    console.log("set false");
   };
-
-
 
   return (
     <div className="flex justify-center">
@@ -113,7 +136,8 @@ function Navbar() {
                 alt="profile"
               />
               <span className="text-donkey-magenta text-xs hidden sm:block font-semibold ">
-                catousaurusrex
+                {userData?.username}
+                {/* {userData?.} */}
               </span>
             </Link>
           ) : (

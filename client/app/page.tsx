@@ -5,6 +5,7 @@ import Typingdiv from "./typingdiv";
 import { letterType } from "@/types/textArray";
 import { useEffect, useState } from "react";
 import { useGlobalContext } from "@/context/globalContext";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const text: string =
@@ -53,6 +54,7 @@ export default function Home() {
 
   return (
     <div className="">
+      <Toaster/>
       <SelectionModal />
       <Typingdiv
         textArray={textArray}

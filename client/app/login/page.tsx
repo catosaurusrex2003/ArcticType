@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import { useGlobalContext } from "@/context/globalContext";
 import { useRouter } from "next/navigation";
+import { Toaster, toast } from "react-hot-toast";
+import { errorToast, successToast } from "@/utils/toasts";
 
 function Page() {
   const [signUpData, setSignUpData] = useState({
@@ -17,46 +19,62 @@ function Page() {
     password: "",
   });
 
-  const {setAuth} = useGlobalContext()
+  const { setAuth } = useGlobalContext();
 
-  const router = useRouter()
+  const router = useRouter();
 
   const signUpHandler = async () => {
-    
     if (signUpData.username && signUpData.email && signUpData.password) {
-      const registerData = _.omit(signUpData, "verifyPassword");
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/createUser`,
-        registerData
-      );
-      console.log(response)
-      if(response.status == 200){
-        setAuth(true)
-        console.log("set true")
-        router.push("/profile")
+      try {
+        const registerData = _.omit(signUpData, "verifyPassword");
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/createUser`,
+          registerData
+        );
+        console.log(response);
+        if (response.status == 200) {
+          setAuth(true);
+          successToast("Acccount Created");
+          setTimeout(() => {
+            router.push("/profile");
+          }, 2000);
+        }
+      } catch (err: any) {
+        errorToast(err.response.data.issues[0].message);
+        console.log(err.response.data.issues[0].message);
       }
-
     }
   };
 
   const loginHandler = async () => {
     if (loginData.email && loginData.password) {
-      console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/loginUser`)
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/loginUser`,
-        loginData
-      );
-      console.log(response)
-      if(response.status == 200){
-        setAuth(true)
-        console.log("set true")
-        router.push("/profile")
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/loginUser`,
+          loginData,
+          { withCredentials: true }
+        );
+        console.log(response);
+        if (response.status == 200) {
+          setAuth(true);
+          console.log("set true");
+          successToast("Logged in");
+          setTimeout(() => {
+            router.push("/profile");
+          }, 2000);
+        }
+      } catch (err: any) {
+        if (err.response) {
+          errorToast(err.response.data.issues[0].message);
+          console.log(err.response.data.issues[0].message);
+        }
       }
     }
   };
 
   return (
     <div className="flex justify-center">
+      <Toaster />
       <div className="w-full flex flex-col md:flex-row mt-10 items-center justify-evenly ">
         {/* register */}
         <div className="w-64 text-slate-300 flex flex-col ">
