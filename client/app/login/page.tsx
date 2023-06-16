@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 
-function page() {
+function Page() {
   useEffect(() => {
     fetch("")
   }, []);
@@ -56,4 +56,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
