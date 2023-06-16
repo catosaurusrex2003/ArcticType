@@ -47,7 +47,6 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
     const alphanumericRegex = /^[a-zA-Z0-9.,'"]$/;
     // check regex
     if (key.match(alphanumericRegex) || key === " " || key === "Backspace") {
-      console.log(key)
       setStarted(true);
       if (key === "Backspace") {
         if (currentIndex !== 0) {
@@ -69,18 +68,13 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
         setTextArray((prev) => {
           // find the object of the letter
           const obj = prev.find((each) => each.id === charIdArr[currentIndex]);
-          console.log(charIdArr[currentIndex])
-          console.log(prev)
-          console.log("here")
           if (obj) {
             // if correct change state
             if (obj.letter == key) {
-              console.log("correct");
               obj.state = "correct";
               prev[currentIndex] = obj;
               handlePerSecondStats(1);
             } else {
-              console.log("wrong");
               obj.state = "wrong";
               prev[currentIndex] = obj;
               handlePerSecondStats(0);

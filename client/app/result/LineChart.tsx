@@ -64,21 +64,6 @@ function MyLineChart({ finalData }: propsType) {
     accuracy: true,
     error: false,
   });
-  console.log(finalData);
-
-  // const finalfinalData = finalData.map((each, index) => {
-  //   // https://www.speedtypingonline.com/typing-equations
-  //   // const netWPM = (((each.correct+each.wrong)/5)  - each.wrong )  * 60
-  //   const total = each.wrong + each.correct;
-  //   const netWPM = (total / 5) * 60;
-  //   console.log(each.correct / total);
-  //   return {
-  //     time: index,
-  //     Accuraccy: each.correct / total,
-  //     Error: each.wrong / total,
-  //     Net: netWPM,
-  //   };
-  // });
 
   return (
     <div  className="flex justify-center">

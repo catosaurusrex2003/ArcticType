@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 
 function page() {
-
-  
+  useEffect(() => {
+    fetch("")
+  }, []);
 
   return (
     <div className="flex justify-center">

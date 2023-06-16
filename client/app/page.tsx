@@ -31,7 +31,6 @@ export default function Home() {
 
   useEffect(() => {
     // defaulting
-    console.log("defaulting")
     setPerSecondStatsArray([]);
     setPerSecondState({
       correct: 0,

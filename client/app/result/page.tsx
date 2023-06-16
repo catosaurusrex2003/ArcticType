@@ -48,24 +48,26 @@ function Page() {
     var totalAcc: number = 0;
     setFinalData(() => {
       return perSecondStatsArray.map((each, index) => {
-        const total = each.wrong
-          ? each.wrong
-          : 0 + each.correct
-          ? each.correct
-          : 0;
-        const netWPM = (total / 5) * 60;
-        if (netWPM) totalWpm += netWPM;
+        const total =
+          (each.wrong ? each.wrong : 0) + (each.correct ? each.correct : 0);
+        var netWPM;
         var acc;
-        if (each.correct) {
-          acc = each.correct / total;
-          if (acc) totalAcc += acc;
+        var err;
+        if (total != 0) {
+          netWPM = (total / 5) * 60;
+          if (netWPM) totalWpm += netWPM;
+          acc = each.correct ? each.correct / total : 0;
         } else {
           acc = 0;
+          err = 0;
+          netWPM = 0;
         }
+        console.log("accuracy: ",acc);
+        totalAcc += acc;
         return {
           time: index,
           Accuraccy: acc,
-          Error: each.wrong ? each.wrong / total : 0,
+          Error: err,
           Net: netWPM,
         };
       });
@@ -75,7 +77,6 @@ function Page() {
       wpm: totalWpm / perSecondStatsArray.length,
       acc: totalAcc / perSecondStatsArray.length,
     }));
-    console.log("this component rendered");
   }, []);
 
   return (
@@ -125,7 +126,7 @@ function Page() {
           height="40"
           width="40"
           alt=""
-          onClick={()=>router.push("/")}
+          onClick={() => router.push("/")}
         />
         <Image
           className="opacity-70 hover:opacity-100"
@@ -133,7 +134,7 @@ function Page() {
           height="40"
           width="40"
           alt=""
-          onClick={()=>router.push("/")}
+          onClick={() => router.push("/")}
         />
         <Image
           className="opacity-70 hover:opacity-100"
