@@ -9,6 +9,11 @@ const validator_1 = require("./middleware/validator");
 // import { AddNotesZodSchema, RemoveNotesZodSchema } from "./schema/notes.schema";
 const user_schema_1 = require("./schema/user.schema");
 function routes(app) {
+    app.get("/", [
+        (req, res) => {
+            return res.status(200).send("working");
+        },
+    ]);
     //heathcheck route
     app.get("/healthCheck", [
         (req, res) => {

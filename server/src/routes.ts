@@ -14,6 +14,13 @@ import { validateRequest, validateCookie } from "./middleware/validator";
 import { CreateUserZodSchema, LoginUserZodSchema } from "./schema/user.schema";
 
 export default function routes(app: Express) {
+
+
+  app.get("/", [
+    (req: Request, res: Response) => {
+      return res.status(200).send("working");
+    },
+  ]);
   //heathcheck route
   app.get("/healthCheck", [
     (req: Request, res: Response) => {
