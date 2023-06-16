@@ -25,7 +25,7 @@ function Page() {
     if (signUpData.username && signUpData.email && signUpData.password) {
       const registerData = _.omit(signUpData, "verifyPassword");
       const response = await axios.post(
-        "http://localhost:3001/createUser",
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/createUser`,
         registerData
       );
       console.log(response)
@@ -40,8 +40,9 @@ function Page() {
 
   const loginHandler = async () => {
     if (loginData.email && loginData.password) {
+      console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/loginUser`)
       const response = await axios.post(
-        "http://localhost:3001/loginUser",
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/loginUser`,
         loginData
       );
       console.log(response)
