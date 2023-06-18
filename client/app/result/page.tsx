@@ -33,7 +33,6 @@ function Page() {
     // @ts-ignore
     html2canvas(screenShotRef.current).then((canvas) => {
       screenshotDataURL = canvas.toDataURL("image/jpeg");
-      console.log(screenshotDataURL);
     });
     if (screenshotDataURL) {
       const link = document.createElement("a");
@@ -64,7 +63,6 @@ function Page() {
           err = 0;
           netWPM = 0;
         }
-        console.log("accuracy: ",acc);
         return {
           time: index,
           Accuraccy: acc,

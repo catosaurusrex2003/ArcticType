@@ -42,6 +42,14 @@ export default function routes(app: Express) {
     loginUserHandler,
   ]);
 
+  // is Logged in
+  app.get("/isLoggedin", [
+    (req: Request, res: Response, next: NextFunction) => { console.log("verifying jwt"); return next() },
+    validateCookie,
+    // sending status back
+    (req: Request, res: Response, next: NextFunction) => { console.log("user is legit"); res.status(200).send("legit user") },
+  ]);
+
   //Get user data
   app.get("/getUser", [
     (req: Request, res: Response, next: NextFunction) => { console.log("getUser"); return next() },

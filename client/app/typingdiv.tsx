@@ -1,5 +1,11 @@
 "use client";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { letterType } from "../types/textArray";
 // import { useTimer } from "react-timer-hook";
 import MyTimer from "./timer";
@@ -23,9 +29,12 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
     timeOffset,
   } = useGlobalContext();
 
+  const [focusStatus, setFocusState] = useState<Boolean>();
+
+  const focusRef = useRef<HTMLDivElement>(null!);
+
   // doesnt need to be global
   const [started, setStarted] = useState(false);
-
 
   const handlePerSecondStats = (params: 1 | 0) => {
     if (params) {
@@ -92,8 +101,20 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
     // text before the fullstop in the array
   };
 
+  const handleFocus = (param: 0 | 1) => {
+    var Id;
+    if (param) {
+      clearTimeout(Id);
+      setFocusState(true);
+    } else {
+      Id = setTimeout(() => {
+        setFocusState(false);
+      }, 3000);
+    }
+  };
+
   return (
-    <div className="flex flex-col mt-14 md:h-64 justify-center items-center">
+    <div className="flex flex-col mt-14 md:h-64 justify-center items-center relative">
       {started && (
         <div className="flex w-4/5 sm:w-3/4">
           <div className="mr-auto">
@@ -102,9 +123,14 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
         </div>
       )}
       <div
-        className="w-4/5 sm:w-3/4  text-justify select-none border-none"
+        className={`w-4/5 sm:w-3/4  text-justify select-none border-none focus:outline-none ${
+          focusStatus ? null : "blur-div"
+        }`}
+        ref={focusRef}
         tabIndex={0}
         onKeyDown={handleKeyboardEvent}
+        onBlur={() => handleFocus(0)}
+        onFocus={() => handleFocus(1)}
       >
         {textArray.map((character) => (
           <span
@@ -119,8 +145,8 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
                     ${
                       character.state == "correct"
                         ? "text-donkey-veronica "
-                        // ? "text-cyan-300 "
-                        : character.state == "wrong"
+                        : // ? "text-cyan-300 "
+                        character.state == "wrong"
                         ? "text-red-600 underline decoration-solid decoration-donkey-rose"
                         : "text-donkey-tropicalIndigo"
                     } 
@@ -131,6 +157,16 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
           </span>
         ))}
       </div>
+      <span
+        className={` ${
+          focusStatus ? "hidden" : " block"
+        } overlay-text text-donkey-rose text-xl text-center font-semibold`}
+        onClick={() => {
+          if(focusRef.current) focusRef.current.focus();
+        }}
+      >
+        👆🏻 click to start typing
+      </span>
     </div>
   );
 };

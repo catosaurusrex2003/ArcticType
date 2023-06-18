@@ -32,6 +32,13 @@ function routes(app) {
         (0, validator_1.validateRequest)(user_schema_1.LoginUserZodSchema),
         user_controller_1.loginUserHandler,
     ]);
+    // is Logged in
+    app.get("/isLoggedin", [
+        (req, res, next) => { console.log("verifying jwt"); return next(); },
+        validator_1.validateCookie,
+        // sending status back
+        (req, res, next) => { console.log("user is legit"); res.status(200).send("legit user"); },
+    ]);
     //Get user data
     app.get("/getUser", [
         (req, res, next) => { console.log("getUser"); return next(); },

@@ -1,7 +1,8 @@
 "use client";
 import { useGlobalContext } from "@/context/globalContext";
 import { userType } from "@/types/user";
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,8 +17,6 @@ function Navbar() {
   const [userData, setUserData] = useState<userType>();
 
   const getUserData = async () => {
-    console.log("ruinning");
-
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/getUser`,
@@ -25,11 +24,10 @@ function Navbar() {
           withCredentials: true,
         }
       );
-
       if (response.status === 200) {
         const data = response.data;
         setUserData(data);
-        console.log(data);
+        setAuth(true);
         return data;
       } else {
         throw new Error("Request failed");
@@ -37,23 +35,37 @@ function Navbar() {
     } catch (error) {
       console.error(error);
     }
-
-    // const result = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/getUser`)
-    // console.log("result is ",result)
   };
 
   useEffect(() => {
-    getUserData();
+    if (auth) {
+      getUserData();
+    }
   }, [auth]);
 
+  const verifyJWT = async () => {
+    try {
+      const result = await axios.get(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/isLoggedin`,
+        { withCredentials: true }
+      );
+      if (result.status == 200) {
+        setAuth(true);
+      }
+    } catch (err:any) {
+      console.log(err.response.data.message)
+    }
+  };
+
+  useEffect(() => {
+    verifyJWT();
+  }, []);
+
   const handleLogOut = async () => {
-    console.log("running");
     const result = await axios.get(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/logoutUser`
     );
-    console.log(result);
     setAuth(false);
-    console.log("set false");
   };
 
   return (
@@ -151,15 +163,17 @@ function Navbar() {
               />
             </Link>
           )}
-          <Link href="/login" onClick={handleLogOut}>
-            <Image
-              className="mx-2 opacity-60 hover:opacity-100  cursor-pointer h-5 md:h-7"
-              src="/logout.svg"
-              height={30}
-              width={30}
-              alt="logout"
-            />
-          </Link>
+          {auth ? (
+            <Link href="/login" onClick={handleLogOut}>
+              <Image
+                className="mx-2 opacity-60 hover:opacity-100  cursor-pointer h-5 md:h-7"
+                src="/logout.svg"
+                height={30}
+                width={30}
+                alt="logout"
+              />
+            </Link>
+          ) : null}
         </div>
       </div>
     </div>

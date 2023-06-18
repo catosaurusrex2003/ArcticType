@@ -22,7 +22,6 @@ function createUserHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const userInstance = yield (0, createUser_1.default)(req.body);
-            console.log("user created", userInstance);
             //Signing Jwts
             (0, signToken_1.signAccessToken)(res, userInstance.email);
             (0, signToken_1.signRefreshToken)(res, userInstance.email);
@@ -39,10 +38,9 @@ function loginUserHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const userInstance = yield (0, authUser_1.default)(req.body);
-            console.log("loggedin ", userInstance);
             //Signing Jwts
             (0, signToken_1.signAccessToken)(res, userInstance.email);
-            const refreshToken = (0, signToken_1.signRefreshToken)(res, userInstance.email);
+            (0, signToken_1.signRefreshToken)(res, userInstance.email);
             //Creating a new session
             // await createSession(req,req.body.email,refreshToken)
             res.status(200).json(userInstance);
@@ -56,7 +54,6 @@ function loginUserHandler(req, res) {
 exports.loginUserHandler = loginUserHandler;
 function getUserHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("in get user");
         try {
             //@ts-ignore
             const email = req.userEmail;

@@ -144,7 +144,6 @@ userSchema.method(
     inputPassword: string
   ): Promise<userType> {
     const user: userType | null = await User.findOne({ email: inputEmail });
-    // console.log(user);
     if (user) {
       const auth: boolean = await bcrypt.compare(inputPassword, user.password);
       if (!auth) {

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.195",
     "@types/node": "20.2.5",
     "@types/react": "18.2.8",
@@ -20,6 +21,7 @@
     "eslint-config-next": "13.4.4",
     "framer-motion": "^10.12.16",
     "html2canvas": "^1.4.1",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "next": "13.4.4",
     "postcss": "8.4.24",

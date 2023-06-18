@@ -102,7 +102,6 @@ userSchema.pre("save", function (next) {
 userSchema.method("comparePasswords", function (inputEmail, inputPassword) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = yield User.findOne({ email: inputEmail });
-        // console.log(user);
         if (user) {
             const auth = yield bcrypt_1.default.compare(inputPassword, user.password);
             if (!auth) {

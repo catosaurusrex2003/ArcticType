@@ -54,8 +54,6 @@ function validateCookie(req, res, next) {
     try {
         const { accessToken, refreshToken } = req.cookies;
         //Verify Access Token
-        console.log("access token", accessToken, "refresh token", refreshToken);
-        console.log("verifying cookie");
         jsonwebtoken_1.default.verify(accessToken, PRIVATE_KEY, (error, decoded) => {
             if (!error) {
                 const { id } = decoded;
@@ -75,7 +73,7 @@ function validateCookie(req, res, next) {
                 return next();
             }
             else {
-                console.log(error);
+                console.log(error.message);
                 throw error;
             }
         });
