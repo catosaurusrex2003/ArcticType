@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 
-function page() {
+function Page() {
   const [data, setData] = useState([
     {
       time: 15,
@@ -184,8 +184,8 @@ function page() {
                 <th>Date</th>
               </tr>
             </thead>
-            {data[0].data.map((each) => (
-              <tbody>
+            {data[0].data.map((each,index) => (
+              <tbody key={index}>
                 <tr className="h-10 font-semibold text-xs sm:text-sm">
                   <td className="flex justify-center items-center h-10">
                     <Image
@@ -218,8 +218,8 @@ function page() {
                 <th>Date</th>
               </tr>
             </thead>
-            {data[1].data.map((each) => (
-              <tbody>
+            {data[1].data.map((each,index) => (
+              <tbody key={index}>
                 <tr className="h-10 font-semibold text-xs sm:text-sm">
                   <td className="flex justify-center items-center h-10">
                     <Image
@@ -255,8 +255,8 @@ function page() {
                 <th>Date</th>
               </tr>
             </thead>
-            {data[0].data.map((each) => (
-              <tbody>
+            {data[0].data.map((each,index) => (
+              <tbody  key={index}>
                 <tr className="h-10 font-semibold text-xs sm:text-sm">
                   <td className="flex justify-center items-center h-10">
                     <Image
@@ -289,8 +289,8 @@ function page() {
                 <th>Date</th>
               </tr>
             </thead>
-            {data[0].data.map((each) => (
-              <tbody>
+            {data[0].data.map((each,index) => (
+              <tbody key={index}>
                 <tr className="h-10 font-semibold text-xs sm:text-sm">
                   <td className="flex justify-center items-center h-10">
                     <Image
@@ -315,4 +315,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
