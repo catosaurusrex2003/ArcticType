@@ -1,8 +1,4 @@
-
-
 const { english } = require("./assets/english")
-
-
 const { webdev } = require("./assets/webdev")
 
 const capitalizeFirstLetter = (str: string) => {
