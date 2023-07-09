@@ -3,8 +3,9 @@
 # Read Git credentials from environment variables
 GIT_USERNAME="$GIT_USERNAME"
 GIT_PASSWORD="$GIT_PASSWORD"
+GIT_EMAIL="$GIT_EMAIL"
 
-# Build the client
+# Build the server
 cd server
 npm run build
 
@@ -13,8 +14,8 @@ cd ..
 
 # Configure Git with your credentials
 git config --global credential.helper "store --file ~/.git-credentials"
-git config --global user.name catosaurusrex2003
-git config --global user.email mohdmehdi2003@gmail.com # Use your email associated with Git
+git config --global user.name $GIT_USERNAME
+git config --global user.email $GIT_EMAIL # Use your email associated with Git
 
 # Store the Git credentials
 echo "https://$GIT_USERNAME:$GIT_PASSWORD@github.com" > ~/.git-credentials
