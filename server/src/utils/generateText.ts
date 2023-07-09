@@ -1,7 +1,7 @@
 
 
-const { english } = require("./assets/english.ts")
-const { webdev } = require("./assets/webdev.ts")
+const { english } = require("./assets/english")
+const { webdev } = require("./assets/webdev")
 
 const capitalizeFirstLetter = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);

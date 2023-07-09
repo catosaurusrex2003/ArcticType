@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateBothText = exports.generateNumText = exports.generatePuncText = exports.generateBasicText = void 0;
-const { english } = require("./assets/english.ts");
-const { webdev } = require("./assets/webdev.ts");
+const { english } = require("./assets/english");
+const { webdev } = require("./assets/webdev");
 const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 };
