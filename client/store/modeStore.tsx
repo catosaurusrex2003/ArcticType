@@ -15,8 +15,6 @@ interface modeState {
   setTextCategory:(newState:"english"|"webdev")=>void
   timeOffset: number;
   setTimeOffset: (newtimeOffset: number) => void;
-  testMode: number;
-  incrementMode: () => void;
 }
 
 export const useModeStore = create<modeState>()(
@@ -41,8 +39,6 @@ export const useModeStore = create<modeState>()(
     setTextCategory:(newState)=>set({textCategory:newState}),
     timeOffset: 15,
     setTimeOffset: (newtimeOffset: number) =>
-      set({ timeOffset: newtimeOffset }),
-    testMode: 0,
-    incrementMode: () => set((state) => ({ testMode: (state.testMode += 1) })),
+      set({ timeOffset: newtimeOffset })
   }))
 );

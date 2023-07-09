@@ -13,9 +13,7 @@ import { shallow } from "zustand/shallow";
 
 function Navbar() {
   const pathname = usePathname();
-
-  const incrementMode = useModeStore((store)=>store.incrementMode)
-
+  
   const [auth, setAuth] = useGeneralStore((store)=>[store.auth, store.setAuth],shallow)
 
   const [userData, setUserData] = useState<userType>();
@@ -135,9 +133,6 @@ function Navbar() {
               alt="setting"
             />
           </Link>
-          <button className="text-white bg-red-200 active:bg-red-500" onClick={()=>{incrementMode()}}>
-            TEST
-          </button>
         </div>
 
         {/* right side */}
