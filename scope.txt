@@ -1,3 +1,7 @@
 ADD SCORE IN SCHEMA
 REACT QUERY REVALIDATE ON COMPLETING EVERY TEST
 PROFILE ICON HIGHLIGHT WHEN ON /PROFILE
+loading in typingdiv whiel it fetches and sets the state  REACT QUERY
+
+start from adding center modal for language support
+

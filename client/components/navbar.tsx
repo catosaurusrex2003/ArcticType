@@ -1,5 +1,6 @@
 "use client";
-import { useGlobalContext } from "@/context/globalContext";
+import { useGeneralStore } from "@/store/generalStore";
+import { useModeStore } from "@/store/modeStore.tsx";
 import { userType } from "@/types/user";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import Cookies from "js-cookie";
@@ -7,12 +8,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { shallow } from "zustand/shallow";
 // import keyboardBlack from "../components/keyboard-black.svg";
 
 function Navbar() {
   const pathname = usePathname();
 
-  const { auth, setAuth } = useGlobalContext();
+  const incrementMode = useModeStore((store)=>store.incrementMode)
+
+  const [auth, setAuth] = useGeneralStore((store)=>[store.auth, store.setAuth],shallow)
 
   const [userData, setUserData] = useState<userType>();
 
@@ -131,6 +135,9 @@ function Navbar() {
               alt="setting"
             />
           </Link>
+          <button className="text-white bg-red-200 active:bg-red-500" onClick={()=>{incrementMode()}}>
+            TEST
+          </button>
         </div>
 
         {/* right side */}

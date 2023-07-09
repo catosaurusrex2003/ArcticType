@@ -12,6 +12,8 @@ import {
 import { validateRequest, validateCookie } from "./middleware/validator";
 // import { AddNotesZodSchema, RemoveNotesZodSchema } from "./schema/notes.schema";
 import { CreateUserZodSchema, LoginUserZodSchema } from "./schema/user.schema";
+import { generateTextHandler } from "./controller/textGen.controller";
+import { getTextSchema } from "./schema/getText.schema";
 
 export default function routes(app: Express) {
 
@@ -55,6 +57,14 @@ export default function routes(app: Express) {
     (req: Request, res: Response, next: NextFunction) => { console.log("getUser"); return next() },
     validateCookie,
     getUserHandler
+  ]);
+
+  //Get Text
+  app.post("/getText", [
+    (req: Request, res: Response, next: NextFunction) => { console.log("getText"); return next() },
+    // validateCookie,
+    validateRequest(getTextSchema),
+    generateTextHandler
   ]);
 
   //Add a new note

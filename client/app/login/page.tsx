@@ -2,12 +2,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
-import { useGlobalContext } from "@/context/globalContext";
 import { useRouter } from "next/navigation";
 import { Toaster, toast } from "react-hot-toast";
 import { errorToast, successToast } from "@/utils/toasts";
+import { useGeneralStore } from "@/store/generalStore";
 
 function Page() {
+
+  const setAuth = useGeneralStore((store)=>store.setAuth)
+
+
   const [signUpData, setSignUpData] = useState({
     username: "",
     email: "",
@@ -36,7 +40,6 @@ function Page() {
     errorMessage: "",
   });
 
-  const { setAuth } = useGlobalContext();
 
   const router = useRouter();
 

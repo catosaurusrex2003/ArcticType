@@ -7,53 +7,68 @@ import React, {
   useState,
 } from "react";
 import { letterType } from "../types/textArray";
-// import { useTimer } from "react-timer-hook";
 import MyTimer from "./timer";
-import { scoreType } from "@/types/score";
-import { useGlobalContext } from "@/context/globalContext";
+import { usePerSecondStore } from "@/store/perSecondStore";
+import { shallow } from "zustand/shallow";
+import { useFastRefreshStore } from "@/store/fastRefreshStore";
+import { useModeStore } from "@/store/modeStore";
 
 type TypingdivProps = {
   textArray: letterType[];
   setTextArray: Dispatch<SetStateAction<letterType[]>>;
   charIdArr: string[];
+  setLinesCompleted: Dispatch<SetStateAction<number>>;
 };
 
 const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
-  const {
-    perSecondState,
-    setPerSecondState,
-    perSecondStatsArray,
-    setPerSecondStatsArray,
-    currentIndex,
-    setCurrentIndex,
-    timeOffset,
-  } = useGlobalContext();
+  const [timeMode, textCategory] = useModeStore((store) => [
+    store.timeMode,
+    store.textCategory,
+  ]);
 
-  const [focusStatus, setFocusState] = useState<Boolean>();
+  const [currentIndex, incrementCurrentIndex, decrementCurrentIndex] =
+    useFastRefreshStore(
+      (store) => [
+        store.currentIndex,
+        store.incrementCurrentIndex,
+        store.decrementCurrentIndex,
+      ],
+      shallow
+    );
 
-  const focusRef = useRef<HTMLDivElement>(null!);
+  const incrementPerSecondState = usePerSecondStore(
+    (store) => store.incrementPerSecondState
+  );
 
-  // doesnt need to be global
+  // the state wether to focus or not
+  const [focusStatus, setFocusState] = useState<Boolean>(true);
+  // ids of the spans which wrap in the div
+  const [wrapSpanIds, setWrapSpanIds] = useState<string[]>();
+  // example 28px
+  const [currentLineHeight, setCurrenLineHeight] = useState<number>(32);
+  // doesnt need to be global. depicts if the test is started or not
   const [started, setStarted] = useState(false);
+  // numbers of lines-height distance scrolled. used in divRef.current.scrollTop]
+  const lineScrolled = useRef<number>(1);
+  // the container div of all the spans
+  const focusRef = useRef<HTMLDivElement>(null!);
+  // the div which becomes blur
+  const blurDivRef = useRef<HTMLDivElement>(null!);
 
+  // sets the state for stats of each second
   const handlePerSecondStats = (params: 1 | 0) => {
-    if (params) {
-      setPerSecondState((prev) => ({
-        ...prev,
-        correct: (prev.correct += 1),
-      }));
-    } else {
-      setPerSecondState((prev) => ({
-        ...prev,
-        wrong: (prev.wrong += 1),
-      }));
-    }
+    incrementPerSecondState(params ? "correct" : "wrong");
+  };
+
+  const scrollOneLine = () => {
+    focusRef.current.scrollTop = currentLineHeight * lineScrolled.current;
+    lineScrolled.current += 1;
   };
 
   const handleKeyboardEvent = (event: any) => {
     event.preventDefault();
     const key = event.key;
-    const alphanumericRegex = /^[a-zA-Z0-9.,'"]$/;
+    const alphanumericRegex = /^[a-zA-Z0-9.,'";:)(*&%$#@!|/^]$/;
     // check regex
     if (key.match(alphanumericRegex) || key === " " || key === "Backspace") {
       setStarted(true);
@@ -71,7 +86,7 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
             }
             return prev;
           });
-          setCurrentIndex((prev) => (prev -= 1));
+          decrementCurrentIndex();
         }
       } else {
         setTextArray((prev) => {
@@ -88,33 +103,57 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
               prev[currentIndex] = obj;
               handlePerSecondStats(0);
             }
+            if (wrapSpanIds) {
+              // linescrolled.current starts from 1. i have purposely not put linescrolled.current-1 below.
+              // so that it starts scrolling from the second line
+              if (obj.id == wrapSpanIds[lineScrolled.current]) {
+                scrollOneLine();
+              }
+            }
           }
           return prev;
         });
-        setCurrentIndex((prev) => (prev += 1));
+        incrementCurrentIndex();
       }
     }
-    // write her logic to detect a full stop and hide the
-    //
-    //
-    //
-    // text before the fullstop in the array
   };
 
-  const handleFocus = (param: 0 | 1) => {
-    var Id;
-    if (param) {
-      clearTimeout(Id);
+  const handleFocus = (focusState: 0 | 1) => {
+    if (focusState) {
       setFocusState(true);
     } else {
-      Id = setTimeout(() => {
-        setFocusState(false);
-      }, 3000);
+      setFocusState(false);
     }
   };
 
+  useEffect(() => {
+    console.log("running");
+    handleFocus(0);
+  }, [textCategory, timeMode]);
+
+  useEffect(() => {
+    const spans = Array.from(focusRef.current.getElementsByTagName("span"));
+    // temp variable. dont want to increase number of set action.
+    const wrappingSpanArr: string[] = [];
+    // capturing the span elements on which the line wraps
+    for (let i = 0; i < spans.length - 1; i++) {
+      const spanRectCurrent = spans[i].getBoundingClientRect();
+      const spanRectNext = spans[i + 1].getBoundingClientRect();
+      if (spanRectCurrent.right > spanRectNext.right) {
+        wrappingSpanArr.push(spans[i].id);
+      }
+    }
+    setWrapSpanIds(wrappingSpanArr);
+
+    // set the line height
+    if (spans.length > 0) {
+      const style = window.getComputedStyle(spans[0]);
+      setCurrenLineHeight(parseInt(style.getPropertyValue("line-height"), 10));
+    }
+  }, [focusRef.current]);
+
   return (
-    <div className="flex flex-col mt-14 md:h-64 justify-center items-center relative">
+    <div className="flex flex-col mt-8 md:h-64 justify-center items-center relative">
       {started && (
         <div className="flex w-4/5 sm:w-3/4">
           <div className="mr-auto">
@@ -123,8 +162,8 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
         </div>
       )}
       <div
-        className={`w-4/5 sm:w-3/4  text-justify select-none border-none focus:outline-none ${
-          focusStatus ? null : "blur-div"
+        className={`typing-div-focus w-4/5 sm:w-3/4 h-20 sm:h-24   overflow-hidden text-justify select-none border-none focus:outline-none ${
+          focusStatus ? null : "blur-div cursor-pointer "
         }`}
         ref={focusRef}
         tabIndex={0}
@@ -136,7 +175,7 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
           <span
             id={character.id}
             key={character.id}
-            className={` text-lg sm:text-2xl select-none border-none
+            className={` text-lg sm:text-2xl select-none border-none overflow-y-scroll
                     ${
                       charIdArr[currentIndex] == character.id
                         ? "blinking-cursor"
@@ -157,16 +196,6 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
           </span>
         ))}
       </div>
-      <span
-        className={` ${
-          focusStatus ? "hidden" : " block"
-        } overlay-text text-donkey-rose text-xl text-center font-semibold`}
-        onClick={() => {
-          if(focusRef.current) focusRef.current.focus();
-        }}
-      >
-        👆🏻 click to start typing
-      </span>
     </div>
   );
 };

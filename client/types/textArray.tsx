@@ -4,5 +4,6 @@ export type letterType = {
     id:string,
     letter:string,
     state: "correct" | "wrong" | "pending",
-    hidden:boolean
+    hidden:boolean,
+    linebreak:boolean
 }

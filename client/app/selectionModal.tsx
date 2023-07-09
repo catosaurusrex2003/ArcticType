@@ -1,25 +1,75 @@
-import { useGlobalContext } from "@/context/globalContext";
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { shallow } from "zustand/shallow";
+import { useModeStore } from "@/store/modeStore.tsx";
+import Modal from "react-modal";
+
+const customStyles = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 9999,
+  },
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    transform: "translate(-50%, -50%)",
+    border: "none",
+    backgroundColor: "rgba(0, 0, 0, 0)",
+    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
+    padding: 0,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+};
 
 function SelectionModal() {
-  const { timeOffset, setTimeOffset, mode, setMode, timeMode, setTimeMode } =
-    useGlobalContext();
+  const [
+    mode,
+    setMode,
+    timeMode,
+    setTimeMode,
+    textCategory,
+    setTextCategory,
+    timeOffset,
+    setTimeOffset,
+  ] = useModeStore(
+    (store) => [
+      store.mode,
+      store.setMode,
+      store.timeMode,
+      store.setTimeMode,
+      store.textCategory,
+      store.setTextCategory,
+      store.timeOffset,
+      store.setTimeOffset,
+    ],
+    shallow
+  );
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   return (
-    <div className="flex justify-center text-slate-600">
+    <div className="flex flex-col items-center justify-center text-slate-600">
       <div className="bg-donkey-dark-purple px-7 py-1  w-3/5 sm:w-4/5 max-w-2xl rounded-lg flex flex-col md:flex-row items-center justify-evenly">
         <div className="w-full sm:w-1/3 flex justify-evenly ">
           <div
             className={`cursor-pointer ${
               timeMode?.punctuation ? null : "each-selection-item"
             } flex items-center text-slate-300  hover:text-white `}
-            onClick={() =>
-              setTimeMode((prev) => ({
-                ...prev,
-                punctuation: !prev.punctuation,
-              }))
-            }
+            onClick={() => setTimeMode("punctuation")}
           >
             <span
               className={`${
@@ -31,15 +81,13 @@ function SelectionModal() {
           </div>
           <div
             className={`cursor-pointer ${
-              timeMode?.numbers ? null : "each-selection-item"
+              timeMode?.number ? null : "each-selection-item"
             } flex items-center text-slate-300  hover:text-white `}
-            onClick={() =>
-              setTimeMode((prev) => ({ ...prev, numbers: !prev.numbers }))
-            }
+            onClick={() => setTimeMode("number")}
           >
             <span
               className={`${
-                timeMode?.numbers ? "text-donkey-magenta" : null
+                timeMode?.number ? "text-donkey-magenta" : null
               } ms-2`}
             >
               numbers
@@ -138,6 +186,60 @@ function SelectionModal() {
             </span>
           </div>
         )}
+      </div>
+      <div className="bg-donkey-dark-purple px-5 py-1 mt-5 rounded-lg flex flex-row items-center justify-evenly">
+        <div
+          className={`cursor-pointer flex items-center `}
+          onClick={() => setIsOpen(true)}
+        >
+          <span className={`text-slate-300 hover:text-slate-100`}>
+            {textCategory == "english"?"English":null}
+            {textCategory == "webdev"?"Web Dev":null}
+          </span>
+        </div>
+        {/* @ts-ignore */}
+        <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
+          <div className="bg-donkey-dark-purple text-white px-10 w-60 sm:w-80  py-2 rounded-lg flex flex-col items-start justify-evenly">
+            <span className={`font-semibold text-lg   my-1`}>Languages</span>
+            <hr className=" border-white border-t-1 w-full" />
+            <span
+              className={` hover:text-slate-300 my-1 cursor-pointer`}
+              onClick={() => {
+                setTextCategory("english");
+                closeModal();
+              }}
+            >
+              English 1K
+            </span>
+            <span
+              className={` hover:text-slate-300 my-1 cursor-pointer`}
+              onClick={() => {
+                setTextCategory("english");
+                closeModal();
+              }}
+            >
+              English 2K
+            </span>
+            <span
+              className={` hover:text-slate-300 my-1 cursor-pointer`}
+              onClick={() => {
+                setTextCategory("webdev");
+                closeModal();
+              }}
+            >
+              Web Dev
+            </span>
+            <span
+              className={` hover:text-slate-300 my-1 cursor-pointer`}
+              onClick={() => {
+                setTextCategory("english");
+                closeModal();
+              }}
+            >
+              Python
+            </span>
+          </div>
+        </Modal>
       </div>
     </div>
   );

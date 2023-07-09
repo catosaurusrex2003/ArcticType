@@ -1,13 +1,20 @@
 "use client";
-import { useGlobalContext } from "@/context/globalContext";
 import React, { useEffect, useRef, useState } from "react";
 import MyLineChart from "./LineChart";
 import html2canvas from "html2canvas";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useModeStore } from "@/store/modeStore.tsx";
+import { usePerSecondStore } from "@/store/perSecondStore";
 
 function Page() {
-  const { perSecondStatsArray, mode, timeOffset } = useGlobalContext();
+  const modeState = useModeStore();
+  const mode = modeState.mode;
+
+  const perSecondStatsArray = usePerSecondStore(
+    (store) => store.perSecondStatsArray
+  );
+  const timeOffset = useModeStore((store) => store.timeOffset);
 
   const router = useRouter();
   useEffect(() => {
@@ -55,8 +62,9 @@ function Page() {
         if (total != 0) {
           netWPM = (total / 5) * 60;
           if (netWPM) totalWpm += netWPM;
-          err = each.wrong? each.wrong : 0
-          acc = each.correct ? each.correct / total : 0; 0
+          err = each.wrong ? each.wrong / total : 0;
+          acc = each.correct ? each.correct / total : 0;
+          0;
           totalAcc += acc;
         } else {
           acc = 0;

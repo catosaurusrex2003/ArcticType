@@ -1,16 +1,26 @@
 "use client";
-import { useGlobalContext } from "@/context/globalContext";
+import { useModeStore } from "@/store/modeStore";
+import { usePerSecondStore } from "@/store/perSecondStore";
 import { scoreType } from "@/types/score";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import { shallow } from "zustand/shallow";
 
 type propsType = {};
 
 function MyTimer({}: propsType) {
   const router = useRouter();
 
-  const { timeOffset, setPerSecondState, setPerSecondStatsArray } =
-    useGlobalContext();
+  const [overwritePerSecondState, appendPerSecondStatsArray] =
+    usePerSecondStore(
+      (store) => [
+        store.overwritePerSecondState,
+        store.appendPerSecondStatsArray,
+      ],
+      shallow
+    );
+
+  const timeOffset = useModeStore((store) => store.timeOffset);
 
   const [timer, setTimer] = useState(() => {
     const minutesString = String(Math.floor(timeOffset / 60)).padStart(2, "0");
@@ -55,12 +65,10 @@ function MyTimer({}: propsType) {
   }, []);
 
   const emitPerSecondStats = () => {
-    setPerSecondState((prev) => {
-      setPerSecondStatsArray((prev1) => [...prev1, prev]);
-      return {
-        correct: 0,
-        wrong: 0,
-      };
+    appendPerSecondStatsArray();
+    overwritePerSecondState({
+      correct: 0,
+      wrong: 0,
     });
   };
 
