@@ -19,8 +19,11 @@ git config --global user.email mohdmehdi2003@gmail.com # Use your email associat
 # Store the Git credentials
 echo "https://$GIT_USERNAME:$GIT_PASSWORD@github.com" > ~/.git-credentials
 
+TIMESTAMP=$(date +"%I:%M%p %B %d")
+
 # Commit and push to GitHub
 git add .
-git commit -m "Deploy project"
+git commit -m "Deploy project $TIMESTAMP"
 git push origin main
+
 
