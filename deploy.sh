@@ -14,8 +14,8 @@ cd ..
 
 # Configure Git with your credentials
 git config --global credential.helper "store --file ~/.git-credentials"
-git config --global user.name $GIT_USERNAME
-git config --global user.email $GIT_EMAIL # Use your email associated with Git
+git config --global user.name "$GIT_USERNAME"
+git config --global user.email "$GIT_EMAIL" # Use your email associated with Git
 
 # Store the Git credentials
 echo "https://$GIT_USERNAME:$GIT_PASSWORD@github.com" > ~/.git-credentials
