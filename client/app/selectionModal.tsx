@@ -22,7 +22,6 @@ const customStyles = {
     boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
     padding: 0,
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
   },
