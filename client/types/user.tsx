@@ -1,9 +1,10 @@
 export type userType = {
   username: string;
   email: string;
-  picUrl:string,
+  picUrl: string;
   joiningDate: Date;
   numberOfTests: number;
+  score: number;
   totalTime: number;
   records: {
     "15": {

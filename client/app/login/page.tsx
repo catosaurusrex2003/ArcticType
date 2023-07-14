@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Toaster, toast } from "react-hot-toast";
 import { errorToast, successToast } from "@/utils/toasts";
 import { useGeneralStore } from "@/store/generalStore";
+import axiosBasicInstance from "@/config/axiosConfig";
 
 function Page() {
 
@@ -89,13 +90,12 @@ function Page() {
           return;
         }
         const registerData = _.omit(signUpData, "verifyPassword");
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/createUser`,
-          registerData,
-          { withCredentials: true }
-        );
+        const response =  await axiosBasicInstance.post(
+          "/createUser",
+          registerData
+        )
         if (response.status == 200) {
-          setAuth(true);
+          setAuth(response.data);
           successToast("Acccount Created");
           setTimeout(() => {
             router.push("/profile");
@@ -136,13 +136,13 @@ function Page() {
         return;
       }
       try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/loginUser`,
-          loginData,
-          { withCredentials: true }
+        const response = await axiosBasicInstance.post(
+          `loginUser`,
+          loginData
         );
         if (response.status == 200) {
-          setAuth(true);
+          setAuth(response.data)
+          console.log("RESPONSE IS ============== ",response.data)
           successToast("Logged in");
           setTimeout(() => {
             router.push("/profile");

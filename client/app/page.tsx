@@ -78,10 +78,7 @@ export default function Home() {
     try {
       const result = await axios.post(
         `/api/getText`,
-        payload,
-        {
-          withCredentials: true,
-        }
+        payload
       );
       if (result.status == 200) {
         setText(result.data.text)

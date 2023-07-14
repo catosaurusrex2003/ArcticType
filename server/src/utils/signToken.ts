@@ -8,7 +8,7 @@ export function signAccessToken(res: Response, id: string) {
   const token = jwt.sign({ id }, PRIVATE_KEY, { expiresIn: "1800s" });
   res.cookie("accessToken", token, {
     httpOnly: true,
-    
+    secure: true,
     maxAge: 3600000, // 1 hr
     
   });
@@ -22,8 +22,8 @@ export function signRefreshToken(res: Response, id: string): string {
   const token = jwt.sign({ id }, PRIVATE_REFRESH_KEY, { expiresIn: "1y",});
   res.cookie("refreshToken", token, {
     httpOnly: true,
+    secure: true,
     maxAge: 172800000, // 2days
-    // secure: true,
   });
   return token;
 }

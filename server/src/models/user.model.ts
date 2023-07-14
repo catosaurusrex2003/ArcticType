@@ -17,6 +17,7 @@ export interface userType extends mongoose.Document {
   email: string;
   password: string;
   picUrl: string,
+  score:number,
   joiningDate: Date;
   numberOfTests: number;
   totalTime: number;
@@ -61,6 +62,7 @@ const userSchema = new mongoose.Schema<userType>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     picUrl: { type: String, default: "" },
+    score:{type:Number , default:0},
     joiningDate: {
       type: Date,
       default: Date.now

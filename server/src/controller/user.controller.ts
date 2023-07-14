@@ -60,6 +60,7 @@ export async function getUserHandler(req: Request, res: Response) {
 export async function logoutUserHandler(req: Request, res: Response) {
   try {
     //Clearing Cookies
+
     res.clearCookie("accessToken");
     res.clearCookie("refreshToken");
 

@@ -1,4 +1,5 @@
 "use client";
+import axiosBasicInstance from "@/config/axiosConfig";
 import { useGeneralStore } from "@/store/generalStore";
 import { useModeStore } from "@/store/modeStore.tsx";
 import { userType } from "@/types/user";
@@ -16,20 +17,15 @@ function Navbar() {
   
   const [auth, setAuth] = useGeneralStore((store)=>[store.auth, store.setAuth],shallow)
 
-  const [userData, setUserData] = useState<userType>();
 
   const getUserData = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/getUser`,
-        {
-          withCredentials: true,
-        }
+      const response = await axiosBasicInstance.get(
+        `getUser`
       );
       if (response.status === 200) {
         const data = response.data;
-        setUserData(data);
-        setAuth(true);
+        setAuth(data);
         return data;
       } else {
         throw new Error("Request failed");
@@ -39,20 +35,14 @@ function Navbar() {
     }
   };
 
-  useEffect(() => {
-    if (auth) {
-      getUserData();
-    }
-  }, [auth]);
-
   const verifyJWT = async () => {
     try {
-      const result = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/isLoggedin`,
-        { withCredentials: true }
+      const result = await axiosBasicInstance.get(
+        `isLoggedin`
       );
-      if (result.status == 200) {
-        setAuth(true);
+      if (result.status == 200  ) {
+        // set the user data
+        setAuth(result.data)
       }
     } catch (err:any) {
       console.log(err.response.data.message)
@@ -60,14 +50,16 @@ function Navbar() {
   };
 
   useEffect(() => {
+    // verify jwt and if the user is legit.
+    // the get the users data and sets it to auth
     verifyJWT();
   }, []);
 
   const handleLogOut = async () => {
-    const result = await axios.get(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/logoutUser`
+    const result = await axiosBasicInstance.get(
+      `logoutUser`
     );
-    setAuth(false);
+    setAuth(null);
   };
 
   return (
@@ -150,7 +142,7 @@ function Navbar() {
                 alt="profile"
               />
               <span className="text-donkey-magenta text-xs hidden sm:block font-semibold ">
-                {userData?.username}
+                {auth?.username}
                 {/* {userData?.} */}
               </span>
             </Link>

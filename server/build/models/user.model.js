@@ -28,6 +28,7 @@ const userSchema = new mongoose_1.default.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     picUrl: { type: String, default: "" },
+    score: { type: Number, default: 0 },
     joiningDate: {
         type: Date,
         default: Date.now

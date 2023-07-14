@@ -43,11 +43,13 @@ export default function routes(app: Express) {
   ]);
 
   // is Logged in
+  // if the jwt is verified. it will send the whole user data
   app.get("/isLoggedin", [
     (req: Request, res: Response, next: NextFunction) => { console.log("verifying jwt"); return next() },
     validateCookie,
     // sending status back
-    (req: Request, res: Response, next: NextFunction) => { console.log("user is legit"); res.status(200).send("legit user") },
+    // (req: Request, res: Response, next: NextFunction) => { console.log("user is legit"); res.status(200).send("legit user") },
+    getUserHandler
   ]);
 
   //Get user data
@@ -56,6 +58,12 @@ export default function routes(app: Express) {
     validateCookie,
     getUserHandler
   ]);
+
+  app.post("/updateUser",[
+    (req: Request, res: Response, next: NextFunction) => { console.log("updateUser"); return next() },
+    validateCookie,
+    getUserHandler
+  ])
 
 
   //Add a new note

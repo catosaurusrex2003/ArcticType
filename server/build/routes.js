@@ -33,15 +33,22 @@ function routes(app) {
         user_controller_1.loginUserHandler,
     ]);
     // is Logged in
+    // if the jwt is verified. it will send the whole user data
     app.get("/isLoggedin", [
         (req, res, next) => { console.log("verifying jwt"); return next(); },
         validator_1.validateCookie,
         // sending status back
-        (req, res, next) => { console.log("user is legit"); res.status(200).send("legit user"); },
+        // (req: Request, res: Response, next: NextFunction) => { console.log("user is legit"); res.status(200).send("legit user") },
+        user_controller_1.getUserHandler
     ]);
     //Get user data
     app.get("/getUser", [
         (req, res, next) => { console.log("getUser"); return next(); },
+        validator_1.validateCookie,
+        user_controller_1.getUserHandler
+    ]);
+    app.post("/updateUser", [
+        (req, res, next) => { console.log("updateUser"); return next(); },
         validator_1.validateCookie,
         user_controller_1.getUserHandler
     ]);
