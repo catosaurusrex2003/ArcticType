@@ -8,8 +8,6 @@ const user_controller_1 = require("./controller/user.controller");
 const validator_1 = require("./middleware/validator");
 // import { AddNotesZodSchema, RemoveNotesZodSchema } from "./schema/notes.schema";
 const user_schema_1 = require("./schema/user.schema");
-const textGen_controller_1 = require("./controller/textGen.controller");
-const getText_schema_1 = require("./schema/getText.schema");
 function routes(app) {
     app.get("/", [
         (req, res) => {
@@ -46,13 +44,6 @@ function routes(app) {
         (req, res, next) => { console.log("getUser"); return next(); },
         validator_1.validateCookie,
         user_controller_1.getUserHandler
-    ]);
-    //Get Text
-    app.post("/getText", [
-        (req, res, next) => { console.log("getText"); return next(); },
-        // validateCookie,
-        (0, validator_1.validateRequest)(getText_schema_1.getTextSchema),
-        textGen_controller_1.generateTextHandler
     ]);
     //Add a new note
     // app.post("/addNote", [

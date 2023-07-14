@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# before this run a gitcredenv.sh 
+# which has
+# export GIT_USERNAME="YOUR USERNAME"
+# export GIT_EMAIL="YOUR EMAIL"
+# export GIT_PASSWORD="YOU PERSONEL ACCESS TOKEN"
+# and run
+# source gitcredenv.sh
+# then run deploy.sh
+
 # Read Git credentials from environment variables
 GIT_USERNAME="$GIT_USERNAME"
 GIT_PASSWORD="$GIT_PASSWORD"

@@ -11,14 +11,16 @@ import { useModeStore } from "@/store/modeStore.tsx";
 import { usePerSecondStore } from "@/store/perSecondStore";
 import { shallow } from "zustand/shallow";
 import { useFastRefreshStore } from "@/store/fastRefreshStore";
+import { useGeneralStore } from "@/store/generalStore";
 
 export default function Home() {
-  const [mode, timeMode, textCategory, timeOffset] = useModeStore(
+  const [mode, timeMode, textCategory, timeOffset, restest] = useModeStore(
     (store) => [
       store.mode,
       store.timeMode,
       store.textCategory,
       store.timeOffset,
+      store.retest,
     ],
     shallow
   );
@@ -32,12 +34,13 @@ export default function Home() {
       shallow
     );
 
+  const [text, setText] = useGeneralStore((store) => [
+    store.text,
+    store.setText,
+  ]);
+
   const overwriteCurrentIndex = useFastRefreshStore(
     (store) => store.overwriteCurrentIndex
-  );
-
-  const [text, setText] = useState(
-    ""
   );
 
   const [charIdArr, setCharIdArr] = useState<string[]>([]);
@@ -74,18 +77,30 @@ export default function Home() {
   }) => {
     try {
       const result = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/getText`,
+        `/api/getText`,
         payload,
         {
           withCredentials: true,
         }
       );
       if (result.status == 200) {
-        setText(result.data);
-        console.log(result.data)
+        setText(result.data.text)
+        console.log(result.data.text)
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const whatLength = (timeOffset: number) => {
+    if (timeOffset == 15) {
+      return 10;
+    } else if (timeOffset == 30) {
+      return 20;
+    } else if (timeOffset == 60) {
+      return 30;
+    } else {
+      return 50;
     }
   };
 
@@ -98,44 +113,46 @@ export default function Home() {
     });
 
     // conditions for which type of text to fetch
-    if (mode == "time") {
-      if (!timeMode.number && !timeMode.punctuation) {
-        // basic
+    if (!restest) {
+      if (mode == "time") {
+        if (!timeMode.number && !timeMode.punctuation) {
+          // basic
+          getText({
+            cat: textCategory,
+            type: "basic",
+            length: whatLength(timeOffset),
+          });
+        } else if (timeMode.number && !timeMode.punctuation) {
+          // num
+          getText({
+            cat: textCategory,
+            type: "num",
+            length: whatLength(timeOffset),
+          });
+        } else if (!timeMode.number && timeMode.punctuation) {
+          // punc
+          getText({
+            cat: textCategory,
+            type: "punc",
+            length: whatLength(timeOffset),
+          });
+        } else if (timeMode.number && timeMode.punctuation) {
+          // both
+          getText({
+            cat: textCategory,
+            type: "both",
+            length: whatLength(timeOffset),
+          });
+        }
+      } else {
         getText({
           cat: textCategory,
           type: "basic",
-          length: timeOffset,
-        });
-      } else if (timeMode.number && !timeMode.punctuation) {
-        // num
-        getText({
-          cat: textCategory,
-          type: "num",
-          length: timeOffset,
-        });
-      } else if (!timeMode.number && timeMode.punctuation) {
-        // punc
-        getText({
-          cat: textCategory,
-          type: "punc",
-          length: timeOffset,
-        });
-      } else if (timeMode.number && timeMode.punctuation) {
-        // both
-        getText({
-          cat: textCategory,
-          type: "both",
-          length: timeOffset,
+          length: whatLength(timeOffset),
         });
       }
-    } else {
-      getText({
-        cat: textCategory,
-        type: "basic",
-        length: timeOffset,
-      });
     }
-  }, [timeMode, textCategory , timeOffset]);
+  }, [timeMode, textCategory, timeOffset]);
 
   useEffect(() => {
     // initialize current index to 0

@@ -29,25 +29,49 @@ export const usePerSecondStore = create<perSecondStoreType>()(
       },
       // overwrites the perSecondState. Mostly will be used to clear the state every second.
       overwritePerSecondState: (newState) =>
-        set({ perSecondState: newState }),
+        set({ perSecondState: newState }, false, "overwritePerSecondState"),
       // to increment the correct or wrong in perSecondState
       incrementPerSecondState: (incrementWhat) =>
         set(
           produce((state) => {
             state.perSecondState[incrementWhat] += 1;
-          })
+          }),
+          false,
+          "incrementPerSecondState"
         ),
-      perSecondStatsArray: [],
+      perSecondStatsArray: [
+        {correct:2,wrong:5},
+        {correct:3,wrong:2},
+        {correct:2,wrong:5},
+        {correct:3,wrong:2},
+        {correct:2,wrong:1},
+        {correct:3,wrong:2},
+        {correct:2,wrong:5},
+        {correct:3,wrong:2},
+        {correct:2,wrong:1},
+        {correct:3,wrong:2},
+        {correct:2,wrong:5},
+        {correct:2,wrong:5},
+        {correct:2,wrong:1},
+        {correct:3,wrong:2},
+        {correct:2,wrong:1}
+      ],
       // append the current perSecondState to the Array
       appendPerSecondStatsArray: () =>
         set(
           produce((state) => {
             state.perSecondStatsArray.push(state.perSecondState);
-          })
+          }),
+          false,
+          "appendPerSecondStatsArray"
         ),
-        // overwrite perSecondStatsArray, mostly will be used to clear it
+      // overwrite perSecondStatsArray, mostly will be used to clear it
       overwritePerSecondStatsArray: (newState) =>
-        set({ perSecondStatsArray: newState }),
+        set(
+          { perSecondStatsArray: newState },
+          false,
+          "overwritePerSecondStatsArray"
+        ),
     }))
   )
 );

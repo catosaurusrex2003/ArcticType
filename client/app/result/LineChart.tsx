@@ -119,16 +119,16 @@ function MyLineChart({ finalData }: propsType) {
                 yAxisId="left"
                 type="monotone"
                 dataKey="Net"
-                stroke="#ffffff"
+                stroke="rgb(203 213 225)"
                 strokeWidth={3}
                 dot={false}
               />
             )}
           </LineChart>
         </ResponsiveContainer>
-        <div className=" w-full text-gray-500 flex justify-evenly">
+        <div className=" w-full text-gray-500 my-4 flex justify-evenly">
           <span
-            className={` font-bold hover:bg-donkey-navyBlue   rounded-lg p-2 ${
+            className={`bg-gray-900 text-sm hover:bg-donkey-navyBlue cursor-pointer rounded-lg p-1 px-2 ${
               displayState.accuracy ? "text-green-400" : null
             } `}
             onClick={() =>
@@ -138,7 +138,7 @@ function MyLineChart({ finalData }: propsType) {
             Accuracy
           </span>
           <span
-            className={` font-bold hover:bg-donkey-navyBlue   rounded-lg p-2 ${
+            className={`bg-gray-900 text-sm hover:bg-donkey-navyBlue cursor-pointer rounded-lg p-1 px-2 ${
               displayState.net ? "text-white" : null
             } `}
             onClick={() =>
@@ -148,7 +148,7 @@ function MyLineChart({ finalData }: propsType) {
             Net Wpm
           </span>
           <span
-            className={` font-bold hover:bg-donkey-navyBlue   rounded-lg p-2 ${
+            className={`bg-gray-900 text-sm hover:bg-donkey-navyBlue cursor-pointer rounded-lg p-1 px-2 ${
               displayState.error ? "text-red-400" : null
             } `}
             onClick={() =>

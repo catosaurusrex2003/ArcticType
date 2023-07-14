@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { shallow } from "zustand/shallow";
 import { useModeStore } from "@/store/modeStore.tsx";
 import Modal from "react-modal";
+import { motion, AnimatePresence } from "framer-motion";
 
 const customStyles = {
   overlay: {
@@ -53,13 +54,13 @@ function SelectionModal() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
+  
 
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const animationVariants = {};
 
   return (
     <div className="flex flex-col items-center justify-center text-slate-600">
@@ -193,52 +194,58 @@ function SelectionModal() {
           onClick={() => setIsOpen(true)}
         >
           <span className={`text-slate-300 hover:text-slate-100`}>
-            {textCategory == "english"?"English":null}
-            {textCategory == "webdev"?"Web Dev":null}
+            {textCategory == "english" ? "English" : null}
+            {textCategory == "webdev" ? "Web Dev" : null}
           </span>
         </div>
-        {/* @ts-ignore */}
         <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
-          <div className="bg-donkey-dark-purple text-white px-10 w-60 sm:w-80  py-2 rounded-lg flex flex-col items-start justify-evenly">
-            <span className={`font-semibold text-lg   my-1`}>Languages</span>
-            <hr className=" border-white border-t-1 w-full" />
-            <span
-              className={` hover:text-slate-300 my-1 cursor-pointer`}
-              onClick={() => {
-                setTextCategory("english");
-                closeModal();
-              }}
+          <AnimatePresence>
+            <motion.div
+              className="bg-donkey-dark-purple text-white px-10 w-60 sm:w-80  py-2 rounded-lg flex flex-col items-start justify-evenly"
+              initial={{ opacity: 0.6, scale: 0.99 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0.6, scale: 0.99 }}
             >
-              English 1K
-            </span>
-            <span
-              className={` hover:text-slate-300 my-1 cursor-pointer`}
-              onClick={() => {
-                setTextCategory("english");
-                closeModal();
-              }}
-            >
-              English 2K
-            </span>
-            <span
-              className={` hover:text-slate-300 my-1 cursor-pointer`}
-              onClick={() => {
-                setTextCategory("webdev");
-                closeModal();
-              }}
-            >
-              Web Dev
-            </span>
-            <span
-              className={` hover:text-slate-300 my-1 cursor-pointer`}
-              onClick={() => {
-                setTextCategory("english");
-                closeModal();
-              }}
-            >
-              Python
-            </span>
-          </div>
+              <span className={`font-semibold text-lg   my-1`}>Languages</span>
+              <hr className=" border-white border-t-1 w-full" />
+              <span
+                className={` hover:text-slate-300 my-1 cursor-pointer`}
+                onClick={() => {
+                  setTextCategory("english");
+                  closeModal();
+                }}
+              >
+                English 1K
+              </span>
+              <span
+                className={` hover:text-slate-300 my-1 cursor-pointer`}
+                onClick={() => {
+                  setTextCategory("english");
+                  closeModal();
+                }}
+              >
+                English 2K
+              </span>
+              <span
+                className={` hover:text-slate-300 my-1 cursor-pointer`}
+                onClick={() => {
+                  setTextCategory("webdev");
+                  closeModal();
+                }}
+              >
+                Web Dev
+              </span>
+              <span
+                className={` hover:text-slate-300 my-1 cursor-pointer`}
+                onClick={() => {
+                  setTextCategory("english");
+                  closeModal();
+                }}
+              >
+                Python
+              </span>
+            </motion.div>
+          </AnimatePresence>
         </Modal>
       </div>
     </div>

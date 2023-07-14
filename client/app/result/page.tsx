@@ -6,14 +6,30 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useModeStore } from "@/store/modeStore.tsx";
 import { usePerSecondStore } from "@/store/perSecondStore";
+import "./styles.css";
+import { shallow } from "zustand/shallow";
+import { useGeneralStore } from "@/store/generalStore";
 
 function Page() {
-  const modeState = useModeStore();
-  const mode = modeState.mode;
+  const [mode, timeMode, textCategory, setRetest] = useModeStore(
+    (store) => [
+      store.mode,
+      store.timeMode,
+      store.textCategory,
+      store.setRetest,
+    ],
+    shallow
+  );
+
+  const [prevStats, setPrevStats] = useGeneralStore(
+    (store) => [store.prevStats, store.setPrevStats],
+    shallow
+  );
 
   const perSecondStatsArray = usePerSecondStore(
     (store) => store.perSecondStatsArray
   );
+
   const timeOffset = useModeStore((store) => store.timeOffset);
 
   const router = useRouter();
@@ -23,9 +39,20 @@ function Page() {
 
   const screenShotRef = useRef<null | HTMLDivElement>(null);
 
-  const [stats, setStats] = useState<{ wpm: number; acc: number }>({
+  type statsType = {
+    wpm: number;
+    acc: number;
+    rawTotalCorrect: number;
+    rawTotalIncorrect: number;
+    totalRaw: number;
+  };
+
+  const [stats, setStats] = useState<statsType>({
     wpm: 0,
     acc: 0,
+    rawTotalCorrect: 0,
+    rawTotalIncorrect: 0,
+    totalRaw: 0,
   });
 
   const [finalData, setFinalData] = useState<any>();
@@ -50,15 +77,23 @@ function Page() {
   };
 
   useEffect(() => {
+    var totalRaw: number = 0;
     var totalWpm: number = 0;
     var totalAcc: number = 0;
+    var totalCorrectPM: number = 0;
+    var rawTotalCorrect: number = 0;
+    var rawTotalIncorrect: number = 0;
     setFinalData(() => {
       return perSecondStatsArray.map((each, index) => {
         const total =
           (each.wrong ? each.wrong : 0) + (each.correct ? each.correct : 0);
+        totalRaw += total;
         var netWPM;
         var acc;
         var err;
+        totalCorrectPM += ((each.correct ? each.correct : 0) / 5) * 60;
+        rawTotalCorrect += each.correct;
+        rawTotalIncorrect += each.wrong;
         if (total != 0) {
           netWPM = (total / 5) * 60;
           if (netWPM) totalWpm += netWPM;
@@ -81,8 +116,11 @@ function Page() {
     });
     setStats((prev) => ({
       ...prev,
-      wpm: totalWpm / perSecondStatsArray.length,
+      wpm: totalCorrectPM / perSecondStatsArray.length,
       acc: totalAcc / perSecondStatsArray.length,
+      rawTotalCorrect: rawTotalCorrect,
+      rawTotalIncorrect: rawTotalIncorrect,
+      totalRaw: totalRaw,
     }));
   }, []);
 
@@ -91,31 +129,35 @@ function Page() {
       className="flex flex-col items-center justify-center screenshotDiv"
       ref={screenShotRef}
     >
-      <div className="flex flex-col md:flex-row  w-full md:w-3/5  justify-evenly ">
+      <div className="flex flex-col md:flex-row  w-full   md:w-3/5  justify-evenly md:items-start items-center ">
         {/* stats display */}
-        <div className="flex flex-col text-white mb-4 items-center">
-          <div className="text-center">
-            <p className="  text-donkey-grape text-center text-2xl sm:text-3xl">
-              wpm
-            </p>
-            {/* <p className="text-yellow-400 text-4xl sm:text-7xl">{Math.round(stats.wpm)}</p> */}
-            <p className="text-cyan-400 text-center font-bold text-4xl sm:text-6xl">
-              {Math.round(stats.wpm)}
-            </p>
+        <div className="flex flex-col text-white w-30 mb-4 items-start h-full">
+          <div className="text-start">
+            <p className="  text-donkey-grape  font-light text-lg">wpm</p>
+            <div>
+              {prevStats?.wpm && (
+                <span className="text-cyan-700  font-medium text-sm me-2">
+                  {Math.round(prevStats.wpm)}
+                  
+                </span>
+              )} 
+              <span className="text-cyan-400 font-medium text-3xl">
+                {Math.round(stats.wpm)}
+              </span>
+            </div>
           </div>
-          <div className="text-center">
-            <p className="text-donkey-grape text-center text-2xl sm:text-3xl">
-              acc
-            </p>
-            <p className="text-cyan-400 text-center font-bold text-4xl sm:text-6xl">
-              {Math.round(stats.acc * 100)}%
-            </p>
-          </div>
-          <div className="text-center">
-            <p className="text-donkey-grape text-center text-lg">test type</p>
-            <p className="text-cyan-400 text-center font-medium text-xl sm:text-2xl">
-              {mode == "zen" ? "zen" : `time ${timeOffset}`}
-            </p>
+          <div className="text-start">
+            <p className="text-donkey-grape  font-light text-lg">acc</p>
+            <div>
+              {prevStats?.acc && (
+                <span className="text-cyan-700  font-medium text-sm me-2">
+                  {Math.round(prevStats.acc * 100)}%
+                </span>
+              )} 
+              <span className="text-cyan-400  font-medium text-3xl">
+                {Math.round(stats.acc * 100)}%
+              </span>
+            </div>
           </div>
         </div>
         {/* chart display */}
@@ -125,31 +167,104 @@ function Page() {
           </div>
         )}
       </div>
+      {/* bottom stats */}
+      <div className="flex justify-evenly w-full md:w-3/5 mb-5">
+        <div className="text-center">
+          <p className="text-donkey-grape  font-light">test type</p>
+          <p className="text-cyan-400 font-medium text-lg">
+            {mode == "zen" ? "zen" : `time ${timeOffset}`}
+          </p>
+          <p className="text-cyan-400 font-medium text-lg">
+            {textCategory == "english" ? "English" : null}
+            {textCategory == "webdev" ? "Web Dev" : null}
+          </p>
+        </div>
+        <div className="text-center">
+          <p className="text-donkey-grape  font-light">text type</p>
+          <p
+            className={`text-cyan-400 font-medium text-lg ${
+              timeMode.punctuation ? "" : " line-through text-cyan-700"
+            }`}
+          >
+            punctuations
+          </p>
+          <p
+            className={`text-cyan-400 font-medium text-lg ${
+              timeMode.number ? "" : " line-through text-cyan-700"
+            }`}
+          >
+            numbers
+          </p>
+        </div>
+        <div className="text-center">
+          <p className="text-donkey-grape  font-light">raw</p>
+          <p className={`text-cyan-400 font-medium text-3xl`}>
+            {stats.totalRaw}
+          </p>
+        </div>
+        <div className="text-center tooltip-container">
+          <p className="text-donkey-grape  font-light">characters</p>
+          <div className="tooltip-trigger">
+            <span
+              className={`text-cyan-400 font-medium text-3xl cursor-pointer`}
+            >
+              {stats.rawTotalCorrect}/
+            </span>
+            <span
+              className={`text-cyan-400 font-medium text-3xl cursor-pointer`}
+            >
+              {stats.rawTotalIncorrect}
+            </span>
+          </div>
+          <div className="tooltip-content">correct/wrong</div>
+        </div>
+      </div>
       {/* utils display */}
-      <div className="flex justify-evenly w-full md:w-3/5 ">
-        <Image
-          className="opacity-70 hover:opacity-100"
-          src="play.svg"
-          height="40"
-          width="40"
-          alt=""
-          onClick={() => router.push("/")}
-        />
-        <Image
-          className="opacity-70 hover:opacity-100"
-          src="cycle.svg"
-          height="40"
-          width="40"
-          alt=""
-          onClick={() => router.push("/")}
-        />
-        <Image
-          className="opacity-70 hover:opacity-100"
-          src="screenshot.svg"
-          height="40"
-          width="40"
-          alt=""
-        />
+      <div className="flex justify-evenly w-full md:w-3/5 border-t-2  border-white py-5 ">
+        <div className="tooltip-container">
+          <Image
+            className="opacity-70 hover:opacity-100 cursor-pointer tooltip-trigger"
+            src="play.svg"
+            height="40"
+            width="40"
+            alt=""
+            onClick={() => {
+              setPrevStats(null)
+              setRetest(false);
+              router.push("/");
+            }}
+          />
+          <div className="tooltip-content">next</div>
+        </div>
+        <div className="tooltip-container">
+          <Image
+            className="opacity-70 hover:opacity-100 cursor-pointer tooltip-trigger"
+            src="cycle.svg"
+            height="40"
+            width="40"
+            alt=""
+            onClick={() => {
+              setPrevStats({
+                wpm:stats.wpm,
+                acc:stats.acc
+              })
+              // make retest true
+              setRetest(true);
+              router.push("/");
+            }}
+          />
+          <div className="tooltip-content">restart</div>
+        </div>
+        <div className="tooltip-container">
+          <Image
+            className="opacity-70 hover:opacity-100 cursor-pointer tooltip-trigger"
+            src="screenshot.svg"
+            height="40"
+            width="40"
+            alt=""
+          />
+          <div className="tooltip-content">screenshot</div>
+        </div>
       </div>
     </div>
   );

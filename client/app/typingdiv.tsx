@@ -21,10 +21,10 @@ type TypingdivProps = {
 };
 
 const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
-  const [timeMode, textCategory] = useModeStore((store) => [
-    store.timeMode,
-    store.textCategory,
-  ]);
+  const [mode, timeMode, textCategory, timeOffset] = useModeStore(
+    (store) => [store.mode, store.timeMode, store.textCategory, store.timeOffset],
+    shallow
+  );
 
   const [currentIndex, incrementCurrentIndex, decrementCurrentIndex] =
     useFastRefreshStore(
@@ -52,8 +52,6 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
   const lineScrolled = useRef<number>(1);
   // the container div of all the spans
   const focusRef = useRef<HTMLDivElement>(null!);
-  // the div which becomes blur
-  const blurDivRef = useRef<HTMLDivElement>(null!);
 
   // sets the state for stats of each second
   const handlePerSecondStats = (params: 1 | 0) => {
@@ -61,14 +59,20 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
   };
 
   const scrollOneLine = () => {
+    console.log("one line scrolled")
     focusRef.current.scrollTop = currentLineHeight * lineScrolled.current;
     lineScrolled.current += 1;
   };
 
+  useEffect(() => {
+    setStarted(false)
+  }, [mode, timeMode, textCategory, timeOffset])
+  
+
   const handleKeyboardEvent = (event: any) => {
     event.preventDefault();
     const key = event.key;
-    const alphanumericRegex = /^[a-zA-Z0-9.,'";:)(*&%$#@!|/^]$/;
+    const alphanumericRegex = /^[a-zA-Z0-9.,'";:?)(*&%$#@!|/^]$/;
     // check regex
     if (key.match(alphanumericRegex) || key === " " || key === "Backspace") {
       setStarted(true);
@@ -127,7 +131,6 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
   };
 
   useEffect(() => {
-    console.log("running");
     handleFocus(0);
   }, [textCategory, timeMode]);
 
@@ -150,7 +153,7 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
       const style = window.getComputedStyle(spans[0]);
       setCurrenLineHeight(parseInt(style.getPropertyValue("line-height"), 10));
     }
-  }, [focusRef.current]);
+  }, [focusRef.current, textArray]);
 
   return (
     <div className="flex flex-col mt-8 md:h-64 justify-center items-center relative">

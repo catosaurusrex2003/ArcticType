@@ -1,0 +1,25 @@
+.tooltip-container {
+  position: relative;
+}
+
+.tooltip-content {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  font-size: 13px;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.805);
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  width: max-content;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+.tooltip-trigger:hover + .tooltip-content,
+.tooltip-trigger:focus + .tooltip-content {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
