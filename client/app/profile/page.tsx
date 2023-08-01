@@ -30,7 +30,7 @@ const formatJoiningDate = (joiningDate: Date | string) => {
 
 
 
-function page() {
+function Page() {
   const getUserData = (): AxiosPromise => axiosBasicInstance.get("getUser");
 
   const { data, isLoading, error } = useQuery({
@@ -151,4 +151,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
