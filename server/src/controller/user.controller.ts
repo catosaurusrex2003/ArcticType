@@ -44,7 +44,7 @@ export async function loginUserHandler(req: Request, res: Response) {
   }
 }
 
-export async function getUserHandler(req: Request, res: Response) {
+export async function   getUserHandler(req: Request, res: Response) {
   try {
     //@ts-ignore
     const email: string = req.userEmail;

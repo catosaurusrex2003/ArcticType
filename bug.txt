@@ -1,2 +1,5 @@
 after skipping 2  lines it skips one extra on every line.
-    i dont know cant replicate
+                i dont know cant replicate
+
+database entries 0wpm   
+                fixed

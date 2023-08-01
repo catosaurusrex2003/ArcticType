@@ -11,7 +11,9 @@ import {
 } from "./controller/user.controller";
 import { validateRequest, validateCookie } from "./middleware/validator";
 // import { AddNotesZodSchema, RemoveNotesZodSchema } from "./schema/notes.schema";
+import { handleNewTest } from "./controller/newTest.controller";
 import { CreateUserZodSchema, LoginUserZodSchema } from "./schema/user.schema";
+import { NewTestZodSchema } from "./schema/newTest.schema";
 
 export default function routes(app: Express) {
 
@@ -59,10 +61,12 @@ export default function routes(app: Express) {
     getUserHandler
   ]);
 
-  app.post("/updateUser",[
-    (req: Request, res: Response, next: NextFunction) => { console.log("updateUser"); return next() },
-    validateCookie,
-    getUserHandler
+  // when user makes a new test
+  app.post("/newTest",[
+    (req: Request, res: Response, next: NextFunction) => { console.log("newTest"); return next() },
+    validateRequest(NewTestZodSchema),
+    // validateCookie,
+    handleNewTest
   ])
 
 

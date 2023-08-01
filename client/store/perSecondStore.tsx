@@ -40,21 +40,21 @@ export const usePerSecondStore = create<perSecondStoreType>()(
           "incrementPerSecondState"
         ),
       perSecondStatsArray: [
-        {correct:2,wrong:5},
-        {correct:3,wrong:2},
-        {correct:2,wrong:5},
-        {correct:3,wrong:2},
-        {correct:2,wrong:1},
-        {correct:3,wrong:2},
-        {correct:2,wrong:5},
-        {correct:3,wrong:2},
-        {correct:2,wrong:1},
-        {correct:3,wrong:2},
-        {correct:2,wrong:5},
-        {correct:2,wrong:5},
-        {correct:2,wrong:1},
-        {correct:3,wrong:2},
-        {correct:2,wrong:1}
+        // {correct:2,wrong:5},
+        // {correct:3,wrong:2},
+        // {correct:2,wrong:5},
+        // {correct:3,wrong:2},
+        // {correct:2,wrong:1},
+        // {correct:3,wrong:2},
+        // {correct:2,wrong:5},
+        // {correct:3,wrong:2},
+        // {correct:2,wrong:1},
+        // {correct:3,wrong:2},
+        // {correct:2,wrong:5},
+        // {correct:2,wrong:5},
+        // {correct:2,wrong:1},
+        // {correct:3,wrong:2},
+        // {correct:2,wrong:1}
       ],
       // append the current perSecondState to the Array
       appendPerSecondStatsArray: () =>

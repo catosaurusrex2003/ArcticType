@@ -2,6 +2,9 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Navbar from "../components/navbar";
 
+
+import { ReactQueryProvider } from "@/providers/reactQueryProvider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -20,8 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-black `}>
-        <Navbar />
-        {children}
+        <ReactQueryProvider>
+          <Navbar />
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   );

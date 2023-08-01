@@ -12,6 +12,7 @@ import { usePerSecondStore } from "@/store/perSecondStore";
 import { shallow } from "zustand/shallow";
 import { useFastRefreshStore } from "@/store/fastRefreshStore";
 import { useGeneralStore } from "@/store/generalStore";
+import { whatLength, whatMode } from "@/utils/what";
 
 export default function Home() {
   const [mode, timeMode, textCategory, timeOffset, restest] = useModeStore(
@@ -76,28 +77,13 @@ export default function Home() {
     length: Number;
   }) => {
     try {
-      const result = await axios.post(
-        `/api/getText`,
-        payload
-      );
+      const result = await axios.post(`/api/getText`, payload);
       if (result.status == 200) {
-        setText(result.data.text)
-        console.log(result.data.text)
+        setText(result.data.text);
+        console.log(result.data.text);
       }
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const whatLength = (timeOffset: number) => {
-    if (timeOffset == 15) {
-      return 10;
-    } else if (timeOffset == 30) {
-      return 20;
-    } else if (timeOffset == 60) {
-      return 30;
-    } else {
-      return 50;
     }
   };
 
@@ -112,35 +98,11 @@ export default function Home() {
     // conditions for which type of text to fetch
     if (!restest) {
       if (mode == "time") {
-        if (!timeMode.number && !timeMode.punctuation) {
-          // basic
-          getText({
-            cat: textCategory,
-            type: "basic",
-            length: whatLength(timeOffset),
-          });
-        } else if (timeMode.number && !timeMode.punctuation) {
-          // num
-          getText({
-            cat: textCategory,
-            type: "num",
-            length: whatLength(timeOffset),
-          });
-        } else if (!timeMode.number && timeMode.punctuation) {
-          // punc
-          getText({
-            cat: textCategory,
-            type: "punc",
-            length: whatLength(timeOffset),
-          });
-        } else if (timeMode.number && timeMode.punctuation) {
-          // both
-          getText({
-            cat: textCategory,
-            type: "both",
-            length: whatLength(timeOffset),
-          });
-        }
+        getText({
+          cat: textCategory,
+          type: whatMode(timeMode),
+          length: whatLength(timeOffset),
+        });
       } else {
         getText({
           cat: textCategory,

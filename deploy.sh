@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # before this run a gitcredenv.sh 
 # which has
 # export GIT_USERNAME="YOUR USERNAME"
@@ -35,5 +34,3 @@ TIMESTAMP=$(date +"%I:%M%p %B %d")
 git add .
 git commit -m "Deploy project $TIMESTAMP"
 git push origin main
-
-

@@ -9,6 +9,18 @@ import { usePerSecondStore } from "@/store/perSecondStore";
 import "./styles.css";
 import { shallow } from "zustand/shallow";
 import { useGeneralStore } from "@/store/generalStore";
+import { useMutation } from "@tanstack/react-query";
+import axiosBasicInstance from "@/config/axiosConfig";
+import { whatMode } from "@/utils/what";
+import Confetti from "react-confetti";
+
+type statsType = {
+  wpm: number;
+  acc: number;
+  rawTotalCorrect: number;
+  rawTotalIncorrect: number;
+  totalRaw: number;
+};
 
 function Page() {
   const [mode, timeMode, textCategory, setRetest] = useModeStore(
@@ -21,8 +33,8 @@ function Page() {
     shallow
   );
 
-  const [prevStats, setPrevStats] = useGeneralStore(
-    (store) => [store.prevStats, store.setPrevStats],
+  const [auth, prevStats, setPrevStats] = useGeneralStore(
+    (store) => [store.auth, store.prevStats, store.setPrevStats],
     shallow
   );
 
@@ -31,21 +43,6 @@ function Page() {
   );
 
   const timeOffset = useModeStore((store) => store.timeOffset);
-
-  const router = useRouter();
-  useEffect(() => {
-    if (perSecondStatsArray.length == 0) router.push("/");
-  }, []);
-
-  const screenShotRef = useRef<null | HTMLDivElement>(null);
-
-  type statsType = {
-    wpm: number;
-    acc: number;
-    rawTotalCorrect: number;
-    rawTotalIncorrect: number;
-    totalRaw: number;
-  };
 
   const [stats, setStats] = useState<statsType>({
     wpm: 0,
@@ -57,6 +54,16 @@ function Page() {
 
   const [finalData, setFinalData] = useState<any>();
 
+  const [windowSize, setWindowSize] = useState<{
+    width: number;
+    height: number;
+  }>({ width: 0, height: 0 });
+
+  const [displayConfetti, setDisplayConfetti] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const screenShotRef = useRef<null | HTMLDivElement>(null);
   const takeScreenShot = () => {
     // if (canvasRef.current) {
     //   const screenshotDataURL = canvasRef.current.toDataURL("image/png");
@@ -76,6 +83,44 @@ function Page() {
     }
   };
 
+  // write to database
+  const recordNewTest = useMutation({
+    mutationFn: () =>
+      axiosBasicInstance.post("/newTest", {
+        userEmail: auth?.email,
+        stats: {
+          time: timeOffset,
+          wpm: Math.round(stats.wpm),
+          acc: Math.round(stats.acc * 100),
+          type: whatMode(timeMode),
+          retest: prevStats ? true : false,
+        },
+      }),
+    onSuccess: (props) => {
+      console.log("props is ", props);
+    },
+  });
+
+  // fake protected route
+  // setRetest(false)
+  // trigger confetti on new record
+  useEffect(() => {
+    if (perSecondStatsArray.length == 0) router.push("/");
+
+    setRetest(false);
+
+    if (stats.wpm && stats.acc && auth) {
+      const previousWpmRecord = (
+        auth.records as { [key: string]: { wpm: number; acc: number } }
+      )[timeOffset]?.wpm;
+      if (stats.wpm > previousWpmRecord) {
+        setDisplayConfetti(true);
+      }
+      recordNewTest.mutate();
+    }
+  }, [stats.wpm, stats.acc]);
+
+  // tha calculations  things
   useEffect(() => {
     var totalRaw: number = 0;
     var totalWpm: number = 0;
@@ -124,11 +169,32 @@ function Page() {
     }));
   }, []);
 
+  // to get the screen sizes
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div
       className="flex flex-col items-center justify-center screenshotDiv"
       ref={screenShotRef}
     >
+      {displayConfetti && (
+        <Confetti
+          width={windowSize.width}
+          height={windowSize.height}
+          tweenDuration={2000}
+          recycle={false}
+          numberOfPieces={300}
+        />
+      )}
       <div className="flex flex-col md:flex-row  w-full   md:w-3/5  justify-evenly md:items-start items-center ">
         {/* stats display */}
         <div className="flex flex-col text-white w-30 mb-4 items-start h-full">
@@ -138,9 +204,8 @@ function Page() {
               {prevStats?.wpm && (
                 <span className="text-cyan-700  font-medium text-sm me-2">
                   {Math.round(prevStats.wpm)}
-                  
                 </span>
-              )} 
+              )}
               <span className="text-cyan-400 font-medium text-3xl">
                 {Math.round(stats.wpm)}
               </span>
@@ -153,7 +218,7 @@ function Page() {
                 <span className="text-cyan-700  font-medium text-sm me-2">
                   {Math.round(prevStats.acc * 100)}%
                 </span>
-              )} 
+              )}
               <span className="text-cyan-400  font-medium text-3xl">
                 {Math.round(stats.acc * 100)}%
               </span>
@@ -229,7 +294,7 @@ function Page() {
             width="40"
             alt=""
             onClick={() => {
-              setPrevStats(null)
+              setPrevStats(null);
               setRetest(false);
               router.push("/");
             }}
@@ -245,9 +310,9 @@ function Page() {
             alt=""
             onClick={() => {
               setPrevStats({
-                wpm:stats.wpm,
-                acc:stats.acc
-              })
+                wpm: stats.wpm,
+                acc: stats.acc,
+              });
               // make retest true
               setRetest(true);
               router.push("/");

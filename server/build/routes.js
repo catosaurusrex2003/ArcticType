@@ -7,7 +7,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_controller_1 = require("./controller/user.controller");
 const validator_1 = require("./middleware/validator");
 // import { AddNotesZodSchema, RemoveNotesZodSchema } from "./schema/notes.schema";
+const newTest_controller_1 = require("./controller/newTest.controller");
 const user_schema_1 = require("./schema/user.schema");
+const newTest_schema_1 = require("./schema/newTest.schema");
 function routes(app) {
     app.get("/", [
         (req, res) => {
@@ -47,10 +49,12 @@ function routes(app) {
         validator_1.validateCookie,
         user_controller_1.getUserHandler
     ]);
-    app.post("/updateUser", [
-        (req, res, next) => { console.log("updateUser"); return next(); },
-        validator_1.validateCookie,
-        user_controller_1.getUserHandler
+    // when user makes a new test
+    app.post("/newTest", [
+        (req, res, next) => { console.log("newTest"); return next(); },
+        (0, validator_1.validateRequest)(newTest_schema_1.NewTestZodSchema),
+        // validateCookie,
+        newTest_controller_1.handleNewTest
     ]);
     //Add a new note
     // app.post("/addNote", [

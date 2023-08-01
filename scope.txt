@@ -1,9 +1,5 @@
+PROFILE ICON HIGHLIGHT WHEN ON /PROFILE             
 
-ADD SCORE IN SCHEMA
-REACT QUERY REVALIDATE ON COMPLETING EVERY TEST
-PROFILE ICON HIGHLIGHT WHEN ON /PROFILE
-loading in typingdiv whiel it fetches and sets the state  REACT QUERY
+button to stop the test
 
-signed up users whill store their test detail in db
-
-app a get healthcheck on app visit to wake up the server.
+/profile page ko protected banana hai

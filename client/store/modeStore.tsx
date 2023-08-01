@@ -50,6 +50,6 @@ export const useModeStore = create<modeState>()(
     setTimeOffset: (newtimeOffset: number) =>
       set({ timeOffset: newtimeOffset }, false, "setTimeOffset"),
     retest:false,
-    setRetest:(newState)=>set({retest:newState})
+    setRetest:(newState)=>set({retest:newState},false,"setRetest")
   }))
 );
