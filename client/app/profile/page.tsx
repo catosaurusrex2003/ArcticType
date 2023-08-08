@@ -69,12 +69,11 @@ function Page() {
               */}
               <img
                 className="bg-gray-200 my-2 rounded-full md:h-24 md:w-24 object-cover"
-                src={`${
-                  `${userData?.picUrl}?${new Date().getTime()}` ||
-                  "/dummy-profile.png"
-                }`}
-                // height={200}
-                // width={200}
+                src={
+                  userData?.picUrl !== ""
+                    ? `${userData?.picUrl}?${new Date().getTime()}`
+                    : "/dummy-profile.png"
+                }
                 alt=""
                 // loading="eager"
               />

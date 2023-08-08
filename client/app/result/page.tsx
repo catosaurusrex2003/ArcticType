@@ -9,7 +9,7 @@ import { usePerSecondStore } from "@/store/perSecondStore";
 import "./styles.css";
 import { shallow } from "zustand/shallow";
 import { useGeneralStore } from "@/store/generalStore";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosBasicInstance from "@/config/axiosConfig";
 import { whatMode } from "@/utils/what";
 import Confetti from "react-confetti";
@@ -63,6 +63,8 @@ function Page() {
 
   const router = useRouter();
 
+  const queryClient = useQueryClient();
+
   const screenShotRef = useRef<null | HTMLDivElement>(null);
   const takeScreenShot = () => {
     // if (canvasRef.current) {
@@ -98,6 +100,10 @@ function Page() {
         },
       }),
     onSuccess: (props) => {
+      queryClient.invalidateQueries({
+        queryKey:["userData","leaderboard"],
+        refetchType:"all"
+      });
       // console.log("props is ", props);
     },
   });

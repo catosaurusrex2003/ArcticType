@@ -95,7 +95,10 @@ function ProfilePicture({ pfpEditModalState }: props) {
         picUrl: picUrl,
       }),
     onSuccess: (props) => {
-      queryClient.invalidateQueries(["userData"]);
+      queryClient.invalidateQueries({
+        queryKey:["userData"],
+        refetchType:"all"
+      });
       setSelectedFile(null)
       pfpEditModalState.closeModal()
     },
