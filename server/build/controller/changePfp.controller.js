@@ -12,17 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTestHandler = void 0;
+exports.changePfpHandler = void 0;
 const logger_1 = __importDefault(require("../utils/logger"));
-const createNewTest_1 = __importDefault(require("../service/createNewTest"));
-const newLeaderBoardEntry_1 = __importDefault(require("../service/newLeaderBoardEntry"));
-function newTestHandler(req, res) {
+const changePfp_1 = __importDefault(require("../service/changePfp"));
+// import createNewTest , {newTestPayloadType} from "../service/createNewTest";
+function changePfpHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const testUpdatedData = yield (0, createNewTest_1.default)(req.body);
-            // send the profilepic url to the put in the leaderboard document
-            const entryMade = yield (0, newLeaderBoardEntry_1.default)(req.body, testUpdatedData === null || testUpdatedData === void 0 ? void 0 : testUpdatedData.picUrl);
-            res.status(200).json(testUpdatedData);
+            // const testUpdatedData = await create(req.body)
+            const bool = (0, changePfp_1.default)(req.body);
+            res.status(200).json({ message: "done" });
         }
         catch (error) {
             logger_1.default.error(error);
@@ -30,4 +29,4 @@ function newTestHandler(req, res) {
         }
     });
 }
-exports.newTestHandler = newTestHandler;
+exports.changePfpHandler = changePfpHandler;

@@ -11,9 +11,13 @@ import {
 } from "./controller/user.controller";
 import { validateRequest, validateCookie } from "./middleware/validator";
 // import { AddNotesZodSchema, RemoveNotesZodSchema } from "./schema/notes.schema";
-import { handleNewTest } from "./controller/newTest.controller";
+import { newTestHandler } from "./controller/newTest.controller";
 import { CreateUserZodSchema, LoginUserZodSchema } from "./schema/user.schema";
 import { NewTestZodSchema } from "./schema/newTest.schema";
+import { changePfpZodSchema } from "./schema/changePfp.schema";
+import { changePfpHandler } from "./controller/changePfp.controller";
+import { getleaderBoardZodSchema } from "./schema/getLeaderBoard.schema";
+import { getLeaderBoardHandler } from "./controller/getLeaderBoard.controller";
 
 export default function routes(app: Express) {
 
@@ -65,24 +69,25 @@ export default function routes(app: Express) {
   app.post("/newTest",[
     (req: Request, res: Response, next: NextFunction) => { console.log("newTest"); return next() },
     validateRequest(NewTestZodSchema),
-    // validateCookie,
-    handleNewTest
+    validateCookie,
+    newTestHandler
   ])
 
+  // when user changes pfp
+  app.post("/changePfp",[
+    (req: Request, res: Response, next: NextFunction) => { console.log("changePfp"); return next() },
+    validateRequest(changePfpZodSchema),
+    validateCookie,
+    changePfpHandler
+  ])
 
-  //Add a new note
-  // app.post("/addNote", [
-  //   validateCookie,
-  //   validateRequest(AddNotesZodSchema),
-  //   addNoteHandler,
-  // ]);
-
-  //Remove a new note
-  // app.delete("/removeNote/:id", [
-  //   validateCookie,
-  //   validateRequest(RemoveNotesZodSchema),
-  //   removeNoteHandler,
-  // ]);
+  // when user changes pfp
+  app.get("/getLeaderBoard",[
+    (req: Request, res: Response, next: NextFunction) => { console.log("getLeaderBoard"); return next() },
+    validateRequest(getleaderBoardZodSchema),
+    // validateCookie,
+    getLeaderBoardHandler
+  ])
 
   //Logout a user
   app.get("/logoutUser", [

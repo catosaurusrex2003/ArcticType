@@ -12,22 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTestHandler = void 0;
-const logger_1 = __importDefault(require("../utils/logger"));
-const createNewTest_1 = __importDefault(require("../service/createNewTest"));
-const newLeaderBoardEntry_1 = __importDefault(require("../service/newLeaderBoardEntry"));
-function newTestHandler(req, res) {
+const leaderboard_model_1 = __importDefault(require("../models/leaderboard.model"));
+const _ = require('lodash');
+function getLeadBoardData(payload) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const testUpdatedData = yield (0, createNewTest_1.default)(req.body);
-            // send the profilepic url to the put in the leaderboard document
-            const entryMade = yield (0, newLeaderBoardEntry_1.default)(req.body, testUpdatedData === null || testUpdatedData === void 0 ? void 0 : testUpdatedData.picUrl);
-            res.status(200).json(testUpdatedData);
-        }
-        catch (error) {
-            logger_1.default.error(error);
-            res.status(400).json({ name: error.name, message: error.message });
-        }
+        const queriedEntries = yield leaderboard_model_1.default
+            .find({ category: payload.category })
+            .sort({ wpm: -1 }) // Sort in descending order
+            .skip((payload.pageNumber - 1) * payload.perPage) // how many documents to skip
+            .limit(payload.perPage); // Limit to top 5 values
+        const filteredQueryData = queriedEntries.map((each) => _.pick(each, ["wpm", "username", "Date", "picUrl"]));
+        return filteredQueryData;
     });
 }
-exports.newTestHandler = newTestHandler;
+exports.default = getLeadBoardData;

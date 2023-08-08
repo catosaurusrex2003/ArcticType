@@ -1,9 +1,15 @@
 "use client";
+import axiosBasicInstance from "@/config/axiosConfig";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { AxiosPromise } from "axios";
 import Image from "next/image";
 import React, { useState } from "react";
+import EachLeaderboardCategory from "./eachLeaderboardCategory";
+
+const presetPerPage = 2;
 
 function Page() {
-  const [data, setData] = useState([
+  const [tempdata, setData] = useState([
     {
       time: 15,
       data: [
@@ -46,7 +52,7 @@ function Page() {
     },
     {
       time: 30,
-      data: [
+      tempdata: [
         {
           pfp: "",
           rank: 1,
@@ -166,150 +172,66 @@ function Page() {
     },
   ]);
 
+  // const fetchPage = async (pageParam = 1) => {
+  //   const res = await axiosBasicInstance.get("/getLeaderBoard", {
+  //     params: {
+  //       category: 30,
+  //       pageNumber: pageParam,
+  //       perPage: presetPerPage,
+  //     },
+  //   });
+  //   return res.data;
+  // };
+
+  // const {
+  //   fetchNextPage,
+  //   fetchPreviousPage,
+  //   hasNextPage,
+  //   hasPreviousPage,
+  //   isFetchingNextPage,
+  //   isFetchingPreviousPage,
+  //   data,
+  //   error,
+  //   isError,
+  //   isLoading,
+  //   isSuccess,
+  //   status,
+  // } = useInfiniteQuery(
+  //   ["leaderboard"],
+  //   ({ pageParam = 1 }) => fetchPage(pageParam),
+  //   {
+  //     getNextPageParam: (lastPage, allPages) => {
+  //       if (lastPage.length < presetPerPage) {
+  //         console.log("reached the end")
+  //         return undefined
+  //       }
+  //       else{
+  //         console.log("returning",allPages.length + 1)
+  //         return allPages.length + 1;
+  //       }
+  //     },
+  //   }
+  // );
+
+  // console.log("Data is ",data?.pages)
+
+
   return (
     <div className="flex flex-col justify-center items-center text-center">
       <p className="text-5xl text-donkey-rose font-bold mt-10">LeaderBoard</p>
       {/* each section */}
-      <div className="flex flex-col xl:flex-row w-full justify-evenly items-center flex-wrap">
+      <div className="flex flex-col xl:flex-row w-full xl:justify-evenly items-center xl:items-start flex-wrap">
+        {/* each category modified one */}
+        <EachLeaderboardCategory  categoryProps={15}/>
         {/* each category */}
-        <div className="w-full sm:Lw-5/6 md:w-3/5 xl:w-1/3 bg-donkey-dark-purple mt-10 rounded-xl text-white">
-          <p className="text-2xl font-bold  mt-5 ">Time {data[0].time}</p>
-          <table className="w-full table-auto  text-sm sm:text-base">
-            <thead className="h-14">
-              <tr>
-                <th></th>
-                <th>#</th>
-                <th>Name</th>
-                <th>WPM</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            {data[0].data.map((each,index) => (
-              <tbody key={index}>
-                <tr className="h-10 font-semibold text-xs sm:text-sm">
-                  <td className="flex justify-center items-center h-10">
-                    <Image
-                      className="rounded-full bg-gray-700"
-                      src="/dummy-profile.png"
-                      height={25}
-                      width={25}
-                      alt=""
-                    />
-                  </td>
-                  <td className="">{each.rank}</td>
-                  <td className="">{each.name}</td>
-                  <td className="">{each.wpm}</td>
-                  <td className="">{each.date}</td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
-        {/* each category */}
-        <div className="w-full sm:Lw-5/6 md:w-3/5 xl:w-1/3 bg-donkey-dark-purple mt-10 rounded-xl text-white">
-          <p className="text-2xl font-bold  mt-5 ">Time {data[1].time}</p>
-          <table className="w-full table-auto  text-sm sm:text-base">
-            <thead className="h-14">
-              <tr>
-                <th></th>
-                <th>#</th>
-                <th>Name</th>
-                <th>WPM</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            {data[1].data.map((each,index) => (
-              <tbody key={index}>
-                <tr className="h-10 font-semibold text-xs sm:text-sm">
-                  <td className="flex justify-center items-center h-10">
-                    <Image
-                      className="rounded-full bg-gray-700"
-                      src="/dummy-profile.png"
-                      height={25}
-                      width={25}
-                      alt=""
-                    />
-                  </td>
-                  <td className="">{each.rank}</td>
-                  <td className="">{each.name}</td>
-                  <td className="">{each.wpm}</td>
-                  <td className="">{each.date}</td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
+        <EachLeaderboardCategory  categoryProps={30}/>
       </div>
       {/* each section */}
       <div className="flex flex-col xl:flex-row w-full justify-evenly items-center flex-wrap mb-10">
         {/* each category */}
-        <div className="w-full sm:Lw-5/6 md:w-3/5 xl:w-1/3 bg-donkey-dark-purple mt-10 rounded-xl text-white">
-          <p className="text-2xl font-bold  mt-5 ">Time {data[2].time}</p>
-          <table className="w-full table-auto  text-sm sm:text-base">
-            <thead className="h-14">
-              <tr>
-                <th></th>
-                <th>#</th>
-                <th>Name</th>
-                <th>WPM</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            {data[0].data.map((each,index) => (
-              <tbody  key={index}>
-                <tr className="h-10 font-semibold text-xs sm:text-sm">
-                  <td className="flex justify-center items-center h-10">
-                    <Image
-                      className="rounded-full bg-gray-700"
-                      src="/dummy-profile.png"
-                      height={25}
-                      width={25}
-                      alt=""
-                    />
-                  </td>
-                  <td className="">{each.rank}</td>
-                  <td className="">{each.name}</td>
-                  <td className="">{each.wpm}</td>
-                  <td className="">{each.date}</td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
+        <EachLeaderboardCategory  categoryProps={60}/>
         {/* each category */}
-        <div className="w-full sm:Lw-5/6 md:w-3/5 xl:w-1/3 bg-donkey-dark-purple mt-10 rounded-xl text-white">
-          <p className="text-2xl font-bold  mt-5 ">Time {data[3].time}</p>
-          <table className="w-full table-auto  text-sm sm:text-base">
-            <thead className="h-14">
-              <tr>
-                <th></th>
-                <th>#</th>
-                <th>Name</th>
-                <th>WPM</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            {data[0].data.map((each,index) => (
-              <tbody key={index}>
-                <tr className="h-10 font-semibold text-xs sm:text-sm">
-                  <td className="flex justify-center items-center h-10">
-                    <Image
-                      className="rounded-full bg-gray-700"
-                      src="/dummy-profile.png"
-                      height={25}
-                      width={25}
-                      alt=""
-                    />
-                  </td>
-                  <td className="">{each.rank}</td>
-                  <td className="">{each.name}</td>
-                  <td className="">{each.wpm}</td>
-                  <td className="">{each.date}</td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
+        <EachLeaderboardCategory  categoryProps={120}/>
       </div>
     </div>
   );

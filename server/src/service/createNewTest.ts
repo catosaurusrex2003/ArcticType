@@ -1,7 +1,7 @@
 import User, { userType } from "../models/user.model";
 import { scoreTable } from "../config/scoreWeight";
 
-export interface newTestPayloadType {
+interface newTestPayloadType {
     userEmail: string;
     stats: {
         time: 15 | 30 | 60 | 120;
@@ -20,7 +20,7 @@ export default async function createNewTest(payload: newTestPayloadType) {
             {
                 $set: {
                     // update wpm only if greater than before
-                    [`records.${payload.stats.time}.wpm`]: { $max: ['$records.15.wpm', payload.stats.wpm] },
+                    [`records.${payload.stats.time}.wpm`]: { $max: [`$records.${payload.stats.time}.wpm`, payload.stats.wpm] },
                     // update acc only if wpm is greater
                     [`records.${payload.stats.time}.acc`]: {
                         $cond: {

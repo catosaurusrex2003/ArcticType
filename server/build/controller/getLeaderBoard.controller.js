@@ -12,17 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newTestHandler = void 0;
+exports.getLeaderBoardHandler = void 0;
 const logger_1 = __importDefault(require("../utils/logger"));
-const createNewTest_1 = __importDefault(require("../service/createNewTest"));
-const newLeaderBoardEntry_1 = __importDefault(require("../service/newLeaderBoardEntry"));
-function newTestHandler(req, res) {
+const getLeaderBoardData_1 = __importDefault(require("../service/getLeaderBoardData"));
+function getLeaderBoardHandler(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const testUpdatedData = yield (0, createNewTest_1.default)(req.body);
-            // send the profilepic url to the put in the leaderboard document
-            const entryMade = yield (0, newLeaderBoardEntry_1.default)(req.body, testUpdatedData === null || testUpdatedData === void 0 ? void 0 : testUpdatedData.picUrl);
-            res.status(200).json(testUpdatedData);
+            const payload = {
+                category: parseInt(req.query.category),
+                pageNumber: parseInt(req.query.pageNumber),
+                perPage: parseInt(req.query.perPage),
+            };
+            const data = yield (0, getLeaderBoardData_1.default)(payload);
+            res.status(200).json(data);
         }
         catch (error) {
             logger_1.default.error(error);
@@ -30,4 +32,4 @@ function newTestHandler(req, res) {
         }
     });
 }
-exports.newTestHandler = newTestHandler;
+exports.getLeaderBoardHandler = getLeaderBoardHandler;

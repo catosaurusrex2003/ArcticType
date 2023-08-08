@@ -56,7 +56,7 @@ interface props {
 
 function MyLineChart({ finalData }: props) {
   const chartData = finalData.map((each, index) => ({
-    test: index,
+    test: index+1,
     wpm: each,
   }));
   return (
@@ -64,7 +64,7 @@ function MyLineChart({ finalData }: props) {
       <div className="max-w-2xl flex flex-col w-full">
         <ResponsiveContainer width="100%" aspect={2.8}>
           <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="10 0 0" stroke="#545557" />
+            <CartesianGrid strokeDasharray="10 0 0" stroke="#5455576b" />
             <XAxis
               dataKey="test"
               width={23}

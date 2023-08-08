@@ -21,7 +21,7 @@ function createNewTest(payload) {
             {
                 $set: {
                     // update wpm only if greater than before
-                    [`records.${payload.stats.time}.wpm`]: { $max: ['$records.15.wpm', payload.stats.wpm] },
+                    [`records.${payload.stats.time}.wpm`]: { $max: [`$records.${payload.stats.time}.wpm`, payload.stats.wpm] },
                     // update acc only if wpm is greater
                     [`records.${payload.stats.time}.acc`]: {
                         $cond: {

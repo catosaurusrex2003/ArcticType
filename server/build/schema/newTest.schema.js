@@ -13,6 +13,11 @@ exports.NewTestZodSchema = zod_1.default.object({
             required_error: "The email cannot be empty.",
         })
             .email("The email is not valid."),
+        userName: zod_1.default
+            .string({
+            invalid_type_error: "The username can only be string.",
+            required_error: "The username cannot be empty.",
+        }),
         stats: zod_1.default.object({
             time: zod_1.default.literal(15).or(zod_1.default.literal(30)).or(zod_1.default.literal(60)).or(zod_1.default.literal(120)),
             wpm: zod_1.default.number({

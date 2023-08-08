@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Progressbar from "@/components/progressbar";
 import MyLineChart from "./LineChart";
 import { useQuery } from "@tanstack/react-query";
@@ -8,6 +8,7 @@ import axiosBasicInstance from "@/config/axiosConfig";
 import { AxiosPromise } from "axios";
 import { userType } from "@/types/user";
 import Loadinganimation from "@/components/loading";
+import ProfilePicture from "./profilePicture";
 
 const secondsToHMS = (seconds: number | undefined): string => {
   if (seconds) {
@@ -28,16 +29,20 @@ const formatJoiningDate = (joiningDate: Date | string) => {
   return new Date(joiningDate).toDateString();
 };
 
-
-
 function Page() {
   const getUserData = (): AxiosPromise => axiosBasicInstance.get("getUser");
+
+  const [pfpEditModalState, setPfpEditModalState] = useState({
+    state: false,
+    closeModal: () =>
+      setPfpEditModalState((prev) => ({ ...prev, state: false })),
+  });
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["userData"],
     queryFn: getUserData,
-    refetchOnWindowFocus:false,
-    keepPreviousData:true,
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,
   });
 
   const userData: undefined | userType = data?.data;
@@ -57,13 +62,32 @@ function Page() {
         {/* left part */}
         <div className="md:w-1/2  flex flex-col">
           <div className="flex justify-evenly mb-2">
-            <Image
-              className="bg-gray-200 my-2 rounded-full md:h-24 md:w-24"
-              src="/dummy-profile.png"
-              height={50}
-              width={50}
-              alt=""
-            />
+            <div className="relative inline-block group/pfp">
+              {/* 
+              below is big brain 🧠 move to prevent nextjs from caching the image
+              from a url even though the content which the url serves changes 
+              */}
+              <img
+                className="bg-gray-200 my-2 rounded-full md:h-24 md:w-24 object-cover"
+                src={`${
+                  `${userData?.picUrl}?${new Date().getTime()}` ||
+                  "/dummy-profile.png"
+                }`}
+                // height={200}
+                // width={200}
+                alt=""
+                // loading="eager"
+              />
+              <div
+                className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-75 hover:bg-opacity-100 opacity-0 text-white rounded p-1 px-2 text-xs font-bold group-hover/pfp:opacity-100 transition-opacity cursor-pointer"
+                onClick={() =>
+                  setPfpEditModalState((prev) => ({ ...prev, state: true }))
+                }
+              >
+                EDIT
+              </div>
+              <ProfilePicture pfpEditModalState={pfpEditModalState} />
+            </div>
             <div className="flex flex-col justify-center">
               <span className=" text-2xl font-semibold">
                 {userData?.username}
@@ -75,11 +99,7 @@ function Page() {
               </span>
             </div>
           </div>
-          <div>
-            {userData && 
-            <Progressbar score={userData?.score} />
-            }
-          </div>
+          <div>{userData && <Progressbar score={userData?.score} />}</div>
         </div>
         {/* right part */}
         <div className="md:w-1/2 flex flex-col md:flex-row md:justify-evenly">

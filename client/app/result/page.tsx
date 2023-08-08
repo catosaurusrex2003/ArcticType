@@ -88,6 +88,7 @@ function Page() {
     mutationFn: () =>
       axiosBasicInstance.post("/newTest", {
         userEmail: auth?.email,
+        userName:auth?.username,
         stats: {
           time: timeOffset,
           wpm: Math.round(stats.wpm),
@@ -97,7 +98,7 @@ function Page() {
         },
       }),
     onSuccess: (props) => {
-      console.log("props is ", props);
+      // console.log("props is ", props);
     },
   });
 
@@ -116,6 +117,13 @@ function Page() {
       if (stats.wpm > previousWpmRecord) {
         setDisplayConfetti(true);
       }
+      console.log({
+        time: timeOffset,
+        wpm: Math.round(stats.wpm),
+        acc: Math.round(stats.acc * 100),
+        type: whatMode(timeMode),
+        retest: prevStats ? true : false,
+      })
       recordNewTest.mutate();
     }
   }, [stats.wpm, stats.acc]);

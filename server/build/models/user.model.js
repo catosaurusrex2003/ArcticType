@@ -14,14 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-// Schema-note
-// const noteSchema = new mongoose.Schema(
-//   {
-//     title: { type: String, required: true },
-//     description: { type: String },
-//   },
-//   { timestamps: true }
-// );
 // Schema-user
 const userSchema = new mongoose_1.default.Schema({
     username: { type: String, required: true },
@@ -116,5 +108,4 @@ userSchema.method("comparePasswords", function (inputEmail, inputPassword) {
     });
 });
 const User = mongoose_1.default.model("user", userSchema);
-// export const Note = mongoose.model<noteType>("notes", noteSchema);
 exports.default = User;

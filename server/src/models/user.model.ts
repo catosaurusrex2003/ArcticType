@@ -2,17 +2,8 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import config from "config";
 
-//type-note
-// export interface noteType extends mongoose.Document {
-//   readonly _id: mongoose.Types.ObjectId;
-//   title: string;
-//   description?: string;
-//   readonly createdAt: Date;
-//   readonly updatedAt: Date;
-// }
 //type-user
 export interface userType extends mongoose.Document {
-  // readonly _id: mongoose.Types.ObjectId;
   username: string;
   email: string;
   password: string;
@@ -45,15 +36,6 @@ export interface userType extends mongoose.Document {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
-
-// Schema-note
-// const noteSchema = new mongoose.Schema(
-//   {
-//     title: { type: String, required: true },
-//     description: { type: String },
-//   },
-//   { timestamps: true }
-// );
 
 // Schema-user
 const userSchema = new mongoose.Schema<userType>(
@@ -162,7 +144,4 @@ userSchema.method(
 
 const User = mongoose.model<userType>("user", userSchema);
 
-
-
-// export const Note = mongoose.model<noteType>("notes", noteSchema);
 export default User;
