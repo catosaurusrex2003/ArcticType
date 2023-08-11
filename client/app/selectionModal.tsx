@@ -63,7 +63,7 @@ function SelectionModal() {
 
   return (
     <div className="flex flex-col items-center justify-center text-slate-600">
-      <div className="bg-donkey-dark-purple px-7 py-1  w-3/5 sm:w-4/5 max-w-2xl rounded-lg flex flex-col md:flex-row items-center justify-evenly">
+      <div className="bg-glacier-subprimary px-4 py-3 w-3/5 md:w-4/5 max-w-3xl rounded-md flex flex-col md:flex-row items-center justify-evenly  font-semibold">
         <div className="w-full sm:w-1/3 flex justify-evenly ">
           <div
             className={`cursor-pointer ${
@@ -73,7 +73,7 @@ function SelectionModal() {
           >
             <span
               className={`${
-                timeMode?.punctuation ? "text-donkey-magenta" : null
+                timeMode?.punctuation ? "text-glacier-accent" : null
               } ms-1`}
             >
               punctuation
@@ -87,7 +87,7 @@ function SelectionModal() {
           >
             <span
               className={`${
-                timeMode?.number ? "text-donkey-magenta" : null
+                timeMode?.number ? "text-glacier-accent" : null
               } ms-2`}
             >
               numbers
@@ -109,7 +109,7 @@ function SelectionModal() {
               alt="time challenge"
             />
             <span
-              className={` ${mode == "time" ? "text-cyan-400" : null} ms-1 `}
+              className={` ${mode == "time" ? "text-glacier-accent" : null} ms-1 `}
             >
               time
             </span>
@@ -128,7 +128,7 @@ function SelectionModal() {
               alt="zen challenge"
             />
             <span
-              className={` ${mode == "zen" ? "text-cyan-400" : null} ms-1 `}
+              className={` ${mode == "zen" ? "text-glacier-accent" : null} ms-1 `}
             >
               zen
             </span>
@@ -139,7 +139,7 @@ function SelectionModal() {
             <span
               className={`cursor-pointer  ${
                 timeOffset == 15
-                  ? "text-cyan-400"
+                  ? "text-glacier-accent"
                   : "each-selection-item text-slate-300"
               } flex items-center   hover:text-white `}
               onClick={() => {
@@ -151,7 +151,7 @@ function SelectionModal() {
             <span
               className={`cursor-pointer  ${
                 timeOffset == 30
-                  ? "text-cyan-400"
+                  ? "text-glacier-accent"
                   : "each-selection-item text-slate-300"
               } flex items-center   hover:text-white `}
               onClick={() => {
@@ -163,7 +163,7 @@ function SelectionModal() {
             <span
               className={`cursor-pointer  ${
                 timeOffset == 60
-                  ? "text-cyan-400"
+                  ? "text-glacier-accent"
                   : "each-selection-item text-slate-300"
               } flex items-center   hover:text-white `}
               onClick={() => {
@@ -175,7 +175,7 @@ function SelectionModal() {
             <span
               className={`cursor-pointer  ${
                 timeOffset == 120
-                  ? "text-cyan-400"
+                  ? "text-glacier-accent"
                   : "each-selection-item text-slate-300"
               } flex items-center   hover:text-white `}
               onClick={() => {
@@ -187,7 +187,7 @@ function SelectionModal() {
           </div>
         )}
       </div>
-      <div className="bg-donkey-dark-purple px-5 py-1 mt-5 rounded-lg flex flex-row items-center justify-evenly">
+      <div className="bg-glacier-subprimary px-6 py-3 mt-5 rounded-lg flex flex-row items-center justify-evenly font-bold">
         <div
           className={`cursor-pointer flex items-center `}
           onClick={() => setIsOpen(true)}
@@ -200,7 +200,7 @@ function SelectionModal() {
         <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
           <AnimatePresence>
             <motion.div
-              className="bg-donkey-dark-purple text-white px-10 w-60 sm:w-80  py-2 rounded-lg flex flex-col items-start justify-evenly"
+              className="bg-glacier-subprimary text-white px-10 w-60 sm:w-80  py-2 rounded-lg flex flex-col items-start justify-evenly"
               initial={{ opacity: 0.6, scale: 0.99 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0.6, scale: 0.99 }}

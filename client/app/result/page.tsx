@@ -213,27 +213,27 @@ function Page() {
         {/* stats display */}
         <div className="flex flex-col text-white w-30 mb-4 items-start h-full">
           <div className="text-start">
-            <p className="  text-donkey-grape  font-light text-lg">wpm</p>
+            <p className="  text-glacier-subprimary  font-semibold text-lg">wpm</p>
             <div>
               {prevStats?.wpm && (
                 <span className="text-cyan-700  font-medium text-sm me-2">
                   {Math.round(prevStats.wpm)}
                 </span>
               )}
-              <span className="text-cyan-400 font-medium text-3xl">
+              <span className="text-glacier-primary font-semibold text-[2.5rem]">
                 {Math.round(stats.wpm)}
               </span>
             </div>
           </div>
           <div className="text-start">
-            <p className="text-donkey-grape  font-light text-lg">acc</p>
+            <p className="text-glacier-subprimary  font-semibold text-lg">acc</p>
             <div>
               {prevStats?.acc && (
                 <span className="text-cyan-700  font-medium text-sm me-2">
                   {Math.round(prevStats.acc * 100)}%
                 </span>
               )}
-              <span className="text-cyan-400  font-medium text-3xl">
+              <span className="text-glacier-primary font-semibold text-[2.5rem]">
                 {Math.round(stats.acc * 100)}%
               </span>
             </div>
@@ -249,48 +249,48 @@ function Page() {
       {/* bottom stats */}
       <div className="flex justify-evenly w-full md:w-3/5 mb-5">
         <div className="text-center">
-          <p className="text-donkey-grape  font-light">test type</p>
-          <p className="text-cyan-400 font-medium text-lg">
+          <p className="text-white  font-light">test type</p>
+          <p className="text-glacier-accent font-medium text-lg">
             {mode == "zen" ? "zen" : `time ${timeOffset}`}
           </p>
-          <p className="text-cyan-400 font-medium text-lg">
+          <p className="text-glacier-accent font-medium text-lg">
             {textCategory == "english" ? "English" : null}
             {textCategory == "webdev" ? "Web Dev" : null}
           </p>
         </div>
         <div className="text-center">
-          <p className="text-donkey-grape  font-light">text type</p>
+          <p className="text-white  font-light">text type</p>
           <p
-            className={`text-cyan-400 font-medium text-lg ${
-              timeMode.punctuation ? "" : " line-through text-cyan-700"
+            className={`text-glacier-accent font-medium text-lg ${
+              timeMode.punctuation ? "" : "  text-glacier-subprimary"
             }`}
           >
             punctuations
           </p>
           <p
-            className={`text-cyan-400 font-medium text-lg ${
-              timeMode.number ? "" : " line-through text-cyan-700"
+            className={`text-glacier-accent font-medium text-lg ${
+              timeMode.number ? "" : "  text-glacier-subprimary"
             }`}
           >
             numbers
           </p>
         </div>
         <div className="text-center">
-          <p className="text-donkey-grape  font-light">raw</p>
-          <p className={`text-cyan-400 font-medium text-3xl`}>
+          <p className="text-white  font-light">raw</p>
+          <p className={`text-glacier-accent font-medium text-3xl`}>
             {stats.totalRaw}
           </p>
         </div>
         <div className="text-center tooltip-container">
-          <p className="text-donkey-grape  font-light">characters</p>
+          <p className="text-white  font-light">characters</p>
           <div className="tooltip-trigger">
             <span
-              className={`text-cyan-400 font-medium text-3xl cursor-pointer`}
+              className={`text-glacier-accent font-medium text-3xl cursor-pointer`}
             >
               {stats.rawTotalCorrect}/
             </span>
             <span
-              className={`text-cyan-400 font-medium text-3xl cursor-pointer`}
+              className={`text-glacier-accent font-medium text-3xl cursor-pointer`}
             >
               {stats.rawTotalIncorrect}
             </span>
@@ -299,7 +299,7 @@ function Page() {
         </div>
       </div>
       {/* utils display */}
-      <div className="flex justify-evenly w-full md:w-3/5 border-t-2  border-white py-5 ">
+      <div className="flex justify-evenly w-full md:w-3/5  py-5 ">
         <div className="tooltip-container">
           <Image
             className="opacity-70 hover:opacity-100 cursor-pointer tooltip-trigger"

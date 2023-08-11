@@ -15,27 +15,16 @@ module.exports = {
         "text-color":"#636568",
         "text-color-imp":"#646669",
 
-        // blue theme
-        "donkey-darkBlue":"#08082C", //
-        "donkey-lessdark":"#101053",
-        "donkey-navyBlue":"#120566",
-        "donkey-federalBlue":"#1B0F67",
-        "donkey-violetBlue":"#3943B7",
-        "donkey-celestialBlue":"#449DD1",
-        "donkey-skyBlue":"#78C0E0",
-
-        // red
-        "donkey-grape":"#7209B7",
-        "donkey-rose":"#F72585",
-        "donkey-zaffre":"#3A0CA3",
-        "donkey-neon":"#4361EE",
-        "donkey-veronica":"#B14ADD",
-        "donkey-magenta":"#FF29D1",
-        "donkey-tropicalIndigo":"#E2CCFF",
-        "donkey-dark-purple":"#1F002C",
-
-        // orange
-        "donkey-utorange":"#FB8500",
+        // glacier theme
+        "glacier-primary":"#8FB3FF",
+        "glacier-subprimary":"#253352",
+        "glacier-secondary":"#001952",
+        "glacier-accent":"#86DBED",
+        "glacier-accent2":"#F199BF",
+        "glacier-special":"#05C3FF",
+        "glacier-background":"#030417",
+        "glacier-error":"#DD5F5F",
+        "glacier-untyped":"#777777",
       }
     },
   },

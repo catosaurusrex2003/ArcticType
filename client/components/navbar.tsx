@@ -64,20 +64,21 @@ function Navbar() {
 
   return (
     <div className="flex justify-center">
-      <div className="flex flex-row items-center justify-between w-full lg:w-4/5">
+      <div className="flex flex-row items-center justify-between w-full  sm:my-3  lg:w-4/5 ">
         {/* left side */}
         <div className="flex items-center sm:ms-8">
           <Link href="/">
             <div className="flex items-center ">
               <Image
-                className="h-14 md:h-20 hidden sm:block"
-                src="/keyboard-2.svg"
+                className="h-10 md:h-12 hidden sm:block"
+                src="/keyboard-cyan.svg"
                 height={100}
                 width={100}
                 alt="start typing"
               />
-              <h1 className="text-lg text-donkey-magenta md:text-3xl p-4 sm:p-0 font-semibold">
-                FuschiaRacer
+              <h1 className="relative text-lg text-glacier-accent md:text-3xl p-4 mt-3 sm:p-0 font-semibold">
+                <span className="absolute text-xs top-0 sm:-top-3">Glide through</span>
+                ArcticType
               </h1>
             </div>
           </Link>
@@ -132,19 +133,18 @@ function Navbar() {
           {auth ? (
             <Link
               href="/profile"
-              className="flex items-center opacity-60 hover:opacity-100"
+              className="flex items-center"
             >
+              <span className="text-glacier-accent text-xs hidden sm:block font-semibold ">
+                {auth?.username}
+              </span>
               <Image
-                className="mx-2  h-5 md:h-6"
-                src="/profile.svg"
+                className="mx-2 h-5 w-5 md:h-8 md:w-8 rounded-full"
+                src={auth?.picUrl}
                 height={30}
                 width={30}
                 alt="profile"
               />
-              <span className="text-donkey-magenta text-xs hidden sm:block font-semibold ">
-                {auth?.username}
-                {/* {userData?.} */}
-              </span>
             </Link>
           ) : (
             <Link href="/login">

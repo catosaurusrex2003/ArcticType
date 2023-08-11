@@ -146,17 +146,11 @@ function ProfilePicture({ pfpEditModalState }: props) {
       }}
       style={customStyles}
     >
-      {/* <div className="bg-donkey-dark-purple">
-        <input onChange={handleFileChange} type="file" />
-        <button className="bg-green-300" onClick={handleUpload}>
-          Upload
-        </button>
-      </div> */}
-
-      <div className=" border-dashed border-2 border-gray-700  w-72 h-80 relative bg-donkey-dark-purple">
+      <div className=" border-dashed border-2 border-gray-700  w-72 h-80 relative bg-glacier-subprimary">
         <input
           type="file"
           className=" w-full h-full opacity-0 cursor-pointer"
+          accept=".png, .jpg, .jpeg"
           onChange={handleFileChange}
         />
         <div
@@ -196,7 +190,7 @@ function ProfilePicture({ pfpEditModalState }: props) {
           }`}
         >
           <p
-            className=" bg-donkey-rose hover:bg-donkey-grape cursor-pointer text-center font-semibold py-2 px-3 rounded-md text-white  text-lg"
+            className=" bg-glacier-accent2 hover:bg-pink-500  active:bg-black active:text-white cursor-pointer text-center font-semibold py-2 px-3 rounded-md text-black  text-lg"
             onClick={handleUpload}
           >
             {selectedFile ? "Set Profile" : "Select"}

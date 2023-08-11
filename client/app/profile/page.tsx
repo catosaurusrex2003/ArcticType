@@ -56,9 +56,9 @@ function Page() {
   }
 
   return (
-    <div className="w-full flex flex-col items-center text-cyan-400 mb-20">
+    <div className="w-full flex flex-col items-center text-glacier-accent mb-20">
       {/* top strip */}
-      <div className="w-3/4 bg-donkey-dark-purple flex flex-col rounded-xl md:flex-row py-5 mt-5">
+      <div className=" w-11/12 sm:w-3/4 bg-glacier-subprimary flex flex-col rounded-xl md:flex-row py-5 mt-5">
         {/* left part */}
         <div className="md:w-1/2  flex flex-col">
           <div className="flex justify-evenly mb-2">
@@ -68,7 +68,7 @@ function Page() {
               from a url even though the content which the url serves changes 
               */}
               <img
-                className="bg-gray-200 my-2 rounded-full md:h-24 md:w-24 object-cover"
+                className="bg-gray-200 my-2 rounded-full h-20 w-20 md:h-24 md:w-24 object-cover"
                 src={
                   userData?.picUrl !== ""
                     ? `${userData?.picUrl}?${new Date().getTime()}`
@@ -88,10 +88,10 @@ function Page() {
               <ProfilePicture pfpEditModalState={pfpEditModalState} />
             </div>
             <div className="flex flex-col justify-center">
-              <span className=" text-2xl font-semibold">
+              <span className="text-white text-2xl font-semibold">
                 {userData?.username}
               </span>
-              <span className="text-xs font-medium">
+              <span className="text-white text-xs font-medium">
                 {userData?.joiningDate
                   ? formatJoiningDate(userData?.joiningDate)
                   : "---"}
@@ -104,54 +104,54 @@ function Page() {
         <div className="md:w-1/2 flex flex-col md:flex-row md:justify-evenly">
           <div className="flex flex-col justify-center ms-10 md:md-0 md:items-center mt-5 md:mt-0">
             <span className=" text-sm opacity-80">tests started</span>
-            <span className=" text-3xl font-semibold">
+            <span className=" text-3xl font-semibold text-glacier-accent2">
               {userData?.numberOfTests || "-"}
             </span>
           </div>
           <div className="flex flex-col justify-center ms-10 md:md-0 md:items-center mt-5 md:mt-0">
             <span className=" text-sm opacity-80">typing time</span>
-            <span className=" text-3xl font-semibold">
+            <span className=" text-3xl font-semibold text-glacier-accent2">
               {secondsToHMS(userData?.totalTime) || "-"}
             </span>
           </div>
         </div>
       </div>
       {/* bottom strip */}
-      <div className="w-3/4 bg-donkey-dark-purple flex flex-col justify-center rounded-xl md:flex-row py-5 mt-5">
+      <div className=" w-11/12 sm:w-3/4 bg-glacier-subprimary flex flex-col justify-center rounded-xl md:flex-row py-5 mt-5">
         <div className="md:w-3/4 flex flex-col md:flex-row md:justify-evenly">
           <div className="flex flex-col justify-center md:md-0 md:items-center mt-5 md:mt-0 text-center">
             <span className=" text-sm opacity-80">15 secs</span>
-            <span className=" text-5xl font-semibold">
+            <span className=" text-5xl font-semibold text-glacier-accent2">
               {userData?.records[15].wpm || "-"}
             </span>
-            <span className=" text-2xl font-medium">
+            <span className=" text-2xl font-medium text-glacier-accent2">
               {userData?.records[15].acc || "-"}
             </span>
           </div>
           <div className="flex flex-col justify-center md:md-0 md:items-center mt-5 md:mt-0 text-center">
             <span className=" text-sm opacity-80">30 secs</span>
-            <span className=" text-5xl font-semibold">
+            <span className=" text-5xl font-semibold text-glacier-accent2">
               {userData?.records[30].wpm || "-"}
             </span>
-            <span className=" text-2xl font-medium">
+            <span className=" text-2xl font-medium text-glacier-accent2">
               {userData?.records[30].acc || "-"}
             </span>
           </div>
           <div className="flex flex-col justify-center md:md-0 md:items-center mt-5 md:mt-0 text-center">
             <span className=" text-sm opacity-80">60 secs</span>
-            <span className=" text-5xl font-semibold">
+            <span className=" text-5xl font-semibold text-glacier-accent2">
               {userData?.records[60].wpm || "-"}
             </span>
-            <span className=" text-2xl font-medium">
+            <span className=" text-2xl font-medium text-glacier-accent2">
               {userData?.records[60].acc || "-"}
             </span>
           </div>
           <div className="flex flex-col justify-center md:md-0 md:items-center mt-5 md:mt-0 text-center">
             <span className=" text-sm opacity-80">120 secs</span>
-            <span className=" text-5xl font-semibold">
+            <span className=" text-5xl font-semibold text-glacier-accent2">
               {userData?.records[120].wpm || "-"}
             </span>
-            <span className=" text-2xl font-medium">
+            <span className=" text-2xl font-medium text-glacier-accent2">
               {userData?.records[120].acc || "-"}
             </span>
           </div>

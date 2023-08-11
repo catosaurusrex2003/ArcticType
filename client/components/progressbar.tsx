@@ -54,15 +54,15 @@ function Progressbar({ score }: { score: number }) {
     <div className="flex justify-center w-full  text-xs md:text-sm">
       <div className=" w-5/6 md:w-2/3 flex items-center">
         <span className="me-2">lvl:{level}</span>
-        <div className="bg-donkey-zaffre  w-full flex rounded-xl relative">
+        <div className="bg-black  w-full flex rounded-xl relative">
           <div
-            className="bg-donkey-rose rounded-xl text-center flex justify-center items-center text-black text-xs font-semibold"
+            className=" bg-gray-500 rounded-xl text-center flex justify-center items-center text-black text-xs font-semibold"
             style={{
               width: `${percentageCompleted}%`,
               height: "16px",
             }}
           ></div>
-          <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span className=" text-white font-semibold text-xs absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             {`${percentageCompleted}%`}
           </span>
         </div>

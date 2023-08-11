@@ -39,10 +39,10 @@ function EachLeaderboardCategory({ categoryProps }: { categoryProps: number }) {
       }
     );
   return (
-    <div className="w-full sm:Lw-5/6 md:w-3/5 xl:w-1/3 bg-donkey-dark-purple mt-10 rounded-xl text-white">
-      <p className="text-2xl font-bold  mt-5 ">Time {categoryProps}</p>
+    <div className="w-full sm:w-5/6 md:w-3/5 xl:w-1/3 bg-glacier-primary mt-10 rounded-xl text-black">
+      <p className="text-2xl font-bold  mt-3">Time {categoryProps}</p>
       <table className="w-full table-auto text-sm sm:text-base">
-        <thead className="h-14">
+        <thead className="h-10">
           <tr>
             <th></th>
             <th>#</th>
@@ -57,7 +57,7 @@ function EachLeaderboardCategory({ categoryProps }: { categoryProps: number }) {
               <tr className="h-10 font-semibold text-xs sm:text-sm">
                 <td className="flex justify-center items-center h-10">
                   <Image
-                    className="rounded-full bg-gray-700"
+                    className="rounded-full bg-gray-700 object-cover"
                     src={eachRow.picUrl || "/dummy-profile.png"}
                     height={25}
                     width={25}
@@ -77,7 +77,7 @@ function EachLeaderboardCategory({ categoryProps }: { categoryProps: number }) {
       </table>
       {hasNextPage && (
         <button
-          className=" bg-violet-600 hover:bg-violet-700 active:bg-violet-900 mb-5 py-1 px-2 rounded-md text-sm"
+          className=" bg-glacier-secondary hover:bg-glacier-subprimary active:bg-glacier-primary text-white font-semibold mb-5 py-1 px-2 rounded-md text-sm"
           onClick={() => fetchNextPage()}
         >
           {isFetchingNextPage ? "..." : "Load More"}

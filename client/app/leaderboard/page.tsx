@@ -218,7 +218,7 @@ function Page() {
 
   return (
     <div className="flex flex-col justify-center items-center text-center">
-      <p className="text-5xl text-donkey-rose font-bold mt-10">LeaderBoard</p>
+      <p className="text-5xl text-glacier-accent2 font-bold ">LeaderBoard</p>
       {/* each section */}
       <div className="flex flex-col xl:flex-row w-full xl:justify-evenly items-center xl:items-start flex-wrap">
         {/* each category modified one */}

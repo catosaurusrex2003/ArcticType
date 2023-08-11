@@ -186,11 +186,11 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
                     }
                     ${
                       character.state == "correct"
-                        ? "text-donkey-veronica "
+                        ? "text-white"
                         : // ? "text-cyan-300 "
                         character.state == "wrong"
-                        ? "text-red-600 underline decoration-solid decoration-donkey-rose"
-                        : "text-donkey-tropicalIndigo"
+                        ? "text-glacier-error underline decoration-solid decoration-glacier-error"
+                        : "text-glacier-untyped"
                     } 
                     ${character.hidden ? "hidden" : null}
                   `}

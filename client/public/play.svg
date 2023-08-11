@@ -1,7 +1,3 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg fill="#10e5f2" width="800px" height="800px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
-<g id="SVGRepo_bgCarrier" stroke-width="0"/>
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier"> <title>play</title> <path d="M5.92 24.096q0 1.088 0.928 1.728 0.512 0.288 1.088 0.288 0.448 0 0.896-0.224l16.16-8.064q0.48-0.256 0.8-0.736t0.288-1.088-0.288-1.056-0.8-0.736l-16.16-8.064q-0.448-0.224-0.896-0.224-0.544 0-1.088 0.288-0.928 0.608-0.928 1.728v16.16z"/> </g>
-</svg>
+<svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 34.206C0 35.5711 0.582145 36.655 1.74643 37.458C2.3888 37.8193 3.07132 38 3.79398 38C4.35605 38 4.91812 37.8595 5.48019 37.5784L35.8922 22.4025C36.4945 22.0814 36.9963 21.6196 37.3978 21.0174C37.7993 20.4152 37.9799 19.7327 37.9398 18.9699C37.8996 18.2071 37.719 17.5446 37.3978 16.9826C37.0766 16.4205 36.5748 15.9588 35.8922 15.5975L5.48019 0.421553C4.91812 0.140518 4.35605 0 3.79398 0C3.11146 0 2.42895 0.180666 1.74643 0.541997C0.582145 1.30481 0 2.3888 0 3.79398V34.206Z" fill="#8FB3FF"/>
+</svg>
