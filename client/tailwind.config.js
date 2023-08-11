@@ -8,13 +8,6 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        // original theme
-        "background-gray":"#323437",
-        "background-dark-gray":"#2c2e31",
-        "background-darker-gray":"#1f1f21",
-        "text-color":"#636568",
-        "text-color-imp":"#646669",
-
         // glacier theme
         "glacier-primary":"#8FB3FF",
         "glacier-subprimary":"#253352",

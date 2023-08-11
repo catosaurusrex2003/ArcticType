@@ -6,8 +6,8 @@
 
 body{
   font-family: 'Inter', sans-serif;
+  background-color: #030417;
 }
-
 @keyframes blink {
   0% {
     border-left-color: transparent;
@@ -19,29 +19,26 @@ body{
     border-left-color: transparent;
   }
 }
-
 .blinking-cursor {
   border-left: 3px solid transparent;
   animation: blink 1s infinite;
 }
-
-
-
 .each-selection-item {
   opacity:25%
 } 
 .each-selection-item:hover{
   opacity: 100%;
 }
-
 .blur-div {
   filter: blur(5px);
   transition: filter 0.5s ease-in-out;
 }
-
 .overlay-text{
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.footer{
+  background-color: #030417e7;
 }

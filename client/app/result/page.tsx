@@ -90,7 +90,7 @@ function Page() {
     mutationFn: () =>
       axiosBasicInstance.post("/newTest", {
         userEmail: auth?.email,
-        userName:auth?.username,
+        userName: auth?.username,
         stats: {
           time: timeOffset,
           wpm: Math.round(stats.wpm),
@@ -101,8 +101,8 @@ function Page() {
       }),
     onSuccess: (props) => {
       queryClient.invalidateQueries({
-        queryKey:["userData","leaderboard"],
-        refetchType:"all"
+        queryKey: ["userData", "leaderboard"],
+        refetchType: "all",
       });
       // console.log("props is ", props);
     },
@@ -129,7 +129,7 @@ function Page() {
         acc: Math.round(stats.acc * 100),
         type: whatMode(timeMode),
         retest: prevStats ? true : false,
-      })
+      });
       recordNewTest.mutate();
     }
   }, [stats.wpm, stats.acc]);
@@ -209,11 +209,13 @@ function Page() {
           numberOfPieces={300}
         />
       )}
-      <div className="flex flex-col md:flex-row  w-full   md:w-3/5  justify-evenly md:items-start items-center ">
+      <div className="flex flex-col md:flex-row  w-full   md:w-5/6  lg:w-4/5  justify-evenly md:items-start items-center ">
         {/* stats display */}
-        <div className="flex flex-col text-white w-30 mb-4 items-start h-full">
+        <div className="flex flex-col text-white lg:w-1/4 mb-4 items-center h-full ">
           <div className="text-start">
-            <p className="  text-glacier-subprimary  font-semibold text-lg">wpm</p>
+            <p className="  text-glacier-subprimary  font-semibold text-lg">
+              wpm
+            </p>
             <div>
               {prevStats?.wpm && (
                 <span className="text-cyan-700  font-medium text-sm me-2">
@@ -226,7 +228,9 @@ function Page() {
             </div>
           </div>
           <div className="text-start">
-            <p className="text-glacier-subprimary  font-semibold text-lg">acc</p>
+            <p className="text-glacier-subprimary  font-semibold text-lg">
+              acc
+            </p>
             <div>
               {prevStats?.acc && (
                 <span className="text-cyan-700  font-medium text-sm me-2">
@@ -241,19 +245,19 @@ function Page() {
         </div>
         {/* chart display */}
         {perSecondStatsArray && (
-          <div className="flex flex-col w-full ">
+          <div className="flex flex-col w-full md:w-2/3 lg:w-3/4  ">
             <MyLineChart finalData={finalData} />
           </div>
         )}
       </div>
       {/* bottom stats */}
-      <div className="flex justify-evenly w-full md:w-3/5 mb-5">
+      <div className="flex justify-evenly w-full md:w-3/5 my-5">
         <div className="text-center">
           <p className="text-white  font-light">test type</p>
-          <p className="text-glacier-accent font-medium text-lg">
+          <p className="text-glacier-primary font-medium text-lg">
             {mode == "zen" ? "zen" : `time ${timeOffset}`}
           </p>
-          <p className="text-glacier-accent font-medium text-lg">
+          <p className="text-glacier-primary font-medium text-lg">
             {textCategory == "english" ? "English" : null}
             {textCategory == "webdev" ? "Web Dev" : null}
           </p>
@@ -261,14 +265,14 @@ function Page() {
         <div className="text-center">
           <p className="text-white  font-light">text type</p>
           <p
-            className={`text-glacier-accent font-medium text-lg ${
+            className={`text-glacier-primary font-medium text-lg ${
               timeMode.punctuation ? "" : "  text-glacier-subprimary"
             }`}
           >
             punctuations
           </p>
           <p
-            className={`text-glacier-accent font-medium text-lg ${
+            className={`text-glacier-primary font-medium text-lg ${
               timeMode.number ? "" : "  text-glacier-subprimary"
             }`}
           >
@@ -277,7 +281,7 @@ function Page() {
         </div>
         <div className="text-center">
           <p className="text-white  font-light">raw</p>
-          <p className={`text-glacier-accent font-medium text-3xl`}>
+          <p className={`text-glacier-primary font-medium text-3xl`}>
             {stats.totalRaw}
           </p>
         </div>
@@ -285,12 +289,12 @@ function Page() {
           <p className="text-white  font-light">characters</p>
           <div className="tooltip-trigger">
             <span
-              className={`text-glacier-accent font-medium text-3xl cursor-pointer`}
+              className={`text-glacier-primary font-medium text-3xl cursor-pointer`}
             >
               {stats.rawTotalCorrect}/
             </span>
             <span
-              className={`text-glacier-accent font-medium text-3xl cursor-pointer`}
+              className={`text-glacier-primary font-medium text-3xl cursor-pointer`}
             >
               {stats.rawTotalIncorrect}
             </span>
@@ -299,13 +303,13 @@ function Page() {
         </div>
       </div>
       {/* utils display */}
-      <div className="flex justify-evenly w-full md:w-3/5  py-5 ">
+      <div className="flex justify-evenly items-center w-full md:w-4/5  py-10 ">
         <div className="tooltip-container">
           <Image
             className="opacity-70 hover:opacity-100 cursor-pointer tooltip-trigger"
             src="play.svg"
-            height="40"
-            width="40"
+            height="35"
+            width="35"
             alt=""
             onClick={() => {
               setPrevStats(null);
@@ -319,8 +323,8 @@ function Page() {
           <Image
             className="opacity-70 hover:opacity-100 cursor-pointer tooltip-trigger"
             src="cycle.svg"
-            height="40"
-            width="40"
+            height="35"
+            width="35"
             alt=""
             onClick={() => {
               setPrevStats({

@@ -3,3 +3,5 @@ after skipping 2  lines it skips one extra on every line.
 
 database entries 0wpm   
                 fixed
+
+auth apart from firefox is broken

@@ -13,6 +13,8 @@ import { shallow } from "zustand/shallow";
 import { useFastRefreshStore } from "@/store/fastRefreshStore";
 import { useModeStore } from "@/store/modeStore";
 
+import Image from "next/image";
+
 type TypingdivProps = {
   textArray: letterType[];
   setTextArray: Dispatch<SetStateAction<letterType[]>>;
@@ -22,7 +24,12 @@ type TypingdivProps = {
 
 const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
   const [mode, timeMode, textCategory, timeOffset] = useModeStore(
-    (store) => [store.mode, store.timeMode, store.textCategory, store.timeOffset],
+    (store) => [
+      store.mode,
+      store.timeMode,
+      store.textCategory,
+      store.timeOffset,
+    ],
     shallow
   );
 
@@ -41,7 +48,10 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
   );
 
   // the state wether to focus or not
-  const [focusStatus, setFocusState] = useState<Boolean>(true);
+  const [focusStatus, setFocusStatus] = useState<{
+    state: boolean;
+    mounted: boolean;
+  }>({ state: true, mounted: false });
   // ids of the spans which wrap in the div
   const [wrapSpanIds, setWrapSpanIds] = useState<string[]>();
   // example 28px
@@ -59,15 +69,14 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
   };
 
   const scrollOneLine = () => {
-    console.log("one line scrolled")
+    console.log("one line scrolled");
     focusRef.current.scrollTop = currentLineHeight * lineScrolled.current;
     lineScrolled.current += 1;
   };
 
   useEffect(() => {
-    setStarted(false)
-  }, [mode, timeMode, textCategory, timeOffset])
-  
+    setStarted(false);
+  }, [mode, timeMode, textCategory, timeOffset]);
 
   const handleKeyboardEvent = (event: any) => {
     event.preventDefault();
@@ -122,16 +131,39 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
     }
   };
 
-  const handleFocus = (focusState: 0 | 1) => {
-    if (focusState) {
-      setFocusState(true);
-    } else {
-      setFocusState(false);
+  const handleKeyBinds = (event: KeyboardEvent) => {
+    console.log(event.code);
+    if (event.key === "Tab" && event.shiftKey && event.code === "Enter") {
+      // location.reload()
+      console.log("meow");
     }
   };
 
   useEffect(() => {
-    handleFocus(0);
+    document.addEventListener("keydown", handleKeyBinds);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyBinds);
+    };
+  }, []);
+
+  const handleFocus = (focusState: 0 | 1) => {
+    if (focusState) {
+      setFocusStatus((prev)=>({...prev,state:true}));
+    } else {
+      setFocusStatus((prev)=>({...prev,state:false}));
+    }
+  };
+
+  useEffect(() => {
+    if(focusStatus.mounted){
+      console.log("alreadymounted")
+      handleFocus(0);
+    }
+    else{
+      console.log("first time mounting")
+      setFocusStatus((prev)=>({...prev,mounted:true}));
+    }
   }, [textCategory, timeMode]);
 
   useEffect(() => {
@@ -156,7 +188,7 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
   }, [focusRef.current, textArray]);
 
   return (
-    <div className="flex flex-col mt-8 md:h-64 justify-center items-center relative">
+    <div className="flex flex-col  items-center relative mt-20">
       {started && (
         <div className="flex w-4/5 sm:w-3/4">
           <div className="mr-auto">
@@ -165,9 +197,11 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
         </div>
       )}
       <div
-        className={`typing-div-focus w-4/5 sm:w-3/4 h-20 sm:h-24   overflow-hidden text-justify select-none border-none focus:outline-none ${
-          focusStatus ? null : "blur-div cursor-pointer "
-        }`}
+        className={`typing-div-focus w-4/5 sm:w-3/4 h-20 sm:h-32 overflow-hidden text-justify select-none border-none focus:outline-none ${
+          focusStatus.state ? null : "blur-div cursor-pointer "
+        }
+        font-semibold leading-6
+        `}
         ref={focusRef}
         tabIndex={0}
         onKeyDown={handleKeyboardEvent}
@@ -198,6 +232,28 @@ const Typingdiv = ({ textArray, setTextArray, charIdArr }: TypingdivProps) => {
             {character.letter}
           </span>
         ))}
+      </div>
+      <div className="mt-10">
+        <Image
+          onClick={() => {
+            location.reload();
+          }}
+          className="opacity-75 hover:opacity-100  cursor-pointer hover:rotate-90 transition-transform duration-300 ease-in-out transform origin-center"
+          src="/Restart.svg"
+          height={30}
+          width={30}
+          alt=""
+        />
+      </div>
+      <div className=" text-white  mt-10">
+        <span className="bg-glacier-subprimary p-1 px-2 rounded-md mx-2">
+          tab
+        </span>
+        <span>+</span>
+        <span className="bg-glacier-subprimary p-1 px-2 rounded-md mx-2">
+          enter
+        </span>
+        <span>- restart</span>
       </div>
     </div>
   );

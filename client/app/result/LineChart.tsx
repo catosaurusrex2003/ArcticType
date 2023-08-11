@@ -67,7 +67,7 @@ function MyLineChart({ finalData }: propsType) {
 
   return (
     <div  className="flex justify-center">
-      <div className="max-w-2xl flex flex-col w-full">
+      <div className="max-w-3xl flex flex-col w-full">
         <ResponsiveContainer width="100%" aspect={2.8} >
           <LineChart data={finalData}>
             <CartesianGrid strokeDasharray="10 0 0" stroke="#5455576b" />
