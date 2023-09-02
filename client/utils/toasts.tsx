@@ -7,11 +7,11 @@ export const successToast = (text: string) => {
 
     // Styling
     style: {
-      backgroundColor: "#84cc16",
+      backgroundColor: "#9DE770",
       borderRadius: "30px",
-      borderWidth:"5px",
-      borderColor:"#3f6212",
-      fontWeight:700
+      borderWidth:"2px",
+      borderColor:"#ffffff",
+      fontWeight:600
     },
     className: " ",
 
@@ -30,11 +30,12 @@ export const errorToast = (text: string) => {
   
       // Styling
       style: {
-        backgroundColor: "#b91c1c",
+        backgroundColor: "#DD5F5F",
         borderRadius: "30px",
-        borderWidth:"5px",
-        borderColor:"#450a0a",
-        fontWeight:700
+        borderWidth:"2px",
+        borderColor:"#ffffff",
+        fontWeight:600,
+        fontSize:"15px"
       },
       className: " ",
   

@@ -6,7 +6,7 @@
 # export GIT_PASSWORD="YOU PERSONEL ACCESS TOKEN"
 # and run
 # source gitcredenv.sh
-# then run deploy.sh
+# then run ./deploy.sh
 
 # Read Git credentials from environment variables
 GIT_USERNAME="$GIT_USERNAME"

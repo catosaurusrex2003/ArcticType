@@ -18,6 +18,9 @@ module.exports = {
         "glacier-background":"#030417",
         "glacier-error":"#DD5F5F",
         "glacier-untyped":"#777777",
+        "glacier-button-green":"#68A741",
+        "glacier-button-green-hover":"#82BE5D",
+        "glacier-button-green-active":"#395527"
       }
     },
   },

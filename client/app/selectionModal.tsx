@@ -200,7 +200,7 @@ function SelectionModal() {
         <Modal isOpen={isOpen} onRequestClose={closeModal} style={customStyles}>
           <AnimatePresence>
             <motion.div
-              className="bg-glacier-subprimary text-white px-10 w-60 sm:w-80  py-2 rounded-lg flex flex-col items-start justify-evenly"
+              className="bg-glacier-subprimary text-white border-2 border-white px-10 w-60 sm:w-80  py-2 rounded-lg flex flex-col items-start justify-evenly"
               initial={{ opacity: 0.6, scale: 0.99 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0.6, scale: 0.99 }}

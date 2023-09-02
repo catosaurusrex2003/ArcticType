@@ -6,45 +6,44 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { letterType } from "../types/textArray";
-import MyTimer from "./timer";
-import { usePerSecondStore } from "@/store/perSecondStore";
 import { shallow } from "zustand/shallow";
-import { useFastRefreshStore } from "@/store/fastRefreshStore";
-import { useModeStore } from "@/store/modeStore";
+import { letterType } from "@/types/textArray";
+import { useCompeteGeneralStore } from "@/store/competeGeneralStore";
+import { RealtimeChannel } from "@supabase/supabase-js";
+import PersonelCounter from "./personelCounter";
+import TypingDivTimer from "./typingDivTimer";
 import { motion } from "framer-motion";
 
-import Image from "next/image";
-
 type TypingdivProps = {
+  roomChannelState: RealtimeChannel | null | undefined;
   textArray: letterType[];
-  setTextArray: Dispatch<SetStateAction<letterType[]>>;
-  setLinesCompleted: Dispatch<SetStateAction<number>>;
+  setTextArray: (
+    ValueOrUpdater:
+      | letterType[]
+      | ((currentState: letterType[]) => letterType[])
+  ) => void;
 };
 
-const Typingdiv = ({ textArray, setTextArray }: TypingdivProps) => {
-  const [mode, timeMode, textCategory, timeOffset] = useModeStore(
-    (store) => [
-      store.mode,
-      store.timeMode,
-      store.textCategory,
-      store.timeOffset,
+const Typingdiv = ({
+  roomChannelState,
+  textArray,
+  setTextArray,
+}: TypingdivProps) => {
+  const [
+    username,
+    currentIndex,
+    incrementCurrentIndex,
+    decrementCurrentIndex,
+    testDuration,
+  ] = useCompeteGeneralStore(
+    (store: any) => [
+      store.username,
+      store.currentIndex,
+      store.incrementCurrentIndex,
+      store.decrementCurrentIndex,
+      store.testDuration,
     ],
     shallow
-  );
-
-  const [currentIndex, incrementCurrentIndex, decrementCurrentIndex] =
-    useFastRefreshStore(
-      (store) => [
-        store.currentIndex,
-        store.incrementCurrentIndex,
-        store.decrementCurrentIndex,
-      ],
-      shallow
-    );
-
-  const incrementPerSecondState = usePerSecondStore(
-    (store) => store.incrementPerSecondState
   );
 
   // the state wether to focus or not
@@ -57,25 +56,22 @@ const Typingdiv = ({ textArray, setTextArray }: TypingdivProps) => {
   // example 28px
   const [currentLineHeight, setCurrenLineHeight] = useState<number>(32);
   // doesnt need to be global. depicts if the test is started or not
+  // will put this one layer up
   const [started, setStarted] = useState(false);
   // numbers of lines-height distance scrolled. used in divRef.current.scrollTop]
   const lineScrolled = useRef<number>(1);
   // the container div of all the spans
   const focusRef = useRef<HTMLDivElement>(null!);
 
-  // sets the state for stats of each second
-  const handlePerSecondStats = (params: 1 | 0) => {
-    incrementPerSecondState(params ? "correct" : "wrong");
-  };
-
   const scrollOneLine = () => {
+    console.log("one line scrolled");
     focusRef.current.scrollTop = currentLineHeight * lineScrolled.current;
     lineScrolled.current += 1;
   };
 
   useEffect(() => {
     setStarted(false);
-  }, [mode, timeMode, textCategory, timeOffset]);
+  }, []);
 
   const handleKeyboardEvent = (event: any) => {
     event.preventDefault();
@@ -90,62 +86,61 @@ const Typingdiv = ({ textArray, setTextArray }: TypingdivProps) => {
       if (key === "Backspace") {
         if (currentIndex !== 0) {
           setTextArray((prev) => {
+            const tempState = [...prev];
             // find the object of the letter
-            const obj = prev.find(
-              (each) => each.id == prev[currentIndex - 1].id
+            const obj = tempState.find(
+              (each) => each.id == tempState[currentIndex - 1].id
             );
             // change the state of letter to pending in the array
             if (obj) {
-              obj.state = "pending";
-              prev[currentIndex - 1] = obj;
+              const tempObj = { ...obj };
+              tempObj.state = "pending";
+              tempState[currentIndex - 1] = tempObj;
             }
-            return prev;
+            return [...tempState];
           });
           decrementCurrentIndex();
         }
       } else {
+        // variable to check if it needs to be incremented or not
+        var increment:boolean = true
         setTextArray((prev) => {
           // find the object of the letter
-          const obj = prev.find((each) => each.id === prev[currentIndex].id);
+          const tempState = [...prev];
+          if (
+            currentIndex >= 1 &&
+            tempState[currentIndex - 1].state == "wrong"
+          ) {
+            increment = false;
+            return prev;
+          }
+          const obj = tempState.find(
+            (each) => each.id === tempState[currentIndex].id
+          );
           if (obj) {
+            const tempObj = { ...obj };
             // if correct change state
-            if (obj.letter == key) {
-              obj.state = "correct";
-              prev[currentIndex] = obj;
-              handlePerSecondStats(1);
+            if (tempObj.letter == key) {
+              tempObj.state = "correct";
+              tempState[currentIndex] = tempObj;
             } else {
-              obj.state = "wrong";
-              prev[currentIndex] = obj;
-              handlePerSecondStats(0);
+              tempObj.state = "wrong";
+              tempState[currentIndex] = tempObj;
             }
             if (wrapSpanIds) {
               // linescrolled.current starts from 1. i have purposely not put linescrolled.current-1 below.
               // so that it starts scrolling from the second line
-              if (obj.id == wrapSpanIds[lineScrolled.current]) {
+              if (tempObj.id == wrapSpanIds[lineScrolled.current]) {
                 scrollOneLine();
               }
             }
           }
-          return prev;
+          return tempState;
         });
-        incrementCurrentIndex();
+        increment && incrementCurrentIndex();
       }
     }
   };
-
-  const handleKeyBinds = (event: KeyboardEvent) => {
-    if (event.key === "Tab" && event.shiftKey && event.code === "Enter") {
-      // location.reload()
-    }
-  };
-
-  useEffect(() => {
-    // document.addEventListener("keydown", handleKeyBinds);
-
-    return () => {
-      // document.removeEventListener("keydown", handleKeyBinds);
-    };
-  }, []);
 
   const handleFocus = (focusState: 0 | 1) => {
     if (focusState) {
@@ -164,10 +159,11 @@ const Typingdiv = ({ textArray, setTextArray }: TypingdivProps) => {
       setFocusStatus((prev) => ({ ...prev, mounted: true }));
       const focusDiv = document.getElementById("typing-div-focus");
       if (focusDiv) {
+        console.log("focussing");
         focusDiv.focus();
       }
     }
-  }, [textCategory, timeMode]);
+  }, []);
 
   useEffect(() => {
     const spans = Array.from(focusRef.current.getElementsByTagName("span"));
@@ -192,20 +188,23 @@ const Typingdiv = ({ textArray, setTextArray }: TypingdivProps) => {
 
   return (
     <div className="flex flex-col  items-center relative mt-20">
-      {started && (
-        <div className="flex w-4/5 sm:w-3/4">
-          <div className="mr-auto">
-            <MyTimer />
-          </div>
+      {/* {started && ( */}
+      <div className="flex w-4/5 sm:w-3/4">
+        <div className="mr-auto">
+          <TypingDivTimer
+            timeMax={testDuration}
+            roomChannelState={roomChannelState}
+          />
         </div>
-      )}
+      </div>
+      {/* )} */}
       <div className="relative flex flex-col items-center w-full">
         <div
           className={`typing-div-focus w-4/5 sm:w-3/4 h-20 sm:h-32 overflow-hidden text-justify select-none border-none focus:outline-none ${
-            focusStatus.state ? null : "blur-div cursor-pointer "
+            focusStatus.state ? null : "blur-div cursor-pointer"
           }
-          font-semibold leading-6
-          `}
+        font-semibold leading-6
+        `}
           ref={focusRef}
           id="typing-div-focus"
           tabIndex={0}
@@ -248,29 +247,6 @@ const Typingdiv = ({ textArray, setTextArray }: TypingdivProps) => {
             Click to Start typing
           </motion.div>
         )}
-      </div>
-
-      <div className="mt-10">
-        <Image
-          onClick={() => {
-            location.reload();
-          }}
-          className="opacity-75 hover:opacity-100  cursor-pointer hover:rotate-90 transition-transform duration-300 ease-in-out transform origin-center"
-          src="/Restart.svg"
-          height={30}
-          width={30}
-          alt=""
-        />
-      </div>
-      <div className=" text-white  mt-10">
-        <span className="bg-glacier-subprimary p-1 px-2 rounded-md mx-2">
-          tab
-        </span>
-        <span>+</span>
-        <span className="bg-glacier-subprimary p-1 px-2 rounded-md mx-2">
-          enter
-        </span>
-        <span>- restart</span>
       </div>
     </div>
   );

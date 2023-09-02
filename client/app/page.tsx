@@ -5,14 +5,13 @@ import Typingdiv from "./typingdiv";
 import { letterType } from "@/types/textArray";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import Cookies from "js-cookie";
-import axios from "axios";
 import { useModeStore } from "@/store/modeStore.tsx";
 import { usePerSecondStore } from "@/store/perSecondStore";
 import { shallow } from "zustand/shallow";
 import { useFastRefreshStore } from "@/store/fastRefreshStore";
 import { useGeneralStore } from "@/store/generalStore";
 import { whatLength, whatMode } from "@/utils/what";
+import getText from "@/utils/getText";
 
 export default function Home() {
   const [mode, timeMode, textCategory, timeOffset, restest] = useModeStore(
@@ -44,19 +43,16 @@ export default function Home() {
     (store) => store.overwriteCurrentIndex
   );
 
-  const [charIdArr, setCharIdArr] = useState<string[]>([]);
   const [textArray, setTextArray] = useState<letterType[]>([]);
   const [linesCompleted, setLinesCompleted] = useState<number>(0);
 
   useEffect(() => {
     // const tempText = selectSentences(text);
     const tempText = text;
-    setCharIdArr([]);
     setTextArray([]);
     overwriteCurrentIndex(0);
     tempText.split("").map((each) => {
       const cache1 = uuid();
-      setCharIdArr((prev) => [...prev, cache1]);
       setTextArray((prev) => [
         ...prev,
         {
@@ -70,20 +66,24 @@ export default function Home() {
     });
   }, [text, linesCompleted]);
 
-  // fetch text from backend
-  const getText = async (payload: {
-    cat: "english" | "webdev";
-    type: "basic" | "punc" | "num" | "both";
-    length: Number;
-  }) => {
-    try {
-      const result = await axios.post(`/api/getText`, payload);
-      if (result.status == 200) {
-        setText(result.data.text);
-        console.log(result.data.text);
+  const getRequiredText = async () => {
+    // conditions for which type of text to fetch
+    if (!restest) {
+      if (mode == "time") {
+        const text = await getText({
+          cat: textCategory,
+          type: whatMode(timeMode),
+          length: whatLength(timeOffset),
+        });
+        setText(text);
+      } else {
+        const text = await getText({
+          cat: textCategory,
+          type: "basic",
+          length: whatLength(timeOffset),
+        });
+        setText(text)
       }
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -94,23 +94,7 @@ export default function Home() {
       correct: 0,
       wrong: 0,
     });
-
-    // conditions for which type of text to fetch
-    if (!restest) {
-      if (mode == "time") {
-        getText({
-          cat: textCategory,
-          type: whatMode(timeMode),
-          length: whatLength(timeOffset),
-        });
-      } else {
-        getText({
-          cat: textCategory,
-          type: "basic",
-          length: whatLength(timeOffset),
-        });
-      }
-    }
+    getRequiredText()
   }, [timeMode, textCategory, timeOffset]);
 
   useEffect(() => {
@@ -125,7 +109,6 @@ export default function Home() {
       <Typingdiv
         textArray={textArray}
         setTextArray={setTextArray}
-        charIdArr={charIdArr}
         setLinesCompleted={setLinesCompleted}
       />
     </div>

@@ -25,14 +25,14 @@ function Footer() {
       {/* 2 */}
       <div className="flex justify-evenly pt-3">
         <Link
-          href="https://youtu.be/dQw4w9WgXcQ"
+          href="https://i.kym-cdn.com/entries/icons/original/000/044/183/mondaycover.jpg"
           className="flex items-center mx-3"
         >
           <Image src="/footer/discord.svg" height={20} width={23} alt="" />
           <span className="mx-1">Discord</span>
         </Link>
         <Link
-          href="https://youtu.be/dQw4w9WgXcQ"
+          href="https://i1.sndcdn.com/avatars-Y4tyr562qpW0BkD2-vsYJFQ-t500x500.jpg"
           className="flex items-center mx-3"
         >
           <Image src="/footer/page.svg" height={20} width={17} alt="" />
@@ -42,7 +42,7 @@ function Footer() {
       {/* 3 */}
       <div className="flex justify-evenly pt-3">
         <Link
-          href="https://youtu.be/dQw4w9WgXcQ"
+          href="https://www.kindpng.com/picc/m/370-3709044_bread-cat-cursed-image-burrito-cat-hd-png.png"
           className="flex items-center mx-3"
         >
           <Image src="/footer/shield.svg" height={20} width={19} alt="" />

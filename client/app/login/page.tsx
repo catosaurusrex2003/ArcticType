@@ -192,7 +192,7 @@ function Page() {
             }}
           />
           {formError.location == "registerUsername" && (
-            <span className="text-red-600 text-sm font-semibold">
+            <span className="text-red-600 text-xs font-semibold">
               {formError.errorMessage}
             </span>
           )}
@@ -209,7 +209,7 @@ function Page() {
             }}
           />
           {formError.location == "registerEmail" && (
-            <span className="text-red-600 text-sm font-semibold">
+            <span className="text-red-600 text-xs font-semibold">
               {formError.errorMessage}
             </span>
           )}
@@ -227,7 +227,7 @@ function Page() {
             }}
           />
           {formError.location == "registerPassword" && (
-            <span className="text-red-600 text-sm font-semibold">
+            <span className="text-red-600 text-xs font-semibold">
               {formError.errorMessage}
             </span>
           )}
@@ -248,7 +248,7 @@ function Page() {
             }}
           />
           {formError.location == "registerVerifyPassword" && (
-            <span className="text-red-600 text-sm font-semibold">
+            <span className="text-red-600 text-xs font-semibold">
               {formError.errorMessage}
             </span>
           )}
@@ -277,7 +277,7 @@ function Page() {
             }}
           />
           {formError.location == "loginEmail" && (
-            <span className="text-red-600 text-sm font-semibold">
+            <span className="text-red-600 text-xs font-semibold">
               {formError.errorMessage}
             </span>
           )}
@@ -295,7 +295,7 @@ function Page() {
             }}
           />
           {formError.location == "loginPassword" && (
-            <span className="text-red-600 text-sm font-semibold">
+            <span className="text-red-600 text-xs font-semibold">
               {formError.errorMessage}
             </span>
           )}

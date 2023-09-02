@@ -6,13 +6,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useModeStore } from "@/store/modeStore.tsx";
 import { usePerSecondStore } from "@/store/perSecondStore";
-import "./styles.css";
 import { shallow } from "zustand/shallow";
 import { useGeneralStore } from "@/store/generalStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosBasicInstance from "@/config/axiosConfig";
 import { whatMode } from "@/utils/what";
 import Confetti from "react-confetti";
+import { errorToast } from "@/utils/toasts";
+import { Toaster, toast } from "react-hot-toast";
 
 type statsType = {
   wpm: number;
@@ -132,6 +133,12 @@ function Page() {
       });
       recordNewTest.mutate();
     }
+    else{
+      console.log("ERROR RAIED")
+      toast.dismiss()
+      errorToast("test results not saved.")
+      errorToast("Login")
+    }
   }, [stats.wpm, stats.acc]);
 
   // tha calculations  things
@@ -200,6 +207,7 @@ function Page() {
       className="flex flex-col items-center justify-center screenshotDiv"
       ref={screenShotRef}
     >
+      <Toaster/>
       {displayConfetti && (
         <Confetti
           width={windowSize.width}
@@ -251,7 +259,7 @@ function Page() {
         )}
       </div>
       {/* bottom stats */}
-      <div className="flex justify-evenly w-full md:w-3/5 my-5">
+      <div className="flex justify-evenly w-full md:w-3/5 my-3">
         <div className="text-center">
           <p className="text-white  font-light">test type</p>
           <p className="text-glacier-primary font-medium text-lg">
@@ -303,7 +311,7 @@ function Page() {
         </div>
       </div>
       {/* utils display */}
-      <div className="flex justify-evenly items-center w-full md:w-4/5  py-10 ">
+      <div className="flex justify-evenly items-center w-full md:w-4/5  py-8 ">
         <div className="tooltip-container">
           <Image
             className="opacity-70 hover:opacity-100 cursor-pointer tooltip-trigger"
