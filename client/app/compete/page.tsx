@@ -11,7 +11,7 @@ import { getRoomUsersArray } from "@/utils/getRoomUsers";
 import Link from "next/link";
 import Image from "next/image";
 
-function page() {
+function Page() {
   const router = useRouter();
 
   const setUsername = useCompeteGeneralStore((store) => store.setUsername);
@@ -426,4 +426,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

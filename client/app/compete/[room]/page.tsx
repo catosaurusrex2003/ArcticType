@@ -359,6 +359,7 @@ function Page() {
             <tbody>
               {othersCursor.map((each: othersCursorType, index: number) => (
                 <tr
+                  key={index}
                   className={`${
                     index == 0 ? " text-yellow-400 font-semibold" : ""
                   } h-10 border-b-2 border-slate-600`}
@@ -394,8 +395,9 @@ function Page() {
         <div className="flex flex-col items-center bg-glacier-subprimary  w-11/12 md:w-4/5 mx-auto rounded-lg py-3 px-5 my-14">
           <span className="text-lg font-semibold">In the Room</span>
           <div className="flex flex-wrap justify-evenly w-full">
-            {onlineUsers.map((eachUserName) => (
+            {onlineUsers.map((eachUserName, index) => (
               <span
+                key={index}
                 className={` bg-glacier-primary text-black ${
                   eachUserName == username && "text-white"
                 } font-semibold w-3/4 md:w-1/3 text-center rounded-sm p-2 my-2 mx-2`}
