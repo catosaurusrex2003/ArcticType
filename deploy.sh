@@ -1,5 +1,5 @@
 #!/bin/bash
-# before this run a gitcredenv.sh 
+# before running this run a gitcredenv.sh 
 # which has
 # export GIT_USERNAME="YOUR USERNAME"
 # export GIT_EMAIL="YOUR EMAIL"
