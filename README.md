@@ -2,7 +2,7 @@
     <h1>Arctictype</h1>
 </a>
 
-<p >
+<p>
   Arctictype is typing simulator on which you can practise to increase your typing speed and compete with your freinds in realtime.
 </p>
 
@@ -11,9 +11,8 @@ The project is implemented in a [TypeScript](https://www.typescriptlang.org/) en
 **Link:** [https://arctictype.vercel.app/](https://arctictype.vercel.app/)
 
 <ul>
-<li><a href="#description"><strong>Description</strong></a></li>
-<li><a href="#features"><strong>Features</strong></a></li>
-<li><a href="#key-functionality"><strong>Key functionality</strong></a></li>
+<li><a href="#key-features"><strong>Key Features</strong></a></li>
+<li><a href="#tech-stack"><strong>Tech Stack</strong></a></li>
 <li><a href="#running-locally"><strong>Running locally</strong></a></li>
 <!-- <li></li> -->
 </p>
