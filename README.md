@@ -77,7 +77,7 @@ DBURI = # mongodb Data uri
 
 ```bash
 # ./client/.env.local
-NEXT_PUBLIC_SERVER_URL = # 2local backend api link. eg: if your ./server/.env has PORT = 3001 then (http/https)://(ipAddress/domain):3001 
+NEXT_PUBLIC_SERVER_URL = # local backend api link. eg: if your ./server/.env has PORT = 3001 then (http/https)://(ipAddress/domain):3001 
 NEXT_PUBLIC_SUPABASE_PROJECT_ID =
 NEXT_PUBLIC_SUPABASE_PROJECT_URL =
 NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY =
