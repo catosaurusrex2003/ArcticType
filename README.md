@@ -92,7 +92,10 @@ NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY =
 
 
 
-Website should now be running on [localhost:3000](http://localhost:3000/).
+Website should now be running on [(localhost/domain):3000](http://localhost:3000/).
+
+
+> Note: There is a deploy.sh in the root dir if you wanna deploy this somewhere. You just need to connect your Render to the ./server and vercel to ./client of the github repo.
 
 <!-- ## Running the docker
 
