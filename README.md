@@ -29,7 +29,7 @@ The project is implemented in a [TypeScript](https://www.typescriptlang.org/) en
 - [Typescript](https://www.typescriptlang.org/) for reliable and fast development
 - [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction) for State Management
 - [Mongodb](https://www.mongodb.com/) to store all test and user the data.
-- [Supabase Database](https://supabase.com/docs/guides/database/overview) to maintain statefullness in the realtime channels.
+- [Supabase Database](https://supabase.com/docs/guides/database/overview) Realtime Postgresql database to maintain statefullness in the realtime channels.
 - [Supabase Realtime](https://supabase.com/docs/guides/realtime) for the realtime features.
   - Will be switching to custom written [Socket.io](https://socket.io/) server to increase functionality and flexibility. )
   - This is due to the fact that in supabase realtime services i dont have a backend. The states are maintained on the client side. Only data can be emitted and consumed by clients. This causes a HUGE problem of concurrency (realtime database is also used to tackle this issue to some extent) and data processing. I mean supabases realtime services were not meant to be used in this way.
