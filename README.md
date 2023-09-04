@@ -6,6 +6,10 @@
   Arctictype is typing simulator on which you can practise to increase your typing speed and compete with your freinds in realtime.
 </p>
 
+The project is implemented in a [TypeScript](https://www.typescriptlang.org/) environment. Frontend is hosted on [Vercel](https://vercel.com). Backend is hosted on [Render](https://render.com/) ( will switch to [Glitch](https://glitch.com/) to support wss connections ).
+
+**Link:** [https://arctictype.vercel.app/](https://arctictype.vercel.app/)
+
 <ul>
 <li><a href="#description"><strong>Description</strong></a></li>
 <li><a href="#features"><strong>Features</strong></a></li>
@@ -15,15 +19,25 @@
 </p>
 </ul>
 
-## Description
-
-The project is implemented in a [TypeScript](https://www.typescriptlang.org/) environment. Frontend is hosted on [Vercel](https://vercel.com). Backend is hosted on [Render](https://render.com/) ( will switch to [Glitch](https://glitch.com/) to support wss connections ).
-
-**Link:** [https://arctictype.vercel.app/](https://arctictype.vercel.app/)
-
 <!-- <img width="1392" alt="clumsy-keys website base image" src="https://github.com/korebhaumik/Clumsykeys/assets/106856064/529757ae-e126-45c7-94de-0d79b854f3e6"> -->
 
-## Features
+
+
+## Key Features
+
+- Robust calculation of Typing speed (wpm) and accuracy of a test.
+- Get different formats of practice text ( with punctuations, special characters and numbers ).
+- Chart to visualize your typing speed, accuracy and errors over time.
+- Store your test results and flex your speed the leaderboard.
+
+Supported languages:
+
+1. English_1K
+2. English_5K
+3. Web Dev (😁)
+4. Code Python
+
+## Tech Stack
 
 - [Nextjs 13](https://nextjs.org/) (App Router)
 - [Typescript](https://www.typescriptlang.org/) for reliable and fast development
@@ -46,20 +60,6 @@ The project is implemented in a [TypeScript](https://www.typescriptlang.org/) en
 - [Socket.io](https://socket.io/) for wss server.
 - zen mode
 - <strong>Ui improvements</strong>
-
-## Key Functionality
-
-- Robust calculation of Typing speed (wpm) and accuracy of a test.
-- Get different formats of practice text ( with punctuations, special characters and numbers ).
-- Chart to visualize your typing speed, accuracy and errors over time.
-- Store your test results and flex your speed the leaderboard.
-
-Support for the following languages are currently available:
-
-1. English_1K
-2. English_5K
-3. Web Dev (😁)
-4. Code Python
 
 ## Running locally
 
