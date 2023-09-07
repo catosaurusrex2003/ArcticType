@@ -170,9 +170,9 @@ export const useCompeteGeneralStore = create<useCompeteGeneralStoreType>()(
       clearOthersCursor: () =>
         set({ othersCursor: [] }, false, "clearOthersCursor"),
 
-      requestValidity: 10,
+      requestValidity: 15,
 
-      testDuration: 20,
+      testDuration: 30,
 
       testDurationCompleted: 0,
       incrementTestDurationCompleted: () =>

@@ -128,7 +128,7 @@ function Page() {
       const text = await getText({
         cat: "english",
         type: whatMode(roomConfig),
-        length: 5,
+        length: 8,
       });
       return text;
     }
