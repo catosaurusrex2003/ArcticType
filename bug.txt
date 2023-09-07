@@ -1,9 +1,2 @@
-after skipping 2  lines it skips one extra on every line.
-                i dont know cant replicate
-
-database entries 0wpm   
-                fixed
-
-space in roomId is not supported
-
-auth apart from firefox is broken
+space in roomId is not supported                  ---fixed
+auth apart from firefox is broken 🥲

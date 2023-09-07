@@ -231,9 +231,14 @@ function Page() {
         <input
           className=" bg-glacier-subprimary rounded-md px-2 py-2 my-1 text-white outline-none focus:border-2 focus:border-glacier-accent2"
           placeholder="eg: mehdi room"
-          onChange={(e) =>
-            setInputData((prev) => ({ ...prev, create_roomId: e.target.value }))
-          }
+          value = {inputData.create_roomId}
+          onChange={(e) => {
+            const value = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+            setInputData((prev) => ({
+              ...prev,
+              create_roomId: value,
+            }));
+          }}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               newChannelDbMutation.mutate();
@@ -341,10 +346,12 @@ function Page() {
         </p>
         <input
           className=" bg-glacier-subprimary rounded-md px-2 py-2 my-1 text-white outline-none focus:border-2 focus:border-glacier-accent2"
-          placeholder="eg: mehdi room"
-          onChange={(e) =>
-            setInputData((prev) => ({ ...prev, enter_roomId: e.target.value }))
-          }
+          placeholder="eg: mehdiRoom"
+          value={inputData.enter_roomId}
+          onChange={(e) => {
+            const value = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+            setInputData((prev) => ({ ...prev, enter_roomId: value }));
+          }}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               addUserDbMutation.mutate();

@@ -1,5 +1,5 @@
-PROFILE ICON HIGHLIGHT WHEN ON /PROFILE             
+PROFILE ICON HIGHLIGHT WHEN ON /PROFILE --- not needed
 
-button to stop the test
+button to stop the test    --- not needed
 
-/profile page ko protected banana hai
+/profile page ko protected banana hai    --- done
