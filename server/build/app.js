@@ -15,7 +15,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use(cors({
-    origin: ["http://localhost:3000", "https://fuschia-racer.vercel.app"],
+    origin: ["http://localhost:3000", "https://arctictype.vercel.app"],
     credentials: true,
 }));
 // app.use(errorHandler);
