@@ -26,6 +26,7 @@ import { letterType } from "@/types/textArray";
 import uuid from "react-uuid";
 import Typingdiv from "./typingDiv";
 import { errorToast } from "@/utils/toasts";
+import ChatWidget from "./chatWidget";
 
 function Page() {
   const roomId = useParams().room;
@@ -408,6 +409,7 @@ function Page() {
           </div>
         </div>
       )}
+      <ChatWidget/>
     </div>
   );
 }

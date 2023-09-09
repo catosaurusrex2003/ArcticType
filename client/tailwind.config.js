@@ -20,7 +20,9 @@ module.exports = {
         "glacier-untyped":"#777777",
         "glacier-button-green":"#68A741",
         "glacier-button-green-hover":"#82BE5D",
-        "glacier-button-green-active":"#395527"
+        "glacier-button-green-active":"#395527",
+        "glacier-dark":"#2F2B45",
+        "glacier-dark-hover":"#3E3957",
       }
     },
   },
