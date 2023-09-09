@@ -179,8 +179,9 @@ function ChatWidget() {
               className="h-full w-full overflow-y-scroll custom-scroll-bar"
               ref={chatScrollDivRef}
             >
-              {chatHistory.map((each) => (
+              {chatHistory.map((each, index) => (
                 <Message
+                  key={index}
                   messageData={each}
                   orientation={each.username == username ? "right" : "left"}
                 />
