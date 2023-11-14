@@ -10,6 +10,13 @@ The project is implemented in a [TypeScript](https://www.typescriptlang.org/) en
 
 **Link:** [https://arctictype.vercel.app/](https://arctictype.vercel.app/)
 
+<img src="./assets/home.png" alt="results page">
+<img src="./assets/profile.png" alt="results page">
+<img src="./assets/result.png" alt="results page">
+<img src="./assets/leaderboard.png" alt="results page">
+<img src="./assets/compete.png" alt="results page">
+<img src="./assets/compete2.png" alt="results page">
+
 <ul>
 <li><a href="#key-features"><strong>Key Features</strong></a></li>
 <li><a href="#tech-stack"><strong>Tech Stack</strong></a></li>
@@ -19,8 +26,6 @@ The project is implemented in a [TypeScript](https://www.typescriptlang.org/) en
 </ul>
 
 <!-- <img width="1392" alt="clumsy-keys website base image" src="https://github.com/korebhaumik/Clumsykeys/assets/106856064/529757ae-e126-45c7-94de-0d79b854f3e6"> -->
-
-
 
 ## Key Features
 
@@ -76,7 +81,7 @@ DBURI = # mongodb Data uri
 
 ```bash
 # ./client/.env.local
-NEXT_PUBLIC_SERVER_URL = # local backend api link. eg: if your ./server/.env has PORT = 3001 then (http/https)://(ipAddress/domain):3001 
+NEXT_PUBLIC_SERVER_URL = # local backend api link. eg: if your ./server/.env has PORT = 3001 then (http/https)://(ipAddress/domain):3001
 NEXT_PUBLIC_SUPABASE_PROJECT_ID =
 NEXT_PUBLIC_SUPABASE_PROJECT_URL =
 NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY =
@@ -89,10 +94,7 @@ NEXT_PUBLIC_SUPABASE_PROJECT_API_KEY =
 3. Populate the `.env` file with the necessary environment variables.
 4. run `pnpm run dev` in `./client` and `./server`
 
-
-
 Website should now be running on [(localhost/domain):3000](http://localhost:3000/).
-
 
 > Note: There is a deploy.sh in the root dir if you wanna deploy this somewhere. You just need to connect your Render to the ./server and vercel to ./client of the github repo.
 
